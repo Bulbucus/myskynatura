@@ -1,0 +1,51 @@
+.contentor {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 96px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  background: linear-gradient(180deg, rgba(50, 119, 59, 0.83) 0%, rgba(82, 156, 92, 0.28) 100%);
+}
+
+.logo {
+  padding-left: 30px;
+  width: 200px;
+}
+
+.acesso {
+  height: fit-content;
+  margin-right: 3vw;
+}
+
+.acesso a {
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 30px;
+  margin-right: 40px;
+}
+
+.acesso a:nth-child(2) {
+  background-color: #82BD84;
+  box-shadow: 3px 4px 4px -1px rgba(0, 0, 0, 0.15);
+  border-radius: 34px;
+  padding: 5px 18px
+}
+
+@media only screen and (max-width: 600px) {
+  
+  .contentor {
+    height: 15vw;
+  }
+
+  .logo {
+  padding-left: 30px;
+  width: 30vw;
+  }
+
+  .acesso a{
+    font-size: 5vw;
+    margin-right: 4vw;
+  }
+}
