@@ -1,6 +1,7 @@
 * {
   text-decoration: none;
   color:white;
+  font-family: 'Roboto';
 }
 
 body {
@@ -10,7 +11,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #478846;
+  background: linear-gradient(120.6deg, #E5EAE7 -0.33%, #E1E1E1 100%);
 }
 
 code {

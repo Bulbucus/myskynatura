@@ -1,5 +1,5 @@
 import NavBar from './components/NavBar';
-import Home from './components/Home';
+import Inicio from './components/Inicio';
 
 // import classes from './App.module.css'
 
@@ -7,10 +7,7 @@ function App() {
   return (
     <div className="App">
       <NavBar></NavBar>
-      <Home></Home>
-      <div>
-        <p>Hello</p>
-      </div>
+      <Inicio></Inicio>
     </div>
   );
 }

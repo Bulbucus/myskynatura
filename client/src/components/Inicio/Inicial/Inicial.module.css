@@ -1,0 +1,71 @@
+.imagemPorTras{
+  display: grid;
+  grid-template-rows: 33% 33% 33%;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-image: url(../../../images/homebackground.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.conteudo{
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+  align-items: center;
+}
+
+.logo{
+  width: 600px;
+}
+
+.pequenaDescr{
+  font-weight: 300;
+  font-size: 35px;
+  margin: 20px 0 0 0;
+  padding: 2px 15px;
+  border-radius: 20px;
+  background-color: rgba(83, 83, 83, 0.425);;
+}
+
+.botaoQuestionario{
+  justify-self: center;
+  padding: 20px 25px;
+  font-weight: 300;
+  font-size: 40px;
+  background: rgba(44, 44, 44, 0.74);
+  border: 0.5px solid #ffffff6e;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.36), inset 0px 4px 4px rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+}
+
+.descricao{
+  padding: 10px 20px;
+  justify-self: center;
+  text-align: center;
+  font-weight: 200;
+  font-size: 40px;
+  background: rgba(83, 83, 83, 0.425);
+  border-radius: 14px;
+}
+
+@media (max-width: 900px) {
+  .logo {
+    width: 75vw;
+  }
+
+  .pequenaDescr {
+    font-size: 4vw;
+  }
+  
+  .botaoQuestionario {
+    font-size: 7vw;
+    padding: 3vw 4vw;
+  }
+
+  .descricao{
+    font-size: 5vw;
+  }
+}
