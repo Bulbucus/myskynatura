@@ -1,0 +1,48 @@
+.contentor{
+  display: flex;
+  margin: 70px 0;
+  justify-content: center;
+}
+
+.titlo{
+  width: fit-content;
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 200;
+  color:#000;
+}
+
+.artigo{
+  font-size: 1.8rem;
+  font-weight: 200;
+  color: #000;
+}
+
+.imagens{
+  position: relative;
+  width: 500px;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+.imagemUm{
+  position: relative;
+  width: 300px;
+  z-index: -1;
+  border-radius: 20px;
+}
+.imagemDois{
+  position: absolute;
+  top: -20px;
+  right: 30px;
+  width: 300px;
+  z-index: 2;
+  border-radius: 20px;
+}
+.imagemTres{
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+  width: 300px;
+  border-radius: 20px;
+}

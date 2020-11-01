@@ -41,6 +41,10 @@
   border-radius: 15px;
 }
 
+.botaoQuestionario:hover{
+  filter: brightness(1.3);
+}
+
 .descricao{
   padding: 10px 20px;
   justify-self: center;

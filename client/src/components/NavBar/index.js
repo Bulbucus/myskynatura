@@ -1,3 +1,8 @@
+import {
+  Link
+} from "react-router-dom";
+
+
 import {ReactComponent as Logo } from '../../images/Logo3.1.svg';
 
 import classes from './NavBar.module.css';
@@ -7,10 +12,10 @@ const NavBar = () => {
   return (
     <>
       <div className={classes.contentor}>
-        <Logo className={classes.logo}></Logo>
+        <Link to='/'><Logo className={classes.logo}></Logo></Link>
         <div className={classes.acesso}>
-          <a href='/login' >Login</a>
-          <a href='/registar'>Registar</a>
+          <Link to='/login' >Login</Link>
+          <Link to='/registar'>Registar</Link>
         </div>
       </div>
     </>

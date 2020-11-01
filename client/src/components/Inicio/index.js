@@ -1,5 +1,6 @@
 import Inicial from './Inicial';
 import Separador from './Separador';
+import InfoInicial from './InfoInicial'
 
 const Inicio = () => {
 
@@ -7,6 +8,7 @@ const Inicio = () => {
     <>
       <Inicial></Inicial>
       <Separador></Separador>
+      <InfoInicial></InfoInicial>
     </>    
   )
 }

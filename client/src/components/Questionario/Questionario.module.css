@@ -1,0 +1,7 @@
+.ImagemAtras {
+  height: 100vh;
+  background-image: url(../../images/imagemQuestionario.jpeg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
