@@ -1,8 +1,14 @@
 * {
   margin: 0;
   text-decoration: none;
+  outline: none;
+  border: none;
   color:white;
   font-family: 'Roboto';
+}
+
+*:focus {
+  outline: none;
 }
 
 body {

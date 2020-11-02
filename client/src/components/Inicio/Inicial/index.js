@@ -14,7 +14,7 @@ const Inicial = () => {
         <Logo className={classes.logo}></Logo>
         <p className={classes.pequenaDescr}>Descubra os melhores produtos sem sair de casa</p>
       </div>
-      <Link className={classes.botaoQuestionario} to='/questionario'>Questionário</Link>
+      <Link className={classes.botaoQuestionario} to='/questionario/pessoal'>Questionário</Link>
       <p className={classes.descricao}>Faça já o nosso questionário 
       <br/>e descubra quais os produtos 
       <br/>mais indicados para a sua pele.</p>

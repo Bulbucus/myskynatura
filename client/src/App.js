@@ -16,7 +16,7 @@ function App() {
       <Router>
         <NavBar></NavBar>
         <Switch>
-        <Route path='/questionario'>
+        <Route path='/questionario/pessoal' exact>
             <Questionario></Questionario>
           </Route>
           <Route path='/'>
