@@ -16,8 +16,9 @@ const Inicial = () => {
       </div>
       <Link className={classes.botaoQuestionario} to='/questionario/pessoal'>Questionário</Link>
       <p className={classes.descricao}>Faça já o nosso questionário 
-      <br/>e descubra quais os produtos 
-      <br/>mais indicados para a sua pele.</p>
+        <br/>e descubra quais os produtos 
+        <br/>mais indicados para a sua pele.
+      </p>
     </div>
   )
 }

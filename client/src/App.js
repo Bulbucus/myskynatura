@@ -1,7 +1,8 @@
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 
 import NavBar from './components/NavBar';
@@ -16,12 +17,13 @@ function App() {
       <Router>
         <NavBar></NavBar>
         <Switch>
-        <Route path='/questionario/pessoal' exact>
-            <Questionario></Questionario>
-          </Route>
-          <Route path='/'>
-            <Inicio></Inicio>
-          </Route>
+        <Route path='/questionario/'>
+          <Questionario></Questionario>
+        </Route>
+        <Route path='/' exact>
+          <Inicio></Inicio>
+        </Route>
+        <Redirect to='/'></Redirect>
         </Switch>
       </Router>
     </div>

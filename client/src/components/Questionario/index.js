@@ -1,52 +1,66 @@
 import {
-  BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect,
 } from "react-router-dom";
 
-import Pessoal from './pessoal';
-import PerguntaMultiResposta from './PerguntaMultiResposta';
-import PerguntaUnicaResposta from './PerguntaUnicaResposta';
+import Pessoal from './Pessoal';
+import Pergunta from './Pergunta';
 
 import classes from './Questionario.module.css';
 
 const Questionario = () => {
 
   return (
-    <Router>
       <div className={classes.ImagemAtras}>
         <Switch>
-          <Route path='/questionario/pessoal' exact>
+          <Route path='/questionario/pessoal'>
             <Pessoal></Pessoal>
           </Route>
-          <Route path='/questionario/pergunta2' exact>
-            <PerguntaMultiResposta
-              numPergunta = 'pergunta1'
-              pergunta='Tipo de pele'
+          <Route path='/questionario/pergunta1'>
+              <Pergunta
+                type='radio'
+                numPergunta = 'pergunta1'
+                pergunta='Tem muitas borbulhas?'
+                respostas={
+                  [
+                  {respostaText: 'Muitas Borbulhas', respostaName:'muitasBorbulhas'},
+                  {respostaText: 'Nenhuma borbulha', respostaName:'semBorbulhas'},
+                  {respostaText: 'Algumas borbulha', respostaName:'algumasBorbulhas'},
+                  {respostaText: 'Borbulhas na bochecha', respostaName:'bochechaBorbulhas'},
+                  ]
+                }
+              />
+          </Route>
+          <Route path='/questionario/pergunta2'>
+            <Pergunta
+              type='checkbox'
+              numPergunta = 'pergunta2'
+              pergunta='Que tipo de pele têm?'
               respostas={
                 [
                 {respostaText: 'Pele vermelha', respostaName:'peleVermelha'},
                 {respostaText: 'Pele seca', respostaName:'peleSeca'}
                 ]
               }
-            ></PerguntaMultiResposta>
+              />
           </Route>
-          <Route path='/questionario/pergunta1' exact>
-              <PerguntaUnicaResposta
-                numPergunta = 'pergunta1'
-                pergunta='Muitas borbulhas'
-                respostas={
-                  [
-                  {respostaText: 'Borbulhas', respostaName:'borbulhas'},
-                  {respostaText: 'Nenhuma borbulha', respostaName:'semBorbulhas'}
-                  ]
-                }
-              >
-              </PerguntaUnicaResposta>
+          <Route path='/questionario/pergunta3'>
+            <Pergunta
+            type='radio'
+            numPergunta='pergunta3'
+            pergunta='Tem rugas?'
+            respostas = {
+              [
+                {respostaText:'Sim', respostaName:'S'},
+                {respostaText:'Não', respostaName:'N'}
+              ]
+            }
+            />
           </Route>
+          <Redirect to='/'></Redirect>
         </Switch>
       </div>
-    </Router>
   )
 }
 
