@@ -7,7 +7,7 @@ import {ReactComponent as Logo } from '../../../images/Logo3.1.svg';
 import classes from './Inicial.module.css'
 
 const Inicial = () => {
-
+  // Render
   return (
     <div className={classes.imagemPorTras}>
       <div className={classes.conteudo}>

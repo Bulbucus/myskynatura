@@ -7,9 +7,12 @@ import { useCookies } from 'react-cookie';
 import classes from './Pergunta.module.css'
 
 const Pergunta = (props) => {
+
+  // States
   const history = useHistory()
   const [cookie, setCookies] = useCookies();
 
+  // Funçao
   const criarRespostas = (() => {
     let {respostas} = props; 
     
@@ -27,7 +30,9 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta === resposta.respostaName) || false}/>
+            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta === resposta.respostaName) || false}
+            required={true}
+            />
         }
 
         {props.type === 'checkbox' && 
@@ -35,7 +40,8 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta.includes(resposta.respostaName)) || false}/>
+            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta.includes(resposta.respostaName)) || false}
+            />
         }
 
         <span className={classes.customMark}></span>
@@ -45,6 +51,7 @@ const Pergunta = (props) => {
     return respostasCriadas;
   })()
 
+  // Handler
   const submitHandler = (event) => {
     event.preventDefault()
     let checked;
@@ -59,7 +66,9 @@ const Pergunta = (props) => {
           checked.push(checkbox.value)
         }
       })
-
+      if(checked.length < 1) {
+        return;
+      }
     }
   
     const expiresCookie = new Date()
@@ -78,6 +87,7 @@ const Pergunta = (props) => {
   }
 
 
+  //Render
   return(
     <>
       <div className={classes.containerQuestao}>

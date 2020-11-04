@@ -3,7 +3,7 @@ import Separador from './Separador';
 import InfoInicial from './InfoInicial'
 
 const Inicio = () => {
-
+  // Render
   return (
     <>
       <Inicial></Inicial>

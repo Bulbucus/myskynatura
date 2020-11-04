@@ -4,11 +4,11 @@ import { useCookies } from 'react-cookie';
 import classes from './Pessoal.module.css'
 
 const Pessoal = () => {
-
+  // State
   const [cookies, setCookies] = useCookies()
   let history = useHistory();
 
-
+  // Handler
   const submitHandler = (event) => {
     event.preventDefault()
 

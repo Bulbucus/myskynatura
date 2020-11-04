@@ -11,13 +11,14 @@ import classes from './Questionario.module.css';
 
 const Questionario = () => {
 
+  // Render
   return (
       <div className={classes.ImagemAtras}>
         <Switch>
-          <Route path='/questionario/pessoal'>
+          <Route path='/questionario/pessoal' exact>
             <Pessoal></Pessoal>
           </Route>
-          <Route path='/questionario/pergunta1'>
+          <Route path='/questionario/pergunta1' exact>
               <Pergunta
                 type='radio'
                 numPergunta = 'pergunta1'
@@ -32,7 +33,7 @@ const Questionario = () => {
                 }
               />
           </Route>
-          <Route path='/questionario/pergunta2'>
+          <Route path='/questionario/pergunta2' exact>
             <Pergunta
               type='checkbox'
               numPergunta = 'pergunta2'
@@ -45,7 +46,7 @@ const Questionario = () => {
               }
               />
           </Route>
-          <Route path='/questionario/pergunta3'>
+          <Route path='/questionario/pergunta3' exact>
             <Pergunta
             type='radio'
             numPergunta='pergunta3'

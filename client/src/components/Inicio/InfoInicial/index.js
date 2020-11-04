@@ -5,6 +5,7 @@ import imagemDois from '../../../images/imagemDois.jpeg'
 import imagemTres from '../../../images/imagemTres.jpeg'
 
 const InfoInicial = () => {
+  // Render
   return(
     <div className={classes.contentor}>
       <div className={classes.imagens}>
