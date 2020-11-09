@@ -19,7 +19,6 @@ const NavBar = (props) => {
         <Link to='/'><Logo className={classes.logo}></Logo></Link>
         <div className={classes.acesso}>
           <button onClick={() => autencHandler('login')}>Login</button>
-          <button onClick={() => autencHandler('registar')}>Registar</button>
         </div>
       </div>
     </>

@@ -26,17 +26,15 @@
   margin-right: 40px;
   background-color: transparent;
   cursor: pointer;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
 
 .acesso button:hover{
   filter: brightness(1.2);
+  transform: scale(0.97);
 }
 
-.acesso button:nth-child(1):hover{
-  color: #b1b1b1;
-}
-
-.acesso button:nth-child(2) {
+.acesso button:nth-child(1) {
   background-color: #82BD84;
   box-shadow: 3px 4px 4px -1px rgba(0, 0, 0, 0.15);
   border-radius: 34px;

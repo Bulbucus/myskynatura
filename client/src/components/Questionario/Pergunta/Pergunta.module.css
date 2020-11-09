@@ -4,7 +4,7 @@
   align-self:center;
   padding: 5px 20px;
   border-radius: 20px;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: 200;
   background-color: rgba(0, 0, 0, 0.425)
 }
@@ -13,7 +13,7 @@
   grid-row: 3/4;
   height: fit-content;
   width: fit-content;
-  padding: 30px 0;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items:center;
@@ -41,7 +41,7 @@
   grid-row: 4/5;
   justify-self: center;
   align-self: center;
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 200;
   color: rgb(255, 255, 255);
   background: #25552B;
@@ -68,9 +68,9 @@
 
 .containerForma label {
   position: relative;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: 200;
-  margin: 10px 0;
+  margin: 7px 0;
   padding-left: 30px;
 }
 
@@ -87,13 +87,13 @@
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   background: #fff;
 }
 
 .customMark:after {
-  left: 6px;
+  left: 5px;
   top: 0px;
   width: 10px;
   height: 15px;
@@ -112,4 +112,31 @@
 
 .containerForma input:checked ~ .customMark:after{
   display: block;
+}
+
+
+@media (max-width: 600px){
+  .containerQuestao {
+    font-size: 4.8vw;
+  }
+
+  .pergunta {
+    font-size: 4.8vw;
+  }
+
+  .pergunta span {
+    font-size: 4vw;
+  }
+
+  .containerForma label  {
+    font-size: 4.8vw;
+  }
+
+  .containerForma form input, select, option {
+    font-size: 4.8vw;
+  }
+
+  .containerSeguinte {
+    font-size: 7vw;
+  }
 }

@@ -3,7 +3,8 @@
   grid-template-rows: 33% 33% 33%;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   background-image: url(../../../images/homebackground.jpg);
   background-repeat: no-repeat;
   background-position: center;
@@ -39,10 +40,12 @@
   border: 0.5px solid #ffffff6e;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.36), inset 0px 4px 4px rgba(255, 255, 255, 0.25);
   border-radius: 15px;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
 
 .botaoQuestionario:hover{
   filter: brightness(1.3);
+  transform: scale(.97);
 }
 
 .descricao{
@@ -51,7 +54,7 @@
   text-align: center;
   font-weight: 200;
   font-size: 40px;
-  background: rgba(83, 83, 83, 0.425);
+  background: rgba(51, 51, 51, 0.781);
   border-radius: 14px;
 }
 

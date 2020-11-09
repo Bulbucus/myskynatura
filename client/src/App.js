@@ -5,11 +5,16 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import BlockRegistar from './components/Registar/BlockRegistar';
 
 import NavBar from './components/NavBar';
 import Inicio from './components/Inicio';
 import Questionario from './components/Questionario';
-import Autenc from './components/Autenc'
+import Autenc from './components/Autenc';
+import Registar from "./components/Registar";
+
+import classes from './App.module.css';
+
 
 
 // import classes from './App.module.css'
@@ -26,7 +31,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={classes.app}>
       <Router>
         <NavBar autencHandler={autencHandler}></NavBar>
         {showAutenc && <Autenc type={typeAutenc} closeModal={autencHandler}></Autenc>}
@@ -37,6 +42,9 @@ function App() {
         <Route path='/' exact>
           <Inicio/>
         </Route>
+        <BlockRegistar>
+          <Registar></Registar>
+        </BlockRegistar>
         <Redirect to='/'></Redirect>
         </Switch>
       </Router>

@@ -105,14 +105,12 @@ const Pergunta = (props) => {
           {criarRespostas.map((resposta) => resposta)}
         </form>
       </div>
-      <div className={classes.containerSeguinte}>
-        <label>
+        <label className={classes.containerSeguinte}>
           Seguinte Pergunta
           <input 
           style={{display:'none'}} 
           type='submit' form={props.numPergunta}/>
         </label>
-      </div>
     </>
   )
 }

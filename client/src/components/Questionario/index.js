@@ -4,7 +4,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import Pessoal from './Pessoal';
 import Pergunta from './Pergunta';
 
 import classes from './Questionario.module.css';
@@ -15,9 +14,6 @@ const Questionario = () => {
   return (
       <div className={classes.ImagemAtras}>
         <Switch>
-          <Route path='/questionario/pessoal' exact>
-            <Pessoal></Pessoal>
-          </Route>
           <Route path='/questionario/pergunta1' exact>
               <Pergunta
                 type='radio'
@@ -59,7 +55,7 @@ const Questionario = () => {
             }
             />
           </Route>
-          <Redirect to='/'></Redirect>
+          <Redirect to='/registar'></Redirect>
         </Switch>
       </div>
   )

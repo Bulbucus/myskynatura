@@ -1,9 +1,27 @@
 .ImagemAtras {
   display: grid;
-  grid-template-rows: 100px auto auto auto;
+  grid-template-rows: 120px auto auto auto;
   height: 100vh;
   background-image: url(../../images/imagemQuestionario.jpeg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+@media (max-height: 730px) {
+
+  .ImagemAtras{
+    height: 730px;
+  }
+
+}
+
+
+
+@media (max-width: 600px) and (max-height: 730px) {
+  .ImagemAtras{
+    grid-template-rows: 60px auto auto auto;
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
 }

@@ -7,7 +7,10 @@ const Autenc = (props) => {
 
   const {closeModal, type} = props
 
+  const submitHandler = (event) => {
+    event.preventDefault()
   
+  }
 
   const children = (
     <>
@@ -17,11 +20,11 @@ const Autenc = (props) => {
           <Logo></Logo>
         </div>
         {type === 'login' && 
-        <form id='autenc' className={classes.form}>
+        <form id='autenc' className={classes.form} onSubmit={(event) => submitHandler(event)}>
           <label>
             Email:
           </label>
-            <input type='text' name='email' className={classes.email}/>
+            <input type='email' name='email' className={classes.email}/>
           <label>
             Password:
           </label>
