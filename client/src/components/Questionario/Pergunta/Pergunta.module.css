@@ -71,7 +71,7 @@
   font-size: 30px;
   font-weight: 200;
   margin: 7px 0;
-  padding-left: 30px;
+  padding-left: 35px;
 }
 
 .containerForma input {
@@ -87,21 +87,21 @@
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: 23px;
-  height: 23px;
+  width: 24px;
+  height: 24px;
+
+  border-radius: 30px;
   background: #fff;
 }
 
 .customMark:after {
-  left: 5px;
-  top: 0px;
-  width: 10px;
-  height: 15px;
-  border: solid #25552B;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  left: 12px;
+  top: 12px;
+  width: 17px;
+  height: 17px;
+  background-color: #25552B;
+  border-radius: 30px;
+  transform: translate(-50%,-50%);
 }
 
 .customMark:after {

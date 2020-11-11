@@ -12,6 +12,7 @@ import Inicio from './components/Inicio';
 import Questionario from './components/Questionario';
 import Autenc from './components/Autenc';
 import Registar from "./components/Registar";
+import Resultado from "./components/Resultado";
 
 import classes from './App.module.css';
 
@@ -36,15 +37,18 @@ function App() {
         <NavBar autencHandler={autencHandler}></NavBar>
         {showAutenc && <Autenc type={typeAutenc} closeModal={autencHandler}></Autenc>}
         <Switch>
-        <Route path='/questionario/'>
+        <Route path='/questionario'>
           <Questionario></Questionario>
         </Route>
         <Route path='/' exact>
           <Inicio/>
         </Route>
-        <BlockRegistar>
+        <BlockRegistar path="/registar">
           <Registar></Registar>
         </BlockRegistar>
+        <Route path='/resultado' exact>
+          <Resultado></Resultado>
+        </Route>
         <Redirect to='/'></Redirect>
         </Switch>
       </Router>
