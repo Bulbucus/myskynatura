@@ -6,7 +6,11 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
-
+app.get('/about', (req,res) => {
+  res.json({
+    message:"About me"
+  })
+})
 
 app.get('/',(req, res) => {
   res.json({
