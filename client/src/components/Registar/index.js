@@ -1,17 +1,36 @@
-import { useHistory } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-import classes from './Registar.module.css'
+import classes from './Registar.module.css';
 
 const Registar = () => {
   // State
-  const [cookies, setCookies] = useCookies()
-  let history = useHistory();
+  const [cookies] = useCookies()
   const defaultIdade = new Date().toISOString()
 
   // Handler
   const submitHandler = (event) => {
     event.preventDefault()
+    console.log(event.target.nome.value,
+      event.target.sobreNome.value,
+      event.target.idade.value,
+     event.target.genero.value,
+       event.target.email.value,
+      event.target.password.value,);
+    fetch('http://localhost:8888/',
+    {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nome: event.target.nome.value,
+        sobreNome: event.target.sobreNome.value,
+        idade: event.target.idade.value,
+        genero: event.target.genero.value,
+        email: event.target.email.value,
+        password: event.target.password.value,
+      })
+    })
   }
 
   return (
