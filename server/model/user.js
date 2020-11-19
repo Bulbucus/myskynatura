@@ -1,4 +1,4 @@
-const signUpUserQuery = (body, palavrapasse) => {
+const signUpUserQuery = async (body, palavrapasse) => {
     const arrayBody = Object.values(body)
     arrayBody.splice(5,1,palavrapasse)
 
@@ -8,16 +8,16 @@ const signUpUserQuery = (body, palavrapasse) => {
     }
 }
 
-const verifyEmail = (email) => {
+function verifyEmail(email){
     return {
         text: 'SELECT email from users where email=$1',
         values: [email]
     }
 }
 
-const verifyPassword = (email) => {
+function verifyPassword(email) {
     return {
-        text:'SELECT id_users, palavrapasse from users where email=$1',
+        text:'SELECT id_utilizador, palavrapasse from users where email=$1',
         values: [email]
     }
 }

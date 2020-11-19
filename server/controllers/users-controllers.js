@@ -1,12 +1,13 @@
-const { Client } = require("pg");
-const {validationResult} = require('express-validator');
+const { Pool } = require("pg");
+const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const sqlQuery = require("../model/user");
 
 // connect postgres database
-const client = new Client({
+const client = new Pool({
   user: process.env.PGUSER,
   host: process.env.PGHOST,
   database: process.env.PGDATABASE,
@@ -15,85 +16,120 @@ const client = new Client({
 });
 client.connect();
 
+// registar o utilizador
 const singUpUser = (req, res) => {
-
-    // Se houver erros na validaçao dos dados:
-    const {errors} = validationResult(req);
-    if(errors.length > 0) {
-        return res.json({
-            status:500, 
-            message:'Por favor coloque os dados corretamente',
-            error:errors
-        })
+  // Se houver erros na validaçao dos dados:
+  const { errors } = validationResult(req);
+  if (errors.length > 0) {
+    return res.json({
+      status: 500,
+      message: "Por favor coloque os dados corretamente",
+      error: errors,
+    });
+  }
+  // encriptar palavrapasse
+  const palavrapasse = bcrypt.hashSync(req.body.palavrapasse, 15);
+  // Inserir os dados na base de dados
+  client.query(sqlQuery.signUpUserQuery(req.body, palavrapasse), (err) => {
+    if (err) {
+      // unica coisa que tem de ser unica é o email
+      // por isso o unico erro que pode dar se todos os dados
+      // forem inseridos, é de email duplicado
+      return res.json({
+        status: 422,
+        message: "Esta e-mail já esta registado",
+      });
+    } else {
+      return res.json({ status: 200 });
     }
-    // encriptar palavrapasse
-    const palavrapasse = bcrypt.hashSync(req.body.palavrapasse, 15)
-    // Inserir os dados na base de dados
-    client.query(sqlQuery.signUpUserQuery(req.body, palavrapasse), 
-        (err) => {
-            if (err) {
-                // unica coisa que tem de ser unica é o email
-                // por isso o unico erro que pode dar se todos os dados
-                // forem inseridos, é de email duplicado
-                return res.json({
-                    status:422,
-                    message:'Esta e-mail já esta registado'
-                });
-            } else {
-              return res.json({ status: 200 });
-            }
-        }
-    );
+  });
 };
 
-const loginUser = (req, res) => {
-    const {errors} = validationResult(req);
-    if(errors.length > 0) {
-        return res.json({
-            status:500, 
-            message:'Por favor coloque os dados corretamente',
-            error:errors
-        })
-    }
+const loginUser = async (req, res) => {
+  // Se houver erros na validaçao dos dados:
+  const { errors } = validationResult(req);
+  if (errors.length > 0) {
+    return res.json({
+      status: 500,
+      message: "Por favor coloque os dados corretamente",
+      error: errors,
+    });
+  }
 
-    client.query(sqlQuery.verifyEmail(req.body.email), 
-        (err) => {
-            if(err) {
-                return res.json({
-                    status:500,
-                    message:'Este e-mail ainda não esta registado'
-                })
-            }
-        }
-    )
-    
-    client.query(sqlQuery.verifyPassword(req.body.email),
-        async (err, resp) => {
-            if(err) {
-                return res.json({
-                    status:500,
-                    message:'Tente de novo, erro desconhecido'
-                })
-            } else {
-                const compareHash = await bcrypt.compare(req.body.palavrapasse, resp.rows[0].palavrapasse);
-                console.log(compareHash)
-                if (compareHash){
-                    return res.json({
-                        id: resp.rows[0].id_users,
-                        email: req.body.email,
-                    })
-                } else {
-                    return res.json({
-                        status:500,
-                        message:'Palavrapasse invalida'
-                    })
-                }
-            }
-        }
-    )
-    
-    
-}
+  // verifica primeiro se o email ja esta registado
+  try {
+    const verifyEmail = await client.query(
+      sqlQuery.verifyEmail(req.body.email)
+    );
+    if (verifyEmail.rows.length < 1) {
+      return res.json({
+        status: 500,
+        message: "Este email ainda não esta registado",
+      });
+    }
+  } catch (error) {
+    return res.json({
+      status: 500,
+      message: "Erro interno, por favor tentar mais tarde",
+    });
+  }
+
+
+  let autenticacao;
+  // verificar se a password esta correta se estiver aceitar autenticaçao
+  try {
+    const verifyPassword = await client.query(sqlQuery.verifyPassword(req.body.email));
+
+    if (!verifyPassword) {
+      return res.json({
+        status: 501,
+        message: "Erro interno, por favor tentar mais tarde",
+      });
+    } else {
+      const compareHash = await bcrypt.compare(req.body.palavrapasse,verifyPassword.rows[0].palavrapasse);
+      if (compareHash) {
+        autenticacao = {
+          id: verifyPassword.rows[0].id_utilizador,
+          email: req.body.email,
+        };
+      } else {
+        return res.json({
+          status: 500,
+          message: "Palavrapasse invalida",
+        });
+      }
+    }
+  } catch (error) {
+    return res.json({
+        status: 500,
+        message: "Erro interno, por favor tentar mais tarde",
+      });
+  }
+
+  console.log(autenticacao);
+  // criaçao do token
+  try {
+    const token = jwt.sign(
+        {autenticacao},
+        process.env.JWT_SECRET,
+        {expiresIn: '1d'}
+      );
+    if (token) {
+        autenticacao.token = token;
+        return res.json(autenticacao);
+    } else {
+        return res.json({
+            status: 500,
+            message: "Erro interno, por favor tentar mais tarde",
+          });
+    }
+  } catch (error) {
+    return res.json({
+        status: 500,
+        message: "Erro interno, por favor tentar mais tarde",
+      });
+  }
+};
 
 exports.singUpUser = singUpUser;
 exports.loginUser = loginUser;
