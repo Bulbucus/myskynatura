@@ -1,57 +1,58 @@
 import { useState } from "react";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useHistory
 } from "react-router-dom";
 import BlockRegistar from './components/Registar/BlockRegistar';
 
 import NavBar from './components/NavBar';
 import Inicio from './components/Inicio';
 import Questionario from './components/Questionario';
-import Autenc from './components/Autenc';
+import Login from './components/Login';
 import Registar from "./components/Registar";
 import Resultado from "./components/Resultado";
 
 import classes from './App.module.css';
-
-
-
-// import classes from './App.module.css'
+import { useEffect } from "react";
 
 function App() {
   const [showAutenc, setShowAutenc] = useState(false)
-  const [typeAutenc, setTypeAutenc] = useState('')
+  const history = useHistory();
 
-  const autencHandler = (type) => {
+  const loginHandler = () => {
     setShowAutenc(!showAutenc)
-    setTypeAutenc(type)
-
     !showAutenc ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'visible'
+    !showAutenc ? history.push("?=login") : history.goBack();
   }
+
+  useEffect(() => {
+    console.log(history);
+    history.location.search === '?=login' && loginHandler();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history])
+
 
   return (
     <div className={classes.app}>
-      <Router>
-        <NavBar autencHandler={autencHandler}></NavBar>
-        {showAutenc && <Autenc type={typeAutenc} closeModal={autencHandler}></Autenc>}
+        <NavBar loginHandler={loginHandler}></NavBar>
+        {showAutenc && <Login closeModal={loginHandler}/>}
         <Switch>
         <Route path='/questionario'>
           <Questionario></Questionario>
         </Route>
-        <Route path='/' exact>
-          <Inicio/>
-        </Route>
-        <BlockRegistar path="/registar">
+        <BlockRegistar path="/registar" exact>
           <Registar></Registar>
         </BlockRegistar>
         <Route path='/resultado' exact>
           <Resultado></Resultado>
         </Route>
+        <Route path='/' exact>
+          <Inicio/>
+        </Route>
         <Redirect to='/'></Redirect>
         </Switch>
-      </Router>
     </div>
   );
 }

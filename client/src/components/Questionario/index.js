@@ -1,7 +1,7 @@
 import {
   Switch,
   Route,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 
 import Pergunta from './Pergunta';

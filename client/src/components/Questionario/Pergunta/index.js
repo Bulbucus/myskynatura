@@ -13,6 +13,7 @@ const Pergunta = (props) => {
   const [cookie, setCookies] = useCookies();
 
   // Funçao
+  // Funçao que cria automaticamente a forma em checkbox ou em radio quando se cria no parent <Pergunta/>
   const criarRespostas = (() => {
     let {respostas} = props; 
     
@@ -52,6 +53,7 @@ const Pergunta = (props) => {
   })()
 
   // Handler
+  // Quando se carrega para a seguinte pergunta se for checkbox guarda as varias respostas numa array;
   const submitHandler = (event) => {
     event.preventDefault()
     let checked;
@@ -71,6 +73,8 @@ const Pergunta = (props) => {
       }
     }
   
+    // Criar cookie que dura por 30 dias com a resposta
+    // Serve apenas para quando alguem esta a fazer o questionario e deixa o questionario a meio antes de se registar ou fecha a pagina sem querer;
     const expiresCookie = new Date()
     expiresCookie.setDate(31)
 
@@ -101,7 +105,8 @@ const Pergunta = (props) => {
         </div>
         <form 
           id={props.numPergunta} 
-          onSubmit={(event) => submitHandler(event)}>
+          onSubmit={(event) => submitHandler(event)}
+        >
           {criarRespostas.map((resposta) => resposta)}
         </form>
       </div>
@@ -109,7 +114,8 @@ const Pergunta = (props) => {
           Seguinte Pergunta
           <input 
           style={{display:'none'}} 
-          type='submit' form={props.numPergunta}/>
+          type='submit' form={props.numPergunta}
+          />
         </label>
     </>
   )

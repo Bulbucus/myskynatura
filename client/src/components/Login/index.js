@@ -3,9 +3,9 @@ import {ReactComponent as Logo } from '../../images/Logo3.1.svg';
 import {ReactComponent as CloseIcon } from '../../images/closeIcon.svg';
 import classes from './Autenc.module.css'
 
-const Autenc = (props) => {
+const Login = (props) => {
 
-  const {closeModal, type} = props
+  const {closeModal} = props
 
   const submitHandler = (event) => {
     event.preventDefault()
@@ -19,7 +19,6 @@ const Autenc = (props) => {
         <div className={classes.logoContentor}>
           <Logo></Logo>
         </div>
-        {type === 'login' && 
         <form id='autenc' className={classes.form} onSubmit={(event) => submitHandler(event)}>
           <label>
             Email:
@@ -31,7 +30,6 @@ const Autenc = (props) => {
           <input type='password' name='password' className={classes.password}></input>
           <input type='submit' className={classes.submit} value='Login'/>
         </form>
-        }
       </div>
       <div className={classes.fundoEscuro} onClick={closeModal}>
       </div>
@@ -41,4 +39,4 @@ const Autenc = (props) => {
   return ReactDOM.createPortal(children,document.getElementById('modal'))
 }
 
-export default Autenc;
+export default Login;
