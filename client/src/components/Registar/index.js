@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {useHistory} from "react-router-dom";
+
+import {LoginContext} from '../../context/login';
 
 import classes from "./Registar.module.css";
 
 const Registar = (props) => {
+
+  //context
+  const {loginChanges} = useContext(LoginContext);
 
   // state
   const [errorHandler, setErrorHandler] = useState('');
@@ -38,6 +43,7 @@ const Registar = (props) => {
       if(respond.status === 200){
         history.push('/');
         setTimeout(() => {
+          loginChanges();
         }, 500);
       }else{
         setErrorHandler(respond.message);

@@ -35,6 +35,7 @@ const Login = () => {
     }).then(data => data.json()).then(respond => {
       if(respond.id && respond.email){
         history.push('/resultado');
+        loginChanges();
       }
     })
   }
