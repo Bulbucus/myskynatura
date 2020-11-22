@@ -4,10 +4,10 @@ import {useHistory} from "react-router-dom";
 import classes from "./Registar.module.css";
 
 const Registar = (props) => {
-  // props
-  const {loginHandler} = props;
+
   // state
   const [errorHandler, setErrorHandler] = useState('');
+
   //history
   const history = useHistory();
 
@@ -15,7 +15,11 @@ const Registar = (props) => {
   // Envia o registo para o servidor
   const submitHandler = (event) => {
     event.preventDefault();
-    if(event.target.palavrapasse.value !== event.target.confirmePalavrapasse.value) return setErrorHandler("As passwords não são iguais, por favor verifique as mesmas.")
+
+    if(event.target.palavrapasse.value !== event.target.confirmePalavrapasse.value) {
+    return setErrorHandler("As passwords não são iguais, por favor verifique as mesmas.")
+    }
+  
     fetch('http://localhost:8888/user/registar', {
       method:'POST',
       headers: {
@@ -34,7 +38,6 @@ const Registar = (props) => {
       if(respond.status === 200){
         history.push('/');
         setTimeout(() => {
-          loginHandler('registoSucesso');
         }, 500);
       }else{
         setErrorHandler(respond.message);

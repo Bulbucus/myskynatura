@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
 import {
   Switch,
   Route,
-  Redirect,
-  useHistory
+  Redirect
 } from "react-router-dom";
+
+import {LoginContext} from './context/login';
+
+//import hook
+import {useLoginHandler} from './hooks/login';
 
 // componentes
 import BlockRegistar from './components/Registar/BlockRegistar';
@@ -19,37 +22,27 @@ import Resultado from "./components/Resultado";
 import classes from './App.module.css';
 
 function App() {
-  //state
-  const [showAutenc, setShowAutenc] = useState(false)
-  const [preMessageLogin, setPreMessageLogin] = useState('');
-  // history
-  const history = useHistory();
 
-  //handler login
-  const loginHandler = (preMessage) => {
-    setShowAutenc(!showAutenc)
-    setPreMessageLogin(preMessage)
-    !showAutenc ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'visible'
-    !showAutenc ? history.push({search:"?=login"}) : history.push({search:""});
-  }
-
-  //useEffect
-  useEffect(() => {
-    history.location.search === '?=login' && loginHandler();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history])
+  const {showAutenc, preMessage, loginChanges} = useLoginHandler();
 
   // render
   return (
+    <LoginContext.Provider
+    value={{
+    preMessage:preMessage,
+    showAutenc: showAutenc,
+    loginChanges: loginChanges,
+    }}
+    >
     <div className={classes.app}>
-        <NavBar loginHandler={loginHandler}></NavBar>
-        {showAutenc && <Login preMessage={preMessageLogin} closeModal={loginHandler}/>}
+        <NavBar ></NavBar>
+        {showAutenc && <Login/>}
         <Switch>
         <Route path='/questionario'>
           <Questionario></Questionario>
         </Route>
         <BlockRegistar path="/registar" exact>
-          <Registar loginHandler={loginHandler} ></Registar>
+          <Registar ></Registar>
         </BlockRegistar>
         <Route path='/resultado' exact>
           <Resultado></Resultado>
@@ -60,6 +53,7 @@ function App() {
         <Redirect to='/'></Redirect>
         </Switch>
     </div>
+   </LoginContext.Provider>
   );
 }
 

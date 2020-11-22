@@ -1,17 +1,22 @@
+import { useEffect, useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import {useHistory} from "react-router-dom";
+
+import {LoginContext} from '../../context/login';
+
 import {ReactComponent as Logo } from '../../images/Logo3.1.svg';
 import {ReactComponent as CloseIcon } from '../../images/closeIcon.svg';
-import classes from './Autenc.module.css'
-import { useEffect, useState } from 'react';
 
-const Login = (props) => {
-  // props
-  const {closeModal, preMessage} = props
+
+import classes from './Autenc.module.css'
+
+
+const Login = () => {
+
+  const {preMessage, loginChanges} = useContext(LoginContext);
 
   // states
   const history = useHistory();
-  const [textPreMessage, setTextPreMessage] = useState('')
 
   // submit handler
   const submitHandler = (event) => {
@@ -29,12 +34,12 @@ const Login = (props) => {
       })
     }).then(data => data.json()).then(respond => {
       if(respond.id && respond.email){
-        closeModal();
         history.push('/resultado');
       }
     })
   }
 
+  const [textPreMessage, setTextPreMessage] = useState('')
   // useEffect
   useEffect(() => {
     if (preMessage) {
@@ -47,13 +52,13 @@ const Login = (props) => {
   //render
   const children = (
     <>
-      <span>{preMessage && textPreMessage}</span>
       <div className={classes.contentor}>
-        <CloseIcon className={classes.icon} onClick={closeModal}></CloseIcon>
+        <CloseIcon className={classes.icon} onClick={loginChanges}></CloseIcon>
         <div className={classes.logoContentor}>
           <Logo></Logo>
         </div>
         <form id='autenc' className={classes.form} onSubmit={(event) => submitHandler(event)}>
+          <span>{textPreMessage}</span>
           <label>
             Email:
           </label>
@@ -65,7 +70,7 @@ const Login = (props) => {
           <input type='submit' className={classes.submit} value='Login'/>
         </form>
       </div>
-      <div className={classes.fundoEscuro} onClick={closeModal}>
+      <div className={classes.fundoEscuro} onClick={loginChanges}>
       </div>
       </>  
   )
