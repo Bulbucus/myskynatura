@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Switch,
   Route,
   Redirect,
   useHistory
 } from "react-router-dom";
-import BlockRegistar from './components/Registar/BlockRegistar';
 
+// componentes
+import BlockRegistar from './components/Registar/BlockRegistar';
 import NavBar from './components/NavBar';
 import Inicio from './components/Inicio';
 import Questionario from './components/Questionario';
@@ -14,36 +15,41 @@ import Login from './components/Login';
 import Registar from "./components/Registar";
 import Resultado from "./components/Resultado";
 
+// CSS
 import classes from './App.module.css';
-import { useEffect } from "react";
 
 function App() {
+  //state
   const [showAutenc, setShowAutenc] = useState(false)
+  const [preMessageLogin, setPreMessageLogin] = useState('');
+  // history
   const history = useHistory();
 
-  const loginHandler = () => {
+  //handler login
+  const loginHandler = (preMessage) => {
     setShowAutenc(!showAutenc)
+    setPreMessageLogin(preMessage)
     !showAutenc ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'visible'
-    !showAutenc ? history.push("?=login") : history.goBack();
+    !showAutenc ? history.push({search:"?=login"}) : history.push({search:""});
   }
 
+  //useEffect
   useEffect(() => {
-    console.log(history);
     history.location.search === '?=login' && loginHandler();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history])
 
-
+  // render
   return (
     <div className={classes.app}>
         <NavBar loginHandler={loginHandler}></NavBar>
-        {showAutenc && <Login closeModal={loginHandler}/>}
+        {showAutenc && <Login preMessage={preMessageLogin} closeModal={loginHandler}/>}
         <Switch>
         <Route path='/questionario'>
           <Questionario></Questionario>
         </Route>
         <BlockRegistar path="/registar" exact>
-          <Registar></Registar>
+          <Registar loginHandler={loginHandler} ></Registar>
         </BlockRegistar>
         <Route path='/resultado' exact>
           <Resultado></Resultado>

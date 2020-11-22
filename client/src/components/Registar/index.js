@@ -1,24 +1,56 @@
+import { useEffect, useState } from "react";
 import {useHistory} from "react-router-dom";
 
 import classes from "./Registar.module.css";
 
-const Registar = () => {
-  // State
-  const defaultIdade = new Date().toISOString();
+const Registar = (props) => {
+  // props
+  const {loginHandler} = props;
+  // state
+  const [errorHandler, setErrorHandler] = useState('');
+  //history
   const history = useHistory();
 
   // Handler
-
+  // Envia o registo para o servidor
   const submitHandler = (event) => {
     event.preventDefault();
-    
+    if(event.target.palavrapasse.value !== event.target.confirmePalavrapasse.value) return setErrorHandler("As passwords não são iguais, por favor verifique as mesmas.")
+    fetch('http://localhost:8888/user/registar', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        primeiro_nome: event.target.nome.value,
+        ultimo_nome: event.target.sobrenome.value,
+        idade: event.target.idade.value,
+        genero: event.target.genero.value,
+        email: event.target.email.value,
+        palavrapasse: event.target.palavrapasse.value
+      })
+    }).then(data => data.json()).then(respond => {
+      if(respond.status === 200){
+        history.push('/');
+        setTimeout(() => {
+          loginHandler('registoSucesso');
+        }, 500);
+      }else{
+        setErrorHandler(respond.message);
+      }
+    })
   };
+
+  //date
+  const defaultIdade = new Date().toISOString();
 
   return (
     <div className={classes.ImagemAtras}>
       <div className={classes.containerQuestao}>Registo</div>
       <div className={classes.containerForma}>
         <form id="pessoal" onSubmit={(event) => submitHandler(event)}>
+        <span>{errorHandler}</span>
           <label>
             Primeiro Nome:
             <input
@@ -66,14 +98,15 @@ const Registar = () => {
           <label>Password:</label>
           <input
             type="password"
-            name="password"
+            name="palavrapasse"
             className={classes.password}
+            minLength='6'
             required={true}
           />
           <label>Confirma Password:</label>
           <input
             type="password"
-            name="confirmePassword"
+            name="confirmePalavrapasse"
             className={classes.password}
             required={true}
           />
