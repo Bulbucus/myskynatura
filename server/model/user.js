@@ -1,4 +1,4 @@
-const signUpUserQuery = async (body, palavrapasse) => {
+const signUpUserQuery = (body, palavrapasse) => {
     const arrayBody = Object.values(body)
     arrayBody.splice(5,1,palavrapasse)
 

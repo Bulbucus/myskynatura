@@ -1,14 +1,23 @@
 const express = require('express');
 require('dotenv').config()
 const cors = require('cors');
+const helmet = require("helmet");
 const { urlencoded, json } = require('body-parser');
-const app = express();
 
 // import routers
 const user = require('./router/user');
 
+
+const app = express();
+
+app.use(helmet());
+
 // default handlers
-app.use(cors());
+app.use(cors({
+  methods:"POST,PUT",
+  origin:"http://localhost",
+  credentials:true
+}));
 app.use(urlencoded({extended:true}))
 app.use(json())
 

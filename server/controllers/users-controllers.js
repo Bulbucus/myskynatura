@@ -1,5 +1,5 @@
 const { Pool } = require("pg");
-const { validationResult } = require("express-validator");
+const { validationResult, cookie } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcrypt");
@@ -18,6 +18,7 @@ client.connect();
 
 // registar o utilizador
 const singUpUser = (req, res) => {
+    console.log(req.body)
   // Se houver erros na validaçao dos dados:
   const { errors } = validationResult(req);
   if (errors.length > 0) {
@@ -37,7 +38,7 @@ const singUpUser = (req, res) => {
       // forem inseridos, é de email duplicado
       return res.json({
         status: 422,
-        message: "Esta e-mail já esta registado",
+        message: "Este e-mail já esta registado",
       });
     } else {
       return res.json({ status: 200 });
@@ -74,9 +75,9 @@ const loginUser = async (req, res) => {
     });
   }
 
-
   let autenticacao;
-  // verificar se a password esta correta se estiver aceitar autenticaçao
+
+  // verificar se a password esta correta
   try {
     const verifyPassword = await client.query(sqlQuery.verifyPassword(req.body.email));
 
@@ -106,8 +107,7 @@ const loginUser = async (req, res) => {
       });
   }
 
-  console.log(autenticacao);
-  // criaçao do token
+  // criaçao do token e enviar a autentiaçao para front end
   try {
     const token = jwt.sign(
         {autenticacao},
@@ -115,7 +115,7 @@ const loginUser = async (req, res) => {
         {expiresIn: '1d'}
       );
     if (token) {
-        autenticacao.token = token;
+        res.cookie('token', token, {maxAge: 9000000,  httpOnly: true, secure: false});
         return res.json(autenticacao);
     } else {
         return res.json({
