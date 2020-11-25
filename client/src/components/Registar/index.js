@@ -1,14 +1,15 @@
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 import {useHistory} from "react-router-dom";
 
-import {LoginContext} from '../../context/login';
+// redux
+import {connect} from 'react-redux';
+import actions from '../../redux/actions';
 
+//css
 import classes from "./Registar.module.css";
 
 const Registar = (props) => {
 
-  //context
-  const {loginChanges} = useContext(LoginContext);
 
   // state
   const [errorHandler, setErrorHandler] = useState('');
@@ -42,9 +43,7 @@ const Registar = (props) => {
     }).then(data => data.json()).then(respond => {
       if(respond.status === 200){
         history.push('/');
-        setTimeout(() => {
-          loginChanges();
-        }, 500);
+          props.toogleLoginModel("=?login","Registo com sucesso por favor faça o login")
       }else{
         setErrorHandler(respond.message);
       }
@@ -129,4 +128,10 @@ const Registar = (props) => {
   );
 };
 
-export default Registar;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toogleLoginModel: (urlLogin,text) => dispatch(actions.toogleLoginModel(urlLogin,text))
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Registar);

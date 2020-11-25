@@ -3,11 +3,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-
-import {LoginContext} from './context/login';
-
-//import hook
-import {useLoginHandler} from './hooks/login';
+import {connect} from 'react-redux';
 
 // componentes
 import BlockRegistar from './components/Registar/BlockRegistar';
@@ -21,22 +17,15 @@ import Resultado from "./components/Resultado";
 // CSS
 import classes from './App.module.css';
 
-function App() {
+function App({login}) {
 
-  const {showAutenc, preMessage, loginChanges} = useLoginHandler();
+  
 
   // render
   return (
-    <LoginContext.Provider
-    value={{
-    preMessage:preMessage,
-    showAutenc: showAutenc,
-    loginChanges: loginChanges,
-    }}
-    >
     <div className={classes.app}>
         <NavBar ></NavBar>
-        {showAutenc && <Login/>}
+        {login.showLoginModel && <Login/>}
         <Switch>
         <Route path='/questionario'>
           <Questionario></Questionario>
@@ -53,8 +42,13 @@ function App() {
         <Redirect to='/'></Redirect>
         </Switch>
     </div>
-   </LoginContext.Provider>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps)(App);

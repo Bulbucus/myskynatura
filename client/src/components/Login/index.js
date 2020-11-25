@@ -1,8 +1,9 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {useHistory} from "react-router-dom";
 
-import {LoginContext} from '../../context/login';
+import {connect } from 'react-redux';
+import actions from '../../redux/actions';
 
 import {ReactComponent as Logo } from '../../images/Logo3.1.svg';
 import {ReactComponent as CloseIcon } from '../../images/closeIcon.svg';
@@ -11,9 +12,7 @@ import {ReactComponent as CloseIcon } from '../../images/closeIcon.svg';
 import classes from './Autenc.module.css'
 
 
-const Login = () => {
-
-  const {preMessage, loginChanges} = useContext(LoginContext);
+const Login = (props) => {
 
   // states
   const history = useHistory();
@@ -35,31 +34,20 @@ const Login = () => {
     }).then(data => data.json()).then(respond => {
       if(respond.id && respond.email){
         history.push('/resultado');
-        loginChanges();
       }
     })
   }
-
-  const [textPreMessage, setTextPreMessage] = useState('')
-  // useEffect
-  useEffect(() => {
-    if (preMessage) {
-        if (preMessage === 'registoSucesso') {
-          setTextPreMessage('Registo com sucesso, por favor faça o login');
-        }
-    }
-  },[preMessage])
-
+  console.log(props.login)
   //render
   const children = (
     <>
       <div className={classes.contentor}>
-        <CloseIcon className={classes.icon} onClick={loginChanges}></CloseIcon>
+        <CloseIcon className={classes.icon} onClick={() => props.toogleLoginModel("/")}></CloseIcon>
         <div className={classes.logoContentor}>
           <Logo></Logo>
         </div>
         <form id='autenc' className={classes.form} onSubmit={(event) => submitHandler(event)}>
-          <span>{textPreMessage}</span>
+          <span>{props.login.preMessageLogin}</span>
           <label>
             Email:
           </label>
@@ -71,12 +59,25 @@ const Login = () => {
           <input type='submit' className={classes.submit} value='Login'/>
         </form>
       </div>
-      <div className={classes.fundoEscuro} onClick={loginChanges}>
+      <div className={classes.fundoEscuro} onClick={() => props.toogleLoginModel("/")}>
       </div>
       </>  
   )
 
+
   return ReactDOM.createPortal(children,document.getElementById('modal'))
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toogleLoginModel: (urlLogin) => dispatch(actions.toogleLoginModel(urlLogin))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
