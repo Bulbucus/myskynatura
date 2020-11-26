@@ -83,7 +83,7 @@ const loginUser = async (req, res) => {
 
     if (!verifyPassword) {
       return res.json({
-        status: 501,
+        status: 500,
         message: "Erro interno, por favor tentar mais tarde",
       });
     } else {
@@ -96,7 +96,7 @@ const loginUser = async (req, res) => {
       } else {
         return res.json({
           status: 500,
-          message: "Palavrapasse invalida",
+          message: "Password invalida",
         });
       }
     }
