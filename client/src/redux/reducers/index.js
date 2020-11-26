@@ -6,7 +6,8 @@ const reducers = (state,action) => {
                 login: {
                     ...state.login,
                     showLoginModel: action.boolean,
-                    preMessageLogin: action.text || ""
+                    preMessageLogin: action.text || "",
+                    path: action.redirect || "/"
                 }
             }
         case "USER_INFO":

@@ -35,11 +35,9 @@ const Login = (props) => {
         const {id, email, token} = respond;
         props.userInfo(id, email, token)
         props.toogleLoginModel(false)
-        history.push('/')
-        // So vai para os resultados se o cliente veem direto do registo
-        if (props.login.preMessageLogin[0] === "R"){
-          history.push('/resultado');
-        }
+
+        // So executa se tiver um redirect:
+        props.login.path && history.push(props.login.path);
       }
       if(respond.status === 500) {
         props.toogleLoginModel(true,respond.message);

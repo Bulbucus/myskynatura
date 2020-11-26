@@ -4,7 +4,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import {connect} from 'react-redux';
-import { Cookies } from 'react-cookie';
+
 
 //redux
 import actions from './redux/actions';
@@ -21,21 +21,9 @@ import Conta from './components/Conta';
 
 // CSS
 import classes from './App.module.css';
-import { useEffect } from "react";
+
 
 function App(props) {
-
-  const cookies = new Cookies().getAll();
-
-  useEffect(() => {
-    if(cookies.pergunta1|| cookies.pergunta2|| cookies.pergunta3) {
-
-    props.cookiesQuestionario("pergunta1", cookies.pergunta1.resposta)
-    props.cookiesQuestionario("pergunta2", cookies.pergunta2.resposta)
-    props.cookiesQuestionario("pergunta3", cookies.pergunta3.resposta)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
 
   // render
   return (
@@ -46,13 +34,13 @@ function App(props) {
         <Route path='/questionario'>
           <Questionario></Questionario>
         </Route>
-        <BlockPage check={cookies.pergunta3}  failTo="/questionario/pergunta1" path="/registar" exact>
+        <BlockPage check={props.questionario.pergunta3}  failTo="/questionario/pergunta1" path="/registar" exact>
           <Registar ></Registar>
         </BlockPage>
         <Route path='/resultado' exact>
           <Resultado></Resultado>
         </Route>
-        <BlockPage check={props.user.token} failTo="/" loginNeeded={true} path="/account" exact>
+        <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/account" exact>
           <Conta></Conta>
         </BlockPage>
         <Route path='/' exact>

@@ -11,6 +11,10 @@ const InputChecker = {
     loginUser: [
         body('email').notEmpty().isEmail().escape(),
         body('palavrapasse').notEmpty().escape(),
+    ],
+    getUserInfo: [
+        body('id').notEmpty(),
+        body('token').notEmpty()
     ]
 }
 

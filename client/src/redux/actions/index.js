@@ -1,10 +1,11 @@
 const actions = {
-    toogleLoginModel: (boolean ,text) => {
+    toogleLoginModel: (boolean, text, path) => {
         // coloca o query para / ou para /?=login
         return {
             type:"TOOGLE_LOGIN_MODEL",
             boolean: boolean,
-            text: text
+            text: text,
+            redirect: path
         }
     },
     userInfo: (id, email, token) => {

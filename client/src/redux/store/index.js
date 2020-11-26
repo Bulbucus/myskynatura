@@ -2,10 +2,15 @@ import {createStore} from 'redux';
 import reducers from '../reducers';
 import { composeWithDevTools } from "redux-devtools-extension";
 
+import { Cookies } from 'react-cookie';
+
+const cookies = new Cookies().getAll();
+
 const initialState = {
     login: {
         showLoginModel:false,
-        preMessageLogin: ""
+        preMessageLogin: "",
+        path: "/"
     },
     user: {
         id:"",
@@ -13,6 +18,9 @@ const initialState = {
         token:""
     },
     questionario:{
+        pergunta1: cookies.pergunta1.resposta,
+        pergunta2: cookies.pergunta2.resposta,
+        pergunta3: cookies.pergunta3.resposta,
     }
 }
 

@@ -12,7 +12,7 @@ const BlockPage = ({children, ...rest}) => {
       ? children 
       : 
       <Redirect to={rest.failTo}>
-        {rest.loginNeeded && rest.toogleLoginModel(true,"Necessita de fazer o login para aceder a pagina")}
+        {rest.loginNeeded && rest.toogleLoginModel(true,"Necessita de fazer o login para aceder a pagina", rest.path)}
       </Redirect>}
     </Route>
   )
@@ -20,7 +20,7 @@ const BlockPage = ({children, ...rest}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        toogleLoginModel: (boolean,text) => {dispatch(actions.toogleLoginModel(boolean,text))}
+        toogleLoginModel: (boolean,text,path) => {dispatch(actions.toogleLoginModel(boolean,text,path))}
     }
 }
 

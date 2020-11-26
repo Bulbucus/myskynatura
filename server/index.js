@@ -7,7 +7,6 @@ const { urlencoded, json } = require('body-parser');
 // import routers
 const user = require('./router/user');
 
-
 const app = express();
 
 app.use(helmet());

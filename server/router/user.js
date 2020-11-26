@@ -14,4 +14,6 @@ router.post('/registar',InputCheck.signUpUser ,userController.singUpUser);
 
 router.post('/login',InputCheck.loginUser, userController.loginUser);
 
+router.post('/getUser', InputCheck.getUserInfo, userController.getUserInfo)
+
 module.exports = router;

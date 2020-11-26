@@ -18,7 +18,6 @@ client.connect();
 
 // registar o utilizador
 const singUpUser = (req, res) => {
-    console.log(req.body)
   // Se houver erros na validaçao dos dados:
   const { errors } = validationResult(req);
   if (errors.length > 0) {
@@ -45,7 +44,7 @@ const singUpUser = (req, res) => {
     }
   });
 };
-
+// login o utilizador
 const loginUser = async (req, res) => {
   // Se houver erros na validaçao dos dados:
   const { errors } = validationResult(req);
@@ -110,7 +109,7 @@ const loginUser = async (req, res) => {
   // criaçao do token e enviar a autentiaçao para front end
   try {
     const token = jwt.sign(
-        {autenticacao},
+        {id: autenticacao.id},
         process.env.JWT_SECRET,
         {expiresIn: '1d'}
       );
@@ -131,5 +130,32 @@ const loginUser = async (req, res) => {
   }
 };
 
+// info do utilizador
+const getUserInfo = (req, res) => {
+  const { errors } = validationResult(req);
+  if (errors.length > 0) {
+    return res.json({
+      status: 500,
+      message: "Credenciais erradas",
+      error: errors,
+    });
+  }
+
+  try {
+    jwt.verify(req.body.token, process.env.JWT_SECRET)
+  } catch(err){
+    return res.json({
+      status: 500,
+      message: "Erro interno, por favor tentar mais tarde",
+    });
+  }
+
+  return res.json({
+    id: req.body.id
+  })
+
+};
+
 exports.singUpUser = singUpUser;
 exports.loginUser = loginUser;
+exports.getUserInfo = getUserInfo;

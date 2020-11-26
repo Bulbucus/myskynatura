@@ -43,7 +43,7 @@ const Registar = (props) => {
     }).then(data => data.json()).then(respond => {
       if(respond.status === 200){
         history.push('/');
-        props.toogleLoginModel(true,"Registo com sucesso por favor faça o login")
+        props.toogleLoginModel(true,"Registo com sucesso por favor faça o login","/resultado")
       }else{
         setErrorHandler(respond.message);
       }
@@ -130,7 +130,7 @@ const Registar = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toogleLoginModel: (boolean,text) => dispatch(actions.toogleLoginModel(boolean,text))
+    toogleLoginModel: (boolean,text,path) => dispatch(actions.toogleLoginModel(boolean,text,path))
   }
 }
 
