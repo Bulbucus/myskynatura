@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {useHistory} from "react-router-dom";
 
@@ -32,17 +31,23 @@ const Login = (props) => {
         palavrapasse:event.target.password.value
       })
     }).then(data => data.json()).then(respond => {
-      if(respond.id && respond.email){
-        history.push('/resultado');
+      if(respond.id && respond.email && respond.token){
+        const {id, email, token} = respond;
+        props.userInfo(id, email, token)
+        props.toogleLoginModel(false)
+        history.push('/')
+        // So vai para os resultados se o cliente veem direto do registo
+        if (props.login.preMessageLogin[0] === "R"){
+          history.push('/resultado');
+        }
       }
     })
   }
-  console.log(props.login)
   //render
   const children = (
     <>
       <div className={classes.contentor}>
-        <CloseIcon className={classes.icon} onClick={() => props.toogleLoginModel("/")}></CloseIcon>
+        <CloseIcon className={classes.icon} onClick={() => props.toogleLoginModel(false)}></CloseIcon>
         <div className={classes.logoContentor}>
           <Logo></Logo>
         </div>
@@ -59,7 +64,7 @@ const Login = (props) => {
           <input type='submit' className={classes.submit} value='Login'/>
         </form>
       </div>
-      <div className={classes.fundoEscuro} onClick={() => props.toogleLoginModel("/")}>
+      <div className={classes.fundoEscuro} onClick={() => props.toogleLoginModel(false)}>
       </div>
       </>  
   )
@@ -76,7 +81,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toogleLoginModel: (urlLogin) => dispatch(actions.toogleLoginModel(urlLogin))
+    toogleLoginModel: (boolean,message) => dispatch(actions.toogleLoginModel(boolean,message)),
+    userInfo: (id, email, token) => dispatch(actions.userInfo(id, email, token))
   }
 }
 

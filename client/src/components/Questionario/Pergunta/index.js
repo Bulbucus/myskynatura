@@ -3,6 +3,9 @@ import {
 } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
+//redux
+import {connect} from 'react-redux';
+import actions from '../../../redux/actions';
 
 import classes from './Pergunta.module.css'
 
@@ -73,6 +76,9 @@ const Pergunta = (props) => {
       }
     }
   
+    // colocar na store do redux
+    props.cookiesQuestionario(props.numPergunta, event.target[props.pergunta].value || checked)
+
     // Criar cookie que dura por 30 dias com a resposta
     // Serve apenas para quando alguem esta a fazer o questionario e deixa o questionario a meio antes de se registar ou fecha a pagina sem querer;
     const expiresCookie = new Date()
@@ -121,4 +127,10 @@ const Pergunta = (props) => {
   )
 }
 
-export default Pergunta;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    cookiesQuestionario: (name,value) => {dispatch(actions.cookiesQuestionario(name,value))}
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Pergunta);

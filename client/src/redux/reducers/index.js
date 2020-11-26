@@ -5,10 +5,29 @@ const reducers = (state,action) => {
                 ...state,
                 login: {
                     ...state.login,
-                    showLoginModel: !state.login.showLoginModel,
+                    showLoginModel: action.boolean,
                     preMessageLogin: action.text || ""
                 }
             }
+        case "USER_INFO":
+            return {
+                ...state,
+                user: {
+                    id: action.id,
+                    email: action.email,
+                    token: action.token
+                }
+            }
+        case "GET_COOKIE_QUESTIONARIO": {
+            const name = action.name
+            return {
+                ...state,
+                questionario: {
+                    ...state.questionario,
+                    [name] : action.value
+                }
+            }
+        }
         default:
             return state;
     }

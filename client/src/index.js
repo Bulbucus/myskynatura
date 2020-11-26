@@ -8,8 +8,9 @@ import {Provider as ReduxProvider} from 'react-redux';
 
 // css
 import './index.css';
-
+//redux
 import store from './redux/store';
+//Componentes
 import App from './App';
 
 

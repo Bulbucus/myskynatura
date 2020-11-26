@@ -115,7 +115,7 @@ const loginUser = async (req, res) => {
         {expiresIn: '1d'}
       );
     if (token) {
-        res.cookie('token', token, {maxAge: 9000000,  httpOnly: true, secure: false});
+        autenticacao.token = token;
         return res.json(autenticacao);
     } else {
         return res.json({

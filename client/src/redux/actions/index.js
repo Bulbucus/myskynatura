@@ -1,12 +1,27 @@
 const actions = {
-    toogleLoginModel: (urlLogin, text) => {
+    toogleLoginModel: (boolean ,text) => {
         // coloca o query para / ou para /?=login
-        window.history.replaceState({},'', urlLogin)
         return {
             type:"TOOGLE_LOGIN_MODEL",
+            boolean: boolean,
             text: text
         }
     },
+    userInfo: (id, email, token) => {
+        return {
+            type:"USER_INFO",
+            id: id,
+            email: email,
+            token: token
+        }
+    },
+    cookiesQuestionario: (name, value) => {
+        return {
+            type:"GET_COOKIE_QUESTIONARIO",
+            name: name,
+            value: value
+        }
+    }
 }
 
 export default actions;

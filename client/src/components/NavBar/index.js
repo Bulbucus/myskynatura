@@ -21,17 +21,29 @@ const NavBar = (props) => {
       <div className={classes.contentor}>
         <Link to='/'><Logo className={classes.logo}></Logo></Link>
         <div className={classes.acesso}>
-          <button onClick={()=>props.toogleLoginModel("?=login")}>Login</button>
+          { props.user.token ?
+          <Link to='/account'>
+            <button>Minha conta</button>
+          </Link>
+          :
+          <button onClick={()=>props.toogleLoginModel(true)}>Login</button>
+          } 
         </div>
       </div>
     </>
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    toogleLoginModel: (urlLogin) => dispatch(actions.toogleLoginModel(urlLogin))
+    ...state
   }
 }
 
-export default connect(null,mapDispatchToProps)(NavBar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toogleLoginModel: (boolean) => dispatch(actions.toogleLoginModel(boolean))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(NavBar);
