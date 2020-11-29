@@ -7,6 +7,12 @@ const InputChecker = {
         body('idade').notEmpty().isDate(),
         body('email').notEmpty().isEmail().escape(),
         body('palavrapasse').notEmpty().isLength({min: 6}).escape(),
+        body('genero').custom(value => {
+            if(value !== 'F' || value !== 'M') {
+                return true;
+            }
+            throw new Error('Genero não definido')
+        })
     ],
     loginUser: [
         body('email').notEmpty().isEmail().escape(),
@@ -15,7 +21,19 @@ const InputChecker = {
     getUserInfo: [
         body('id').notEmpty(),
         body('token').notEmpty()
-    ]
+    ],
+    updateUser : [
+        body('id').notEmpty(),
+        body('primeiro_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
+        body('ultimo_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
+        body('idade').notEmpty().isDate(),
+        body('genero').custom(value => {
+            if(value !== "F" && value !== "M") {
+                throw new Error('Genero não definido')
+            }
+            return true;
+        })
+    ],
 }
 
 module.exports = InputChecker;

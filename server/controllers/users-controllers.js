@@ -131,7 +131,7 @@ const loginUser = async (req, res) => {
 };
 
 // info do utilizador
-const getUserInfo = (req, res) => {
+const getUserInfo = async (req, res) => {
   const { errors } = validationResult(req);
   if (errors.length > 0) {
     return res.json({
@@ -150,12 +150,61 @@ const getUserInfo = (req, res) => {
     });
   }
 
-  return res.json({
-    id: req.body.id
-  })
+  try{
+    const userInfo = await client.query(sqlQuery.getUserInfoQuery(req.body.id));
+    if (!userInfo) {
+      return res.json({
+        status: 500,
+        message: "Este utilizador nao existe",
+      });
+    } else {
+      return res.json({
+        ...userInfo.rows[0],
+        idade: `${userInfo.rows[0].idade.toISOString().slice(0,10)}`
+      })
+    }
+  } catch(err) {
+    return res.json({
+      status: 500,
+      message: "Erro interno, por favor tentar mais tarde",
+    });
+  }
 
 };
+
+const updateUser = async (req,res) => {
+  const { errors } = validationResult(req);
+  if (errors.length > 0) {
+    return res.json({
+      status: 500,
+      message: "Por favor coloque os dados corretos",
+      error: errors,
+    });
+  }
+  try{
+    const updateUser = await client.query(sqlQuery.updateUserQuery(req.body))
+    if(!updateUser) {
+      return res.json({
+        status: 500,
+        message: "Erro interno, por favor tentar mais tarde",
+      });
+    }
+    else {
+      return res.json({
+        status:200,
+      })
+    }
+  }catch(err) {
+    if(err) {
+      return res.json({
+        status: 500,
+        message: "Erro interno, por favor tentar mais tarde",
+      });
+    }
+  }
+}
 
 exports.singUpUser = singUpUser;
 exports.loginUser = loginUser;
 exports.getUserInfo = getUserInfo;
+exports.updateUser= updateUser;
