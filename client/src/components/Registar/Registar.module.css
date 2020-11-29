@@ -34,14 +34,14 @@
 }
 
 
-.containerForma form {
+.containerForma > form {
   width: fit-content;
   display: flex;
   flex-direction: column;
   margin: 0 40px;
 }
 
-.containerForma label {
+.containerForma > form > label {
   font-size: 20px;
   font-weight: 200;
   display:flex;
@@ -49,7 +49,7 @@
   margin: 7px 0;
 }
 
-.containerForma form input, select, option {
+.containerForma > form > input,.containerForma > form > select, .containerForma > form > input,.containerForma > form > select > option {
   font-size: 20px;
   font-weight: 200;
   border: none;
@@ -92,11 +92,11 @@
   .containerQuestao {
     font-size: 4.8vw;
   }
-  .containerForma label  {
+  .containerForma > form > label {
     font-size: 4.8vw;
   }
 
-  .containerForma form input, select, option {
+  .containerForma > form > input,.containerForma > form > select, .containerForma > form > input,.containerForma > form > select > option{
     font-size: 4.8vw;
   }
 

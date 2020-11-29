@@ -3,24 +3,24 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
 
 //redux
-import actions from './redux/actions';
+import actions from "./redux/actions";
 
 // componentes
-import BlockPage from './util/BlockPage';
-import NavBar from './components/NavBar';
-import Inicio from './components/Inicio';
-import Questionario from './components/Questionario';
-import Login from './components/Login';
+import BlockPage from "./util/BlockPage";
+import NavBar from "./components/NavBar";
+import Inicio from "./components/Inicio";
+import Questionario from "./components/Questionario";
+import Login from "./components/Login";
 import Registar from "./components/Registar";
 import Resultado from "./components/Resultado";
-import Conta from './components/Conta';
+import Conta from "./components/Conta";
 
 // CSS
-import classes from './App.module.css';
+import classes from "./App.module.css";
 
 
 function App(props) {
@@ -31,22 +31,22 @@ function App(props) {
         <NavBar ></NavBar>
         {props.login.showLoginModel && <Login/>}
         <Switch>
-        <Route path='/questionario'>
+        <Route path="/questionario">
           <Questionario></Questionario>
         </Route>
         <BlockPage check={props.questionario.pergunta3}  failTo="/questionario/pergunta1" path="/registar" exact>
           <Registar ></Registar>
         </BlockPage>
-        <Route path='/resultado' exact>
+        <Route path="/resultado" exact>
           <Resultado></Resultado>
         </Route>
         <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/account" exact>
           <Conta></Conta>
         </BlockPage>
-        <Route path='/' exact>
+        <Route path="/" exact>
           <Inicio/>
         </Route>
-        <Redirect to='/'></Redirect>
+        <Redirect to="/"></Redirect>
         </Switch>
     </div>
   );

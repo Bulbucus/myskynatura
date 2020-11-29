@@ -18,9 +18,9 @@ const initialState = {
         token:""
     },
     questionario:{
-        pergunta1: cookies.pergunta1.resposta,
-        pergunta2: cookies.pergunta2.resposta,
-        pergunta3: cookies.pergunta3.resposta,
+        pergunta1: (cookies.pergunta1 && cookies.pergunta1.resposta),
+        pergunta2: (cookies.pergunta2 && cookies.pergunta2.resposta),
+        pergunta3: (cookies.pergunta3 && cookies.pergunta3.resposta),
     }
 }
 

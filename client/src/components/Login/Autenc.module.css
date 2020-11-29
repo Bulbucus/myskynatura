@@ -7,6 +7,19 @@
   transition: cubic-bezier(0.165, 0.84, 0.44, 1) 100ms;
 }
 
+
+.contentor::before {
+  content: '';
+  position: absolute;
+  padding: 30px;
+  border-radius: 50%;
+  left: 115%;
+  top: -10%;
+  background: linear-gradient(180deg, #E5EAE7 0%, #E1E1E1 100%);
+  transform: translateX(-100%);
+  z-index: -1;
+}
+
 .contentor {
   position: absolute;
   left: 50%;
@@ -26,27 +39,13 @@
   transition: cubic-bezier(0.165, 0.84, 0.44, 1) 700ms;
 }
 
-.contentor::before {
-  content: '';
-  position: absolute;
-  padding: 30px;
-  border-radius: 50%;
-  left: 115%;
-  top: -10%;
-  background: linear-gradient(180deg, #E5EAE7 0%, #E1E1E1 100%);
-  transform: translateX(-100%);
-  z-index: -1;
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  transition: cubic-bezier(0.165, 0.84, 0.44, 1) 700ms;
-}
 
 @keyframes fadeIn {
   0% {
-    opacity: 0%;
+    opacity: 0;
   }
   100%{
-    opacity: 100%;
+    opacity: 1;
   }
 }
 

@@ -15,11 +15,10 @@ const Login = (props) => {
 
   // states
   const history = useHistory();
-
   // submit handler
   const submitHandler = (event) => {
     event.preventDefault()
-    fetch('http://localhost:8888/user/login', {
+    fetch(`${process.env.NODE_ENV === 'production'? process.env.REACT_APP_BACK_END_PROD : process.env.REACT_APP_BACK_END_DEV}/user/login`, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
