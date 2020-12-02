@@ -20,7 +20,7 @@
   grid-row: 3;
   justify-self: center;
   width: 500px;
-  margin: 5vh 0;
+  margin: 35px 0;
   padding: 30px;
   font-size: 30px;
   font-weight: 200;
@@ -103,4 +103,33 @@
 
 .backIcon:hover {
   filter: brightness(0.8);
+}
+
+@media (max-width: 630px) {
+  .Main{
+    grid-template-rows: 20vw min-content min-content auto;
+  }
+
+  .containerTitle {
+    font-size: 5vw;
+  }
+
+  .Container {
+    margin-top: 7vw;
+    width: 90vw;
+    font-size: 7vw;
+    padding: 5vw 3vw;
+  }
+
+  .button {
+    font-size: 7vw;
+  }
+
+  .InputContainer{
+    padding-left: 0;
+  }
+
+  .Info > input, .Info > select{
+    font-size: 6vw;
+  }
 }

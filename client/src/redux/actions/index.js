@@ -1,6 +1,8 @@
 const actions = {
     toogleLoginModel: (boolean, text, path) => {
-        // coloca o query para / ou para /?=login
+        // remove sempre o query ao fechar
+        !boolean && window.history.replaceState(null,null,path)
+
         return {
             type:"TOOGLE_LOGIN_MODEL",
             boolean: boolean,
@@ -8,7 +10,7 @@ const actions = {
             redirect: path
         }
     },
-    userInfo: (id, email, token) => {
+    userInfo: (id, email ,token) => {
         return {
             type:"USER_INFO",
             id: id,

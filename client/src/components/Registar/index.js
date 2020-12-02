@@ -50,13 +50,15 @@ const Registar = (props) => {
           history.push("/");
           props.toogleLoginModel(
             true,
-            "Registo com sucesso por favor faça o login",
+            "Registo com sucesso por favor verifique o seu email",
             "/resultado"
           );
         } else {
           setErrorHandler(respond.message);
         }
-      });
+      }).catch((err) => {
+        setErrorHandler(err.message);
+      })
   };
 
   //date

@@ -12,6 +12,7 @@ import './index.css';
 import store from './redux/store';
 //Componentes
 import App from './App';
+import ScrollToTop from "./util/ScrollToTop";
 
 
 ReactDOM.render(
@@ -19,6 +20,7 @@ ReactDOM.render(
   <CookiesProvider>
     <React.StrictMode>
       <Router>
+        <ScrollToTop/>
         <App />
       </Router>
     </React.StrictMode>

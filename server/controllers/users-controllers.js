@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const sqlQuery = require("../model/user");
+const emailSender = require('../util/emailSender');
 
 // connect postgres database
 const client = new Pool({
@@ -30,7 +31,7 @@ const singUpUser = (req, res) => {
   // encriptar palavrapasse
   const palavrapasse = bcrypt.hashSync(req.body.palavrapasse, 15);
   // Inserir os dados na base de dados
-  client.query(sqlQuery.signUpUserQuery(req.body, palavrapasse), (err) => {
+  client.query(sqlQuery.signUpUserQuery(req.body, palavrapasse), (err,respond) => {
     if (err) {
       // unica coisa que tem de ser unica é o email
       // por isso o unico erro que pode dar se todos os dados
@@ -40,6 +41,19 @@ const singUpUser = (req, res) => {
         message: "Este e-mail já esta registado",
       });
     } else {
+
+      const token = jwt.sign(
+        {
+          id: respond.rows[0].id_utilizador,
+          email:req.body.email,
+        },
+        process.env.JWT_SECRET,
+        {expiresIn: '20s'}
+      );
+
+      // enviar email para verificaçao
+      emailSender(req.body.email, req.body.primeiro_nome, token)
+    
       return res.json({ status: 200 });
     }
   });
@@ -87,11 +101,21 @@ const loginUser = async (req, res) => {
       });
     } else {
       const compareHash = await bcrypt.compare(req.body.palavrapasse,verifyPassword.rows[0].palavrapasse);
+  
       if (compareHash) {
+        // envia este erro se o email nao tiver verificado
+        if(!verifyPassword.rows[0].email_confirmed){
+          return res.json({
+            status:500,
+            message: "Por favor verifique o seu email"
+          })
+        }
+
         autenticacao = {
           id: verifyPassword.rows[0].id_utilizador,
           email: req.body.email,
         };
+
       } else {
         return res.json({
           status: 500,
@@ -158,6 +182,7 @@ const getUserInfo = async (req, res) => {
         message: "Este utilizador nao existe",
       });
     } else {
+
       return res.json({
         ...userInfo.rows[0],
         idade: `${userInfo.rows[0].idade.toISOString().slice(0,10)}`
@@ -183,6 +208,7 @@ const updateUser = async (req,res) => {
   }
   try{
     const updateUser = await client.query(sqlQuery.updateUserQuery(req.body))
+
     if(!updateUser) {
       return res.json({
         status: 500,
@@ -195,16 +221,50 @@ const updateUser = async (req,res) => {
       })
     }
   }catch(err) {
-    if(err) {
       return res.json({
         status: 500,
         message: "Erro interno, por favor tentar mais tarde",
       });
-    }
   }
 }
+
+const confirmUser = async (req,res) => {
+  try{
+    jwt.verify(req.query.token, process.env.JWT_SECRET)
+    } catch(err){
+      //Agarra id e email de usuario
+      const {id,email} = jwt.decode(req.query.token)
+      
+      // faz nova token se a antiga expirar
+      const token = jwt.sign(
+        {id: id},
+        process.env.JWT_SECRET,
+        {expiresIn: '1h'}
+      );
+      
+      // envia novo email se o token expirar
+      emailSender(email, "Again", token)
+
+      return res.redirect('http://95.93.159.118:4000/?emailConfirmed=false');
+    }
+    try{
+
+      const {id} = jwt.decode(req.query.token)
+      const confirmUser = await client.query(sqlQuery.confirmUser(id))
+  
+      if (confirmUser) {
+        return res.redirect('http://95.93.159.118:4000/?emailConfirmed=true')
+      }
+    } catch(err) {
+      return res.redirect('http://95.93.159.118:4000/')
+    }
+
+
+
+} 
 
 exports.singUpUser = singUpUser;
 exports.loginUser = loginUser;
 exports.getUserInfo = getUserInfo;
 exports.updateUser= updateUser;
+exports.confirmUser = confirmUser;

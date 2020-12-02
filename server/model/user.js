@@ -18,7 +18,7 @@ const verifyEmail = (email) => {
 
 const verifyPassword = (email) => {
     return {
-        text:'SELECT id_utilizador, palavrapasse from users where email=$1',
+        text:'SELECT id_utilizador, palavrapasse, email_confirmed from users where email=$1',
         values: [email]
     }
 }
@@ -40,8 +40,16 @@ const updateUserQuery = (body) => {
     }
 }
 
+const confirmUser = (id) => {
+    return {
+        text: 'update users set email_confirmed=true where id_utilizador=$1',
+        values: [id]
+    }
+}
+
 exports.signUpUserQuery = signUpUserQuery;
 exports.verifyEmail = verifyEmail;
 exports.verifyPassword = verifyPassword;
 exports.getUserInfoQuery = getUserInfoQuery;
 exports.updateUserQuery = updateUserQuery;
+exports.confirmUser = confirmUser;

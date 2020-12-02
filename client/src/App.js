@@ -24,7 +24,6 @@ import classes from "./App.module.css";
 
 
 function App(props) {
-
   // render
   return (
     <div className={classes.app}>

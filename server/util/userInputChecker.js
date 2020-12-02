@@ -2,8 +2,8 @@ const {body} = require('express-validator');
 
 const InputChecker = {
     signUpUser : [
-        body('primeiro_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
-        body('ultimo_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
+        body('primeiro_nome').notEmpty().escape(),
+        body('ultimo_nome').notEmpty().escape(),
         body('idade').notEmpty().isDate(),
         body('email').notEmpty().isEmail().escape(),
         body('palavrapasse').notEmpty().isLength({min: 6}).escape(),
@@ -24,8 +24,8 @@ const InputChecker = {
     ],
     updateUser : [
         body('id').notEmpty(),
-        body('primeiro_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
-        body('ultimo_nome').notEmpty().isAlphanumeric('pt-PT').escape(),
+        body('primeiro_nome').notEmpty().escape(),
+        body('ultimo_nome').notEmpty().escape(),
         body('idade').notEmpty().isDate(),
         body('genero').custom(value => {
             if(value !== "F" && value !== "M") {

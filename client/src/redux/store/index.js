@@ -4,13 +4,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { Cookies } from 'react-cookie';
 
+import URLloginHandler from './initialStateLogin';
+
 const cookies = new Cookies().getAll();
 
 const initialState = {
     login: {
-        showLoginModel:false,
-        preMessageLogin: "",
-        path: "/"
+        showLoginModel: URLloginHandler().showLoginModel,
+        preMessageLogin: URLloginHandler().preMessageLogin,
+        path: URLloginHandler().path
     },
     user: {
         id:"",
