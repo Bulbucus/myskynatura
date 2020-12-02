@@ -1,66 +1,66 @@
-import { useState, useEffect } from "react";
 import {
   Switch,
   Route,
   Redirect,
-  useHistory
 } from "react-router-dom";
+import {connect} from "react-redux";
+
+
+//redux
+import actions from "./redux/actions";
 
 // componentes
-import BlockRegistar from './components/Registar/BlockRegistar';
-import NavBar from './components/NavBar';
-import Inicio from './components/Inicio';
-import Questionario from './components/Questionario';
-import Login from './components/Login';
+import BlockPage from "./util/BlockPage";
+import NavBar from "./components/NavBar";
+import Inicio from "./components/Inicio";
+import Questionario from "./components/Questionario";
+import Login from "./components/Login";
 import Registar from "./components/Registar";
 import Resultado from "./components/Resultado";
+import Conta from "./components/Conta";
 
 // CSS
-import classes from './App.module.css';
+import classes from "./App.module.css";
 
-function App() {
-  //state
-  const [showAutenc, setShowAutenc] = useState(false)
-  const [preMessageLogin, setPreMessageLogin] = useState('');
-  // history
-  const history = useHistory();
 
-  //handler login
-  const loginHandler = (preMessage) => {
-    setShowAutenc(!showAutenc)
-    setPreMessageLogin(preMessage)
-    !showAutenc ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'visible'
-    !showAutenc ? history.push({search:"?=login"}) : history.push({search:""});
-  }
-
-  //useEffect
-  useEffect(() => {
-    history.location.search === '?=login' && loginHandler();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history])
-
+function App(props) {
   // render
   return (
     <div className={classes.app}>
-        <NavBar loginHandler={loginHandler}></NavBar>
-        {showAutenc && <Login preMessage={preMessageLogin} closeModal={loginHandler}/>}
+        <NavBar ></NavBar>
+        {props.login.showLoginModel && <Login/>}
         <Switch>
-        <Route path='/questionario'>
+        <Route path="/questionario">
           <Questionario></Questionario>
         </Route>
-        <BlockRegistar path="/registar" exact>
-          <Registar loginHandler={loginHandler} ></Registar>
-        </BlockRegistar>
-        <Route path='/resultado' exact>
+        <BlockPage check={props.questionario.pergunta3}  failTo="/questionario/pergunta1" path="/registar" exact>
+          <Registar ></Registar>
+        </BlockPage>
+        <Route path="/resultado" exact>
           <Resultado></Resultado>
         </Route>
-        <Route path='/' exact>
+        <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/account" exact>
+          <Conta></Conta>
+        </BlockPage>
+        <Route path="/" exact>
           <Inicio/>
         </Route>
-        <Redirect to='/'></Redirect>
+        <Redirect to="/"></Redirect>
         </Switch>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return  {
+    cookiesQuestionario:(name, value) => {dispatch(actions.cookiesQuestionario(name, value))},
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

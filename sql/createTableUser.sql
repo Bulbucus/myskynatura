@@ -6,5 +6,6 @@ CREATE TABLE users (
     genero VARCHAR(1) NOT NULL,
     email VARCHAR(100) NOT NULL,
     palavrapasse VARCHAR(100) NOT NULL,
+    email_confirmed BOOLEAN NOT NULL DEFAULT false,
     UNIQUE(email)
 );
