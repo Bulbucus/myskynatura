@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 // redux
 import { connect } from "react-redux";
@@ -11,6 +12,7 @@ import classes from "./Registar.module.css";
 const Registar = (props) => {
   // state
   const [errorHandler, setErrorHandler] = useState("");
+  const [cookies] = useCookies()
 
   //history
   const history = useHistory();
@@ -19,7 +21,6 @@ const Registar = (props) => {
   // Envia o registo para o servidor
   const submitHandler = (event) => {
     event.preventDefault();
-
     if (
       event.target.palavrapasse.value !==
       event.target.confirmePalavrapasse.value
@@ -28,6 +29,8 @@ const Registar = (props) => {
         "As passwords não são iguais, por favor verifique as mesmas."
       );
     }
+
+
 
     fetch(`${process.env.NODE_ENV === 'production'? process.env.REACT_APP_BACK_END_PROD : process.env.REACT_APP_BACK_END_DEV}/user/registar`, {
       method: "POST",
@@ -42,6 +45,7 @@ const Registar = (props) => {
         genero: event.target.genero.value,
         email: event.target.email.value,
         palavrapasse: event.target.palavrapasse.value,
+        questionario: cookies
       }),
     })
       .then((data) => data.json())

@@ -34,12 +34,12 @@ function App(props) {
         <Route path="/questionario">
           <Questionario></Questionario>
         </Route>
-        <BlockPage check={props.questionario.pergunta3}  failTo="/questionario/pergunta1" path="/registar" exact>
+        <BlockPage check={props.questionario["3"]}  failTo="/questionario/pergunta1" path="/registar" exact>
           <Registar ></Registar>
         </BlockPage>
-        <Route path="/resultado" exact>
+        <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/resultado" exact>
           <Resultado></Resultado>
-        </Route>
+        </BlockPage>
         <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/account" exact>
           <Conta></Conta>
         </BlockPage>

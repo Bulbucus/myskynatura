@@ -1,11 +1,12 @@
 const { Pool } = require("pg");
-const { validationResult, cookie } = require("express-validator");
-const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
+const jwt = require('jsonwebtoken');
 
 const bcrypt = require("bcrypt");
 
-const sqlQuery = require("../model/user");
+const userQuery = require("../model/user");
 const emailSender = require('../util/emailSender');
+const questionarioController = require('./questionario-controllers');
 
 // connect postgres database
 const client = new Pool({
@@ -31,7 +32,7 @@ const singUpUser = (req, res) => {
   // encriptar palavrapasse
   const palavrapasse = bcrypt.hashSync(req.body.palavrapasse, 15);
   // Inserir os dados na base de dados
-  client.query(sqlQuery.signUpUserQuery(req.body, palavrapasse), (err,respond) => {
+  client.query(userQuery.signUpUserQuery(req.body, palavrapasse), (err,respond) => {
     if (err) {
       // unica coisa que tem de ser unica é o email
       // por isso o unico erro que pode dar se todos os dados
@@ -48,16 +49,20 @@ const singUpUser = (req, res) => {
           email:req.body.email,
         },
         process.env.JWT_SECRET,
-        {expiresIn: '20s'}
+        {expiresIn: '1h'}
       );
 
       // enviar email para verificaçao
       emailSender(req.body.email, req.body.primeiro_nome, token)
+
+      // guarda as respostas do questionario numa base de dados
+      questionarioController.addQuestionario(respond.rows[0].id_utilizador, req.body.questionario)
     
       return res.json({ status: 200 });
     }
   });
 };
+
 // login o utilizador
 const loginUser = async (req, res) => {
   // Se houver erros na validaçao dos dados:
@@ -73,7 +78,7 @@ const loginUser = async (req, res) => {
   // verifica primeiro se o email ja esta registado
   try {
     const verifyEmail = await client.query(
-      sqlQuery.verifyEmail(req.body.email)
+      userQuery.verifyEmail(req.body.email)
     );
     if (verifyEmail.rows.length < 1) {
       return res.json({
@@ -92,7 +97,7 @@ const loginUser = async (req, res) => {
 
   // verificar se a password esta correta
   try {
-    const verifyPassword = await client.query(sqlQuery.verifyPassword(req.body.email));
+    const verifyPassword = await client.query(userQuery.verifyPassword(req.body.email));
 
     if (!verifyPassword) {
       return res.json({
@@ -175,7 +180,7 @@ const getUserInfo = async (req, res) => {
   }
 
   try{
-    const userInfo = await client.query(sqlQuery.getUserInfoQuery(req.body.id));
+    const userInfo = await client.query(userQuery.getUserInfoQuery(req.body.id));
     if (!userInfo) {
       return res.json({
         status: 500,
@@ -207,7 +212,7 @@ const updateUser = async (req,res) => {
     });
   }
   try{
-    const updateUser = await client.query(sqlQuery.updateUserQuery(req.body))
+    const updateUser = await client.query(userQuery.updateUserQuery(req.body))
 
     if(!updateUser) {
       return res.json({
@@ -245,18 +250,18 @@ const confirmUser = async (req,res) => {
       // envia novo email se o token expirar
       emailSender(email, "Again", token)
 
-      return res.redirect('http://95.93.159.118:4000/?emailConfirmed=false');
+      return res.redirect(process.env.HOST + '?emailConfirmed=false');
     }
     try{
 
       const {id} = jwt.decode(req.query.token)
-      const confirmUser = await client.query(sqlQuery.confirmUser(id))
+      const confirmUser = await client.query(userQuery.confirmUser(id))
   
       if (confirmUser) {
-        return res.redirect('http://95.93.159.118:4000/?emailConfirmed=true')
+        return res.redirect(process.env.HOST + '?emailConfirmed=true')
       }
     } catch(err) {
-      return res.redirect('http://95.93.159.118:4000/')
+      return res.redirect(process.env.HOST)
     }
 
 

@@ -2,7 +2,9 @@ const signUpUserQuery = (body, palavrapasse) => {
     body.idade = new Date(body.idade).toISOString();
     const arrayBody = Object.values(body)
     arrayBody.splice(5,1,palavrapasse)
-
+    // remove as respostas do questionario:
+    arrayBody.pop()
+    
     return {
     text: 'INSERT INTO users (primeiro_nome, ultimo_nome, idade ,genero ,email, palavrapasse) VALUES ($1, $2, $3, $4, $5 ,$6) RETURNING *',
     values: arrayBody

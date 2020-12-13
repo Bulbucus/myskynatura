@@ -3,6 +3,7 @@ const router = express.Router();
 
 const InputCheck = require('../util/userInputChecker')
 const userController = require('../controllers/users-controllers');
+const questionarioController = require('../controllers/questionario-controllers');
 
 router.get('/', (req,res) => {
     res.json({
@@ -10,6 +11,10 @@ router.get('/', (req,res) => {
     })
 })
 
+// questionario controller
+router.post('/resultados', InputCheck.getUserInfo, questionarioController.resultQuestionario);
+
+// user controller
 router.post('/registar',InputCheck.signUpUser ,userController.singUpUser);
 
 router.post('/login',InputCheck.loginUser, userController.loginUser);

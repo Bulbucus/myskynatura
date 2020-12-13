@@ -17,7 +17,7 @@ const Questionario = () => {
           <Route path="/questionario/pergunta1" exact>
               <Pergunta
                 type="radio"
-                numPergunta = "pergunta1"
+                numPergunta = "1"
                 pergunta="Tem muitas borbulhas?"
                 respostas={
                   [
@@ -32,7 +32,7 @@ const Questionario = () => {
           <Route path="/questionario/pergunta2" exact>
             <Pergunta
               type="checkbox"
-              numPergunta = "pergunta2"
+              numPergunta = "2"
               pergunta="Que tipo de pele têm?"
               respostas={
                 [
@@ -45,12 +45,12 @@ const Questionario = () => {
           <Route path="/questionario/pergunta3" exact>
             <Pergunta
             type="radio"
-            numPergunta="pergunta3"
+            numPergunta="3"
             pergunta="Tem rugas?"
             respostas = {
               [
-                {respostaText:"Sim", respostaName:"S"},
-                {respostaText:"Não", respostaName:"N"}
+                {respostaText:"Sim", respostaName:"comRugas"},
+                {respostaText:"Não", respostaName:"semRugas"}
               ]
             }
             />

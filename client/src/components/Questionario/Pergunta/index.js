@@ -34,7 +34,7 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta === resposta.respostaName) || false}
+            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta] === resposta.respostaName) || false}
             required={true}
             />
         }
@@ -44,7 +44,7 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].resposta.includes(resposta.respostaName)) || false}
+            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].includes(resposta.respostaName)) || false}
             />
         }
 
@@ -85,9 +85,7 @@ const Pergunta = (props) => {
     expiresCookie.setDate(31)
 
     setCookies(props.numPergunta,
-    {
-      resposta:  event.target[props.pergunta].value || checked
-    }, 
+    event.target[props.pergunta].value || checked,
     {
       path: '/',
       expires:expiresCookie
