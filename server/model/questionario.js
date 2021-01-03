@@ -16,14 +16,14 @@ const infoQuestionarioQuery = (id_utilizador) => {
 
 const compareQuestionarioResult = (respostas) => {
   return {
-    text: 'select id_produto, nome, descricao, price from produtos where tags=$1',
+    text: 'select nome, descricao, price from produtos where tags=$1',
     values: [respostas]
   }
 }
 
 const similiarQuestionarioResult = (respostas, type) => {
   return {
-    text: `select id_produto, nome, descricao, price from produtos where tags${type}$1`,
+    text: `select nome, descricao, price from produtos where tags${type}$1`,
     values: [respostas]
   }
 }

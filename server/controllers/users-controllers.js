@@ -53,7 +53,7 @@ const singUpUser = (req, res) => {
       );
 
       // enviar email para verificaçao
-      emailSender(req.body.email, req.body.primeiro_nome, token)
+      //emailSender(req.body.email, req.body.primeiro_nome, token)
 
       // guarda as respostas do questionario numa base de dados
       questionarioController.addQuestionario(respond.rows[0].id_utilizador, req.body.questionario)

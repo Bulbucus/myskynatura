@@ -28,9 +28,9 @@ app.use('/user',user);
 
 app.use('/confirmUser', confirmUser);
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname,'build','index.html'))
-})
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname,'build','index.html'))
+// })
 
 // error page handler
 app.use((req, res) => {

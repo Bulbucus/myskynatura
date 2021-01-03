@@ -17,11 +17,12 @@ client.connect();
 const addQuestionario = async (id_utilizador, questionario) => {
 
   // colocar todas as respostas numa so array
-  // exemplo: {pergunta1: 'muitasBorbulhas', pergunta2: [ 'peleVermelha', 'peleSeca' ], pergunta3: 'N'}
-  // resultado final: ["peleVermelha", "peleSeca", "muitasBorbulhas", "N"]
+  // exemplo: ['muitasBorbulhas',[ 'peleVermelha', 'peleSeca' ],'semRugas']
+  // resultado final: ["peleVermelha", "peleSeca", "muitasBorbulhas", "semRugas"]
+
   const arrayQuestionario = []
-  Object.values(questionario).map((pergunta) => {
-    pergunta instanceof Array ? arrayQuestionario.push(...pergunta) : arrayQuestionario.push(pergunta);
+  await questionario.map(async (pergunta) => {
+    await pergunta instanceof Array ? arrayQuestionario.push(...pergunta) : arrayQuestionario.push(pergunta);
   })
 
   client.query(questionarioQuery.addQuestionarioQuery(id_utilizador,arrayQuestionario))
@@ -42,19 +43,19 @@ const resultQuestionario = async (req, res) => {
     const infoQuestionarioQuery = await client.query(questionarioQuery.infoQuestionarioQuery(req.body.id))
 
     const getResultfromQuestionario = await client.query(questionarioQuery.compareQuestionarioResult(infoQuestionarioQuery.rows[0].respostas))
+
     if ( getResultfromQuestionario.rowCount === 0){
-      let getSimiliarResultfromQuestionario = await client.query(questionarioQuery.similiarQuestionarioResult(infoQuestionarioQuery.rows[0].respostas, "<@"))
-      if(getSimiliarResultfromQuestionario.rowCount === 0) { getSimiliarResultfromQuestionario = await client.query(questionarioQuery.similiarQuestionarioResult(infoQuestionarioQuery.rows[0].respostas, "@>"))}
-      
+      let getSimiliarResultfromQuestionario = await client.query(questionarioQuery.similiarQuestionarioResult(infoQuestionarioQuery.rows[0].respostas, "@>"));
+    
       return res.json({
         status:200,
-        resultado: getSimiliarResultfromQuestionario.rows[0]
+        resultado: getSimiliarResultfromQuestionario.rows
       })
     }
 
     return res.json({
       status:200,
-      resultado: getResultfromQuestionario.rows[0]
+      resultado: getResultfromQuestionario.rows
     })
   }catch(err){
     console.log(err)
