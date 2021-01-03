@@ -20,13 +20,14 @@ const reducers = (state,action) => {
                 }
             }
         case "GET_COOKIE_QUESTIONARIO": {
-            const name = action.name
+            //para evitar erros tais como ao refazer o teste nao criar mais respostas:
+            state.questionario[action.id] = action.value;
+
             return {
                 ...state,
-                questionario: {
+                questionario: [
                     ...state.questionario,
-                    [name] : action.value
-                }
+                ]
             }
         }
         default:

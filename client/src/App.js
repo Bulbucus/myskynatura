@@ -34,7 +34,7 @@ function App(props) {
         <Route path="/questionario">
           <Questionario></Questionario>
         </Route>
-        <BlockPage check={props.questionario["3"]}  failTo="/questionario/pergunta1" path="/registar" exact>
+        <BlockPage check={props.questionario.length === 3}  failTo="/questionario/pergunta1" path="/registar" exact>
           <Registar ></Registar>
         </BlockPage>
         <BlockPage check={props.user.token && props.user.id} failTo="/" loginNeeded={true} path="/resultado" exact>

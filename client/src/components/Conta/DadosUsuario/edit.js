@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import classes from "./Conta.module.css";
+import classes from "./DadosUsuario.module.css";
 
-import { ReactComponent as BackIcon } from "../../images/backIcon.svg";
+import { ReactComponent as BackIcon } from "../../../images/backIcon.svg";
 
-const EditConta = (props) => {
+const EditUsuario = (props) => {
   const [errorHandler, getErrorHandler] = useState("");
 
   const submitHandler = (event) => {
@@ -36,13 +36,14 @@ const EditConta = (props) => {
         if (respond.status === 200) {
           props.getToggleModifInfo(false);
         }
-        getErrorHandler(respond.message);
+        else {
+          getErrorHandler(respond.message);
+        }
+
       });
   };
 
   return (
-    <div className={classes.Main}>
-      <div className={classes.containerTitle}>A minha conta:</div>
       <div className={classes.Container}>
         <BackIcon
           className={classes.backIcon}
@@ -93,8 +94,7 @@ const EditConta = (props) => {
           <input style={{ display: "none" }} type="submit" form="pessoal" />
         </label>
       </div>
-    </div>
   );
 };
 
-export default EditConta;
+export default EditUsuario;

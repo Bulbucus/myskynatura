@@ -1,3 +1,4 @@
+// para quando recebe os links de confirmaçao de email, envia uma mensagem ao site para abrir o modelo de login:
 const URLloginHandler = () => {
   const params = new URL(window.location).searchParams;
 

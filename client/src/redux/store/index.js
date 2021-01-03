@@ -7,6 +7,7 @@ import { Cookies } from 'react-cookie';
 import URLloginHandler from './initialStateLogin';
 
 const cookies = new Cookies().getAll();
+const allCookies = Object.values(cookies);
 
 const initialState = {
     login: {
@@ -19,11 +20,7 @@ const initialState = {
         email:"",
         token:""
     },
-    questionario:{
-        pergunta1: (cookies.pergunta1 && cookies.pergunta1.resposta),
-        pergunta2: (cookies.pergunta2 && cookies.pergunta2.resposta),
-        pergunta3: (cookies.pergunta3 && cookies.pergunta3.resposta),
-    }
+    questionario: allCookies
 }
 
 const composeEnhancers = composeWithDevTools({

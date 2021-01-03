@@ -18,10 +18,10 @@ const actions = {
             token: token
         }
     },
-    cookiesQuestionario: (name, value) => {
+    cookiesQuestionario: (id, value) => {
         return {
             type:"GET_COOKIE_QUESTIONARIO",
-            name: name,
+            id: id,
             value: value
         }
     }

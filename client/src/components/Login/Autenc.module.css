@@ -122,6 +122,12 @@
   filter: brightness(1.3);
 }
 
+.loading {
+  width: 40px;
+  fill:white;
+  margin:20px auto 0px auto;
+}
+
 @media (max-width: 660px) {
 
   .contentor{

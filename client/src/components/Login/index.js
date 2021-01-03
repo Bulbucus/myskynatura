@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom";
+import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -9,13 +10,17 @@ import { ReactComponent as CloseIcon } from "../../images/closeIcon.svg";
 
 import classes from "./Autenc.module.css";
 
+import {ReactComponent as Loading} from "../../util/Loading.svg";
+
 const Login = (props) => {
   // states
   const history = useHistory();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
   // submit handler
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
     await fetch(
       `${
         process.env.NODE_ENV === "production"
@@ -37,6 +42,7 @@ const Login = (props) => {
     )
       .then((data) => data.json())
       .then((respond) => {
+        setLoading(false);
         if (respond.id && respond.email && respond.token) {
 
             // adiciona dados de user no redux store
@@ -90,7 +96,7 @@ const Login = (props) => {
               props.toogleLoginModel(true, "", props.login.path);
             }}
           ></input>
-          <input type="submit" className={classes.submit} value="Login" />
+          {loading ? <Loading className={classes.loading}/> : <input type="submit" className={classes.submit} value="Login" />}
         </form>
       </div>
       <div

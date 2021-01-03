@@ -1,9 +1,10 @@
+import classes from "./Resultado.module.css";
 import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
+import Produto from './Produto';
 
 const Resultado = (props) => {
-
-  const [nomeProduct, setNomeProduct] = useState("");
+  const [resultProduto, setResultProduto]= useState([]);
 
   useEffect( () => {
     fetch(`${
@@ -25,15 +26,22 @@ const Resultado = (props) => {
     })
     .then(data => data.json())
     .then((response) => {
-      if(response.resultado){setNomeProduct(response.resultado.nome)}
+      if(response.status === 200){
+          setResultProduto(response.resultado)
+      }
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [props.id, props.token])
 
   return (
-    <>
-      <p style={{color:"black"}}>{nomeProduct}</p>
-    </>
+    <div className={classes.main}>
+      <div className={classes.resultado}>Resultados</div>
+      <div className={classes.descricao}>Aqui encontrará os produtos mais <br/>apropriados para a sua pele:</div>
+      {
+      resultProduto.map((produto, index) => { 
+        return (<Produto key={index} nome={produto.nome} descricao={produto.descricao} preco={produto.price}></Produto>)
+      })
+      }
+    </div>
   )
 }
 

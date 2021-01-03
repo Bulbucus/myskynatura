@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 
 // redux
 import { connect } from "react-redux";
@@ -9,10 +8,13 @@ import actions from "../../redux/actions";
 //css
 import classes from "./Registar.module.css";
 
+// componentes
+import {ReactComponent as Loading} from "../../util/Loading.svg";
+
 const Registar = (props) => {
   // state
   const [errorHandler, setErrorHandler] = useState("");
-  const [cookies] = useCookies()
+  const [loading, setLoading] = useState(false);
 
   //history
   const history = useHistory();
@@ -21,10 +23,14 @@ const Registar = (props) => {
   // Envia o registo para o servidor
   const submitHandler = (event) => {
     event.preventDefault();
+    // aparece simbolo do loading em vez do botao;
+    setLoading(true);
+    
     if (
       event.target.palavrapasse.value !==
       event.target.confirmePalavrapasse.value
     ) {
+      setLoading(false);
       return setErrorHandler(
         "As passwords não são iguais, por favor verifique as mesmas."
       );
@@ -45,11 +51,12 @@ const Registar = (props) => {
         genero: event.target.genero.value,
         email: event.target.email.value,
         palavrapasse: event.target.palavrapasse.value,
-        questionario: cookies
+        questionario: props.questionario
       }),
     })
       .then((data) => data.json())
       .then((respond) => {
+        setLoading(false);
         if (respond.status === 200) {
           history.push("/");
           props.toogleLoginModel(
@@ -73,7 +80,7 @@ const Registar = (props) => {
       <div className={classes.containerQuestao}>Registo</div>
       <div className={classes.containerForma}>
         <form id="pessoal" onSubmit={(event) => submitHandler(event)}>
-          <span>{errorHandler}</span>
+          {errorHandler && <div className={classes.error}>{errorHandler}</div>}
           <label>Primeiro Nome:</label>
           <input name="nome" required={true} type="text" />
 
@@ -116,13 +123,22 @@ const Registar = (props) => {
           />
         </form>
       </div>
-      <label className={classes.containerSeguinte}>
-        Fazer Registo
-        <input style={{ display: "none" }} type="submit" form="pessoal" />
-      </label>
+        {loading ? 
+        <Loading className={classes.loading}/> 
+        : 
+        <label className={classes.containerSeguinte}> 
+          Fazer Registo 
+          <input style={{ display: "none" }} type="submit" form="pessoal" /> 
+        </label>}
     </div>
   );
 };
+
+const mapStateToProps = (state) => {
+  return{
+    ...state
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -131,4 +147,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Registar);
+export default connect(mapStateToProps, mapDispatchToProps)(Registar);

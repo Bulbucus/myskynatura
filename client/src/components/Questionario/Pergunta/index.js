@@ -19,7 +19,7 @@ const Pergunta = (props) => {
   // Funçao que cria automaticamente a forma em checkbox ou em radio quando se cria no parent <Pergunta/>
   const criarRespostas = (() => {
     let {respostas} = props; 
-    
+    const cookiePergunta = `pergunta${props.numPergunta}`
     let respostasCriadas = [];
 
     respostas.forEach(resposta => {
@@ -34,7 +34,7 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta] === resposta.respostaName) || false}
+            defaultChecked={(cookie[cookiePergunta] && cookie[cookiePergunta] === resposta.respostaName) || false}
             required={true}
             />
         }
@@ -44,7 +44,7 @@ const Pergunta = (props) => {
             type={props.type} 
             name={props.pergunta} 
             value={resposta.respostaName} 
-            defaultChecked={(cookie[props.numPergunta] && cookie[props.numPergunta].includes(resposta.respostaName)) || false}
+            defaultChecked={(cookie[cookiePergunta] && cookie[cookiePergunta].includes(resposta.respostaName)) || false}
             />
         }
 
@@ -60,7 +60,8 @@ const Pergunta = (props) => {
   const submitHandler = (event) => {
     event.preventDefault()
     let checked;
-  
+    const cookiePergunta = `pergunta${props.numPergunta}`
+
     if(props.type === 'checkbox') {
 
       checked = [];
@@ -77,14 +78,14 @@ const Pergunta = (props) => {
     }
   
     // colocar na store do redux
-    props.cookiesQuestionario(props.numPergunta, event.target[props.pergunta].value || checked)
+    props.cookiesQuestionario(props.numPergunta-1,event.target[props.pergunta].value || checked)
 
     // Criar cookie que dura por 30 dias com a resposta
     // Serve apenas para quando alguem esta a fazer o questionario e deixa o questionario a meio antes de se registar ou fecha a pagina sem querer;
     const expiresCookie = new Date()
     expiresCookie.setDate(31)
 
-    setCookies(props.numPergunta,
+    setCookies(cookiePergunta,
     event.target[props.pergunta].value || checked,
     {
       path: '/',
@@ -127,7 +128,7 @@ const Pergunta = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    cookiesQuestionario: (name,value) => {dispatch(actions.cookiesQuestionario(name,value))}
+    cookiesQuestionario: (id, value) => {dispatch(actions.cookiesQuestionario(id, value))}
   }
 }
 

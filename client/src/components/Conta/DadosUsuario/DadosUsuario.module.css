@@ -1,0 +1,119 @@
+.Container{
+  display: flex;
+  flex-wrap: wrap;
+  grid-row: 3;
+  justify-self: center;
+  width: 500px;
+  margin: 35px 0;
+  padding: 30px;
+  font-size: 30px;
+  font-weight: 200;
+  text-align: right;
+  background: #32753B;
+  background: linear-gradient(180deg, #337a3d 0%, #2e7e39 100%);
+  box-shadow: 5px 12px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+}
+
+.MainTitle{
+  width: 500px;
+  text-align: center;
+}
+
+.Info {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 30px auto;
+}
+
+.Info p {
+  align-self:center;
+  margin: 10px 0;
+}
+
+.Info p:nth-child(2n+1){
+  background-color: rgb(20, 87, 24);
+  padding: 0 20px;
+  border-radius: 20px;
+}
+
+.button {
+  margin: 0 auto;
+  font-size: 35px;
+  font-weight: 200;
+  color: rgb(255, 255, 255);
+  background: #25552B;
+  padding: 20px 40px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 4px 5px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 95px;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(1.3);
+}
+
+.InputContainer{
+  padding-left: 30px;
+}
+
+.Info > input, .Info > select {
+  font-weight: 200;
+  border: none;
+  border-radius: 10px;
+  color: black;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.425);
+  -webkit-appearance: none;
+  -webkit-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.425);
+  padding: 0 10px;
+  margin: 10px 0;
+  font-size: 30px;
+}
+
+.Info > select > option {
+  color: black;
+  font-weight: 200;
+}
+
+.backIcon {
+  position: absolute;
+  fill: white;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+
+.backIcon:hover {
+  filter: brightness(0.8);
+}
+
+@media (max-width: 630px) {
+  .Main{
+    grid-template-rows: 20vw min-content min-content auto;
+  }
+
+  .containerTitle {
+    font-size: 5vw;
+  }
+
+  .Container {
+    margin-top: 7vw;
+    width: 90vw;
+    font-size: 7vw;
+    padding: 5vw 3vw;
+  }
+
+  .button {
+    font-size: 7vw;
+  }
+
+  .InputContainer{
+    padding-left: 0;
+  }
+
+  .Info > input, .Info > select{
+    font-size: 6vw;
+  }
+}
