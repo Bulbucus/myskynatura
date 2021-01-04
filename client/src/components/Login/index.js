@@ -52,6 +52,7 @@ const Login = (props) => {
 
             // So executa se tiver um redirect:
             props.login.path && history.push(props.login.path);
+            window.scrollTo(0,0)
         }
         if (respond.status === 500) {
           props.toogleLoginModel(true, respond.message);
@@ -77,7 +78,7 @@ const Login = (props) => {
           className={classes.form}
           onSubmit={(event) => submitHandler(event)}
         >
-          <span>{props.login.preMessageLogin}</span>
+          {props.login.preMessageLogin && <span className={classes.message}>{props.login.preMessageLogin}</span>}
           <label>Email:</label>
           <input
             type="email"

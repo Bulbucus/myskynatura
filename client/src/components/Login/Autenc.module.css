@@ -128,6 +128,13 @@
   margin:20px auto 0px auto;
 }
 
+.message{
+  background-color: rgb(100, 100, 100);
+  padding: 5px 10px;
+  border-radius: 10px;
+  align-self: center;
+}
+
 @media (max-width: 660px) {
 
   .contentor{
@@ -166,6 +173,13 @@
 
   .submit {
     font-size: 4vw;
+  }
+  .message{
+    background-color: rgb(100, 100, 100);
+    font-size: 3vw;
+    padding: 1vw 2vw;
+    margin-bottom: 2vw;
+    border-radius: 3vw;
   }
 }
 
@@ -211,4 +225,13 @@
   .submit {
     font-size: 7vw;
   }
+
+  .message{
+    background-color: rgb(100, 100, 100);
+    font-size: 4vw;
+    padding: 2vw 3vw;
+    margin-bottom: 2vw;
+    border-radius: 3vw;
+  }
+  
 }

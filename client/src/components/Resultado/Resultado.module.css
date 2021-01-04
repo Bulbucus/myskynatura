@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
 
 .resultado{
@@ -21,4 +22,14 @@
   font-size: 20px;
   font-weight: 300;
   margin-top: 5px;
+}
+
+@media (max-width: 600px) {
+  .resultado{
+    margin-top: 20vw;
+    font-size: 10vw;
+  }
+  .descricao{
+    font-size: 5vw;
+  }
 }

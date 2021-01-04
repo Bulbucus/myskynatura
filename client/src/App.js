@@ -18,6 +18,7 @@ import Login from "./components/Login";
 import Registar from "./components/Registar";
 import Resultado from "./components/Resultado";
 import Conta from "./components/Conta";
+import Footer from "./components/Footer"
 
 // CSS
 import classes from "./App.module.css";
@@ -48,6 +49,7 @@ function App(props) {
         </Route>
         <Redirect to="/"></Redirect>
         </Switch>
+        <Footer></Footer>
     </div>
   );
 }

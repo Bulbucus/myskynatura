@@ -7,8 +7,9 @@ const Inicio = () => {
   return (
     <>
       <Inicial></Inicial>
-      <Separador></Separador>
+      <Separador bottom={"7px"}></Separador>
       <InfoInicial></InfoInicial>
+      <Separador></Separador>
     </>    
   )
 }
