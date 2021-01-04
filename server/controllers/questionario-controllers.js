@@ -29,6 +29,7 @@ const addQuestionario = async (id_utilizador, questionario) => {
 }
 
 const resultQuestionario = async (req, res) => {
+
   const { errors } = validationResult(req);
   if (errors.length > 0) {
     return res.json({
@@ -38,10 +39,11 @@ const resultQuestionario = async (req, res) => {
     });
   }
 
-
   try{
+    // ira buscar o questionario do utilizador
     const infoQuestionarioQuery = await client.query(questionarioQuery.infoQuestionarioQuery(req.body.id))
 
+    // ira receber os produtos apropriados as respostas do utilizador
     const getResultfromQuestionario = await client.query(questionarioQuery.compareQuestionarioResult(infoQuestionarioQuery.rows[0].respostas))
 
     if ( getResultfromQuestionario.rowCount === 0){
@@ -57,10 +59,10 @@ const resultQuestionario = async (req, res) => {
       status:200,
       resultado: getResultfromQuestionario.rows
     })
+
   }catch(err){
     console.log(err)
   }
-
 }
 
 exports.addQuestionario = addQuestionario;
