@@ -1,0 +1,116 @@
+@import '../../style/font';
+@import '../../style/color';
+@import '../../style/size';
+
+.Intro{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Logo{
+  width: 230px;
+  height: 25px;
+  
+  margin-top: 33px;
+
+  @media (min-width: $size-mobile){
+    width: 230px * 2;
+    height: 25px * 2;
+  }
+}
+
+.Slogan{
+  font-size: $font-12;
+  font-weight: $font-thin;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-12 * 2;
+  }
+}
+
+.Paragrafo{
+  margin-top: 25px;
+
+  font-size: $font-18;
+  font-weight: $font-thin;
+  letter-spacing: $font-spacing;
+  text-align: center;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-18 * 2;
+  }
+}
+
+.Questionario{
+  font-size: $font-24;
+
+  padding: 3px 21px;
+  margin-top: 31px;
+
+  border: 2px solid $green;
+  border-radius: 5px;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-24 * 2;
+
+    border: 4px solid $green;
+    border-radius: 10px;
+  }
+}
+
+.Line{
+  height: 2px;
+
+  align-self: normal;
+  
+  display: block;
+  
+  margin: 17px 5px 0 5px;
+
+  background-color: $black;
+}
+
+.strong{
+  font-weight: $font-light;
+}
+
+.Image{
+  width: 300px;
+  margin: 20px 0;
+  border: 2px solid $black;
+  border-radius: 5px;
+
+  @media (min-width: $size-mobile){
+    width: 600px;
+    margin: 40px 0;
+
+    border: 4px solid $black;
+    border-radius: 10px;
+  }
+}
+
+.Title{
+  font-size: $font-24;
+  font-weight: $font-thin;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-24 * 2;
+  }
+}
+
+.Article{
+  width: 300px;
+  margin-top: 15px;
+
+  font-size: $font-14;
+  font-weight: $font-thin;
+
+  @media (min-width: $size-mobile){
+    width: 600px;
+    margin-top: 30px;
+
+    font-size: $font-14 * 2;
+  }
+}

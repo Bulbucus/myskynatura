@@ -1,0 +1,63 @@
+@import '../../style/color.scss';
+@import '../../style/font.scss';
+@import '../../style/size.scss';
+
+.Container{
+  display: flex;
+  margin-top: 12px;
+  
+  @media ( min-width:$size-mobile ) {
+    margin-top: 24px;
+  }
+}
+
+.TextInput{
+  width: 200px;
+  height: 32px;
+  padding: 4px 0px 4px 8px;
+
+  font-size: $font-18;
+
+  border: 1px solid $line-color;
+  border-radius: 5px;
+
+  &::placeholder{
+    color: $gray-dark;
+  }
+
+  @media ( min-width:$size-mobile ) {
+    width: 200px * 2;
+    height: 32px * 2;
+    padding: 8px 0px 8px 16px;
+
+    font-size: $font-18 * 2;
+
+    border-radius: 5px * 2;
+  }
+}
+
+@mixin Icon{
+  height: 18px;
+  width: 19px;
+  margin-left: 21px;
+
+  align-self: center;
+
+  @media ( min-width: $size-mobile ) {
+    height: 18px * 2;
+    width: 19px * 2;
+    margin-left: 21px * 2;
+  }
+}
+
+.RightIcon {
+  @include Icon;
+
+  fill:$green;
+}
+
+.WrongIcon {
+  @include Icon;
+
+  fill:$red;
+}

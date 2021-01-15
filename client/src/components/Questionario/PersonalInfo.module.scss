@@ -1,0 +1,47 @@
+@import '../../style/font.scss';
+@import '../../style/color.scss';
+@import '../../style/size.scss';
+
+.Container{
+  margin: 20px 7px 0px 16px;
+
+}
+
+.Title{
+  position: relative;
+  font-size: $font-18;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-18 * 2;
+  }
+
+  // Pequeno botao
+  &::before{
+    content: "";
+
+    position: absolute;
+    left: -8px;
+    top: 8px;
+
+    background-color: $green;
+
+    padding: 3px;
+    border-radius: 40px;
+
+    @media (min-width: $size-mobile){
+    left: -8px * 2;
+    top: 8px * 2;
+
+    padding: 3px * 2;
+    }
+  }
+}
+
+.LittleInfo{
+  font-size: $font-12;
+  font-weight: $font-light;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-12 * 2;
+  }
+}

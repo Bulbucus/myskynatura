@@ -1,0 +1,58 @@
+@import '../../style/font';
+@import '../../style/color';
+@import '../../style/size';
+
+.Menu{
+  width: 100%;
+
+  position: fixed;
+
+  background-color: $white;
+
+  //Polyfill para o position:sticky
+  @media (min-width:768px) {
+      width: 768px;
+  }
+}
+
+.Navbar{
+  height: 68px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Logo{
+  height: 26px;
+  width: 125px;
+
+  margin-left: 17px;
+
+  cursor: pointer;
+}
+
+.Login{
+  margin-right: 24px;
+  padding: 2px 15px;
+  border-radius: 5px;
+
+  color:$white;
+  background-color: $green;
+
+  font-size: $font-18;
+  font-weight: $font-light;
+
+  cursor: pointer;
+}
+
+.Line{
+  height: 2px;
+  
+  display: block;
+  
+  margin: 0 5px;
+
+  background-color: $black;
+}
+
