@@ -15,27 +15,6 @@ $offBox: $padding-bottom + $border;
   }
 }
 
-.Message{
-  width: fit-content;
-  padding: 2px 5px;
-  margin-bottom: 3px;
-  border-radius: 3px;
-
-  background-color: #e67272ab;
-
-  font-size: $font-14;
-  font-weight: $font-thin;
-  animation: FadeIn 0.6s;
-
-  @media ( min-width:$size-mobile ) {
-    padding: 4px 10px;
-    border-radius: 6px;
-    margin-bottom: 6px;
-
-    font-size: $font-14 * 2;
-  }
-}
-
 .TextInput{
   width: 200px;
   height: 32px;
@@ -61,41 +40,4 @@ $offBox: $padding-bottom + $border;
   }
 }
 
-@mixin Icon{
-  height: 18px;
-  width: 19px;
-  margin-left: 21px;
 
-  align-self: center;
-
-  @media ( min-width: $size-mobile ) {
-    height: 18px * 2;
-    width: 19px * 2;
-    margin-left: 21px * 2;
-  }
-}
-
-.RightIcon {
-  @include Icon;
-
-  fill:$green;
-  animation: FadeIn 0.6s;
-}
-
-.WrongIcon {
-  @include Icon;
-
-  fill:$red;
-  animation: FadeIn 0.6s;
-}
-
-
-@keyframes FadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}

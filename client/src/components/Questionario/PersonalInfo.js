@@ -19,16 +19,22 @@ const PersonalInfo = () => {
         default='Primeiro Nome' 
         name='PrimeiroNome'
         checkedValue={setCheckedInput}
+        showIcon={true}
+        errorMessage={true}
       />
       <TextInput
        default='Ultimo Nome' 
        name='UltimoNome'
        checkedValue={setCheckedInput}
+       showIcon={true}
+       errorMessage={true}
       />
       <SelectInput 
         default='Género' 
         checkedValue={setCheckedInput}
         name='Genero'
+        showIcon={true}
+        errorMessage={true}
       >
         <Option value='Masculino'>Masculino</Option>
         <Option value='Feminino'>Feminino</Option>

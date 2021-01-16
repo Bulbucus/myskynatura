@@ -1,89 +1,165 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useContext, createContext } from 'react';
 
 import classes from "./SelectInput.module.scss";
 
-import { ReactComponent as RightIcon} from '../../assets/RightIcon.svg'
-import { ReactComponent as WrongIcon} from '../../assets/WrongIcon.svg'
+import RightIcon from '../ErrorMessage/RightIcon'
+import WrongIcon from '../ErrorMessage/WrongIcon'
+
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+// state para abrir e fechar o select
+const stateSelectContext = createContext()
+const dispatchSelectContext = createContext();
+
+// state do valor do select
+const stateValueContext = createContext()
+const dispatchValueContext = createContext();
+
+const initialState = {
+  select:{
+    toogleSelect:[classes.Options],
+  },
+  value:{
+    errorMessage:'',
+    checkedValue:'',
+    valueSelect:'',
+  }
+}
+
+// REDUCERS ---------------------------------------
+
+function toogleSelectReducer(state, action) {
+  switch(action.type) {
+    case 'open':
+      return {
+        ...state,
+        toogleSelect:[...state.toogleSelect, classes.OpenSelect]
+      };
+    case 'close':
+      return {
+        ...state,
+          toogleSelect:[classes.Options]
+      };
+    default:
+      return;
+  }
+}
+
+function checkedValueReducer(state, action){
+  switch(action.type) {
+    case true:
+      return {
+        ...state,
+        valueSelect: action.value,
+        checkedValue:<RightIcon className={classes.RightIcon}></RightIcon>,
+        errorMessage:''
+      }
+    case false:
+      return {
+        ...state,
+        checkedValue:<WrongIcon className={classes.WrongIcon}></WrongIcon>,
+        errorMessage:'Por favor, selecione uma opção.'
+      }
+      default:
+        return;
+  }
+}
 
 
-// Custom Option para o Custom Select
+// Custom Option Box
 const Option = (props) => {
   return (
-      <span className={[classes.Option, props.classOption].join(' ')} value={props.value}>{props.children}</span>
+      <span 
+        className={[classes.Option, props.className].join(' ')} 
+        data-value={props.value}>{props.children}
+      </span>
   )
 }
 
-const SelectInput = (props) => {
+// Custom DropBox
+const Options = (props) => {
+  //useContext
+  const dispatchValue = useContext(dispatchValueContext)
+  const state = useContext(stateSelectContext)
 
-  const [checkedValue, setCheckedValue] = useState();
-  const [message, setMessage] = useState();
-
-    // Verifica se o valor colocado no texto nao tem letras especiais.
-    // Para melhor segurança e experiencia de utilizador.
-  const checkValue = (value) => {
-    if(value){
-      setCheckedValue(<RightIcon className={classes.RightIcon}></RightIcon>)
-      props.checkedValue && props.checkedValue(true);
-      setMessage();
-    } else {
-      setCheckedValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
-      props.checkedValue && props.checkedValue(false);
-      setMessage("Por favor, selecione uma opção.");
-    }
-  }
+  return (
+    <div 
+      className={[...state.toogleSelect, props.className].join(' ')}
+      onClick={event => {dispatchValue({type:true, value:event.target.innerHTML})}}>
+      {props.children}
+    </div>
+  )
+}
 
 
-  // Custom Select
-  // dropbox customizado pois é mais seguro em termos de compatibilidade
-  const [optionSelect, setOptionSelect] = useState('')
-  const [classeSelect, setClasseSelect] = useState([classes.Options]);
+// Custom Select
+const Select = (props) => {
+  
+  //useReducer
+  const [stateSelect, dispatchSelect] = useReducer(toogleSelectReducer, initialState.select)
+  //useContext
+  const dispatchValue = useContext(dispatchValueContext)
+  const stateValue = useContext(stateValueContext);
+
   useEffect(() => {
     // para fechar o dropbox quando se carrega fora do dropbox
-    const removeSelect = event => {
-      if(classeSelect[1] &&
+    const removeSelect = (event) => {
+      if(stateSelect.toogleSelect[1] &&
         event.target.className !== classes.SelectInput 
         && event.target.className !== classes.Default 
         && event.target.className !== classes.Selected
         ){
-          setClasseSelect([classes.Options])
+          dispatchSelect({type:'close'})
         }
     }
+
     window && window.addEventListener('click', removeSelect);
 
     // Serve para apagar o evento para nao acumular
     return () => {
       window.removeEventListener('click', removeSelect);
     };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[stateSelect.toogleSelect])
   
-  },[classeSelect])
 
-
-  return(
-    <>
-      {message && 
-        <div className={classes.Message}>{message}</div>
-      }
-      <div className={[classes.Container, props.classContainer].join(' ')}>
-        <div 
-          className={[classes.SelectInput, props.classSelectInput].join(' ')}
-          onClick={() => {classeSelect[1] ?  setClasseSelect([classes.Options]) : setClasseSelect((currClasses) => [currClasses, classes.OpenSelect])}}
-          onBlur={() => {props.checkedValue && checkValue(optionSelect)}}
-          tabIndex="-1"
-          >
-            {optionSelect ? <span className={classes.Selected}>{optionSelect}</span> : <span className={classes.Default}>{props.default}</span>}
-            <div 
-              className={[...classeSelect, props.classOptions].join(' ')}
-              onClick={event => {
-                setOptionSelect(event.target.innerHTML)
-                props.checkedValue && checkValue(event.target.innerHTML)
-              }}
-              >
-                {props.children}
-            </div>
-        </div>
-        {checkedValue}
+  return (
+    <dispatchSelectContext.Provider value={dispatchSelect}>
+      <stateSelectContext.Provider value={stateSelect}>
+      <div
+      className={[classes.SelectInput, props.className].join(' ')}
+      onClick={() => {stateSelect.toogleSelect[1] ? dispatchSelect({type:'close'}) : dispatchSelect({type:'open'})}}
+      onBlur={() => {stateValue.valueSelect ? dispatchValue({type:true, value:stateValue.valueSelect }): dispatchValue({type:false})}}
+      tabIndex="-1"
+      >
+        {props.children}
       </div>
-    </>
+      </stateSelectContext.Provider>
+    </dispatchSelectContext.Provider>
+  )
+}
+
+
+const SelectInput = (props) => {
+
+  const [stateValue,dispatchValue] = useReducer(checkedValueReducer,initialState.value)
+  
+  return(
+    <dispatchValueContext.Provider value={dispatchValue}>
+      <stateValueContext.Provider value={stateValue}>
+        {props.errorMessage && <ErrorMessage errorMessage={stateValue.errorMessage}></ErrorMessage>}
+        <div className={classes.Container}>
+          <Select>
+              {stateValue.valueSelect ? <span className={classes.Selected}>{stateValue.valueSelect}</span> : <span className={classes.Default}>{props.default}</span>}
+              <Options>
+                  {props.children}
+              </Options>
+          </Select>
+          {props.showIcon && stateValue.checkedValue}
+        </div>
+      </stateValueContext.Provider>
+    </dispatchValueContext.Provider>
   )
 }
 

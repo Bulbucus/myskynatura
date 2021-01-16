@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 import classes from "./TextInput.module.scss";
 
-import { ReactComponent as RightIcon} from '../../assets/RightIcon.svg'
-import { ReactComponent as WrongIcon} from '../../assets/WrongIcon.svg'
+import RightIcon from '../ErrorMessage/RightIcon'
+import WrongIcon from '../ErrorMessage/WrongIcon'
+
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const TextInput = (props) => {
 
@@ -35,9 +37,7 @@ const TextInput = (props) => {
 
   return(
     <>
-      {message && 
-        <div className={classes.Message}>{message}</div>
-      }
+      <ErrorMessage errorMessage={message}></ErrorMessage>
       <div className={classes.Container}>
         <input 
           type='text' 
@@ -49,7 +49,7 @@ const TextInput = (props) => {
           onChange={(event) => {checkValue(event)}}
           >
         </input>
-        {checkedValue}
+        {props.showIcon && checkedValue}
       </div>
     </>
   )

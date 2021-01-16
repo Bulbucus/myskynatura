@@ -1,0 +1,8 @@
+@import './ErrorIcon.scss';
+
+.RightIcon {
+  @include Icon;
+
+  fill:$green;
+  animation: FadeIn 0.6s;
+}
