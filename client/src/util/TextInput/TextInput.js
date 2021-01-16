@@ -7,7 +7,8 @@ import { ReactComponent as WrongIcon} from '../../assets/WrongIcon.svg'
 
 const TextInput = (props) => {
 
-  const [goodValue, setGoodValue] = useState(); 
+  const [checkedValue, setCheckedValue] = useState();
+  const [message, setMessage] = useState();
 
   // Verifica se o valor colocado no texto nao tem letras especiais.
   // Para melhor segurança e experiencia de utilizador.
@@ -17,30 +18,40 @@ const TextInput = (props) => {
       const regex = /[`~=!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]|\d/;
 
       if (value.match(regex)) {
-        setGoodValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
+        setCheckedValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
         props.checkedValue(false);
+        setMessage("Por favor, coloque apenas letras.");
       }else{
-        setGoodValue(<RightIcon className={classes.RightIcon}></RightIcon>)
+        setCheckedValue(<RightIcon className={classes.RightIcon}></RightIcon>)
         props.checkedValue(true);
+        setMessage();
       }
     } else {
-      setGoodValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
+      setCheckedValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
       props.checkedValue(false);
+      setMessage("Por favor preencha com os dados corretos.");
     }
   }
 
   return(
-    <div className={classes.Container}>
-      <input 
-        type='text' 
-        className={classes.TextInput} 
-        id={props.name} 
-        name={props.name} 
-        placeholder={props.default} 
-        onBlur={(event) => {checkValue(event)}}>
-      </input>
-      {goodValue}
-    </div>
+    <>
+      {message && 
+        <div className={classes.Message}>{message}</div>
+      }
+      <div className={classes.Container}>
+        <input 
+          type='text' 
+          className={classes.TextInput} 
+          id={props.name} 
+          name={props.name} 
+          placeholder={props.default} 
+          onBlur={(event) => {checkValue(event)}}
+          onChange={(event) => {checkValue(event)}}
+          >
+        </input>
+        {checkedValue}
+      </div>
+    </>
   )
 }
 

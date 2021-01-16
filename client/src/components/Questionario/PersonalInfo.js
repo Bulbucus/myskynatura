@@ -3,12 +3,13 @@ import { useState } from 'react';
 import classes from './PersonalInfo.module.scss';
 
 import TextInput from '../../util/TextInput/TextInput';
-import SelectInput from '../../util/SelectInput/SelectInput';
+import {SelectInput, Option} from '../../util/SelectInput/SelectInput';
+import DateInput from '../../util/DateInput/DateInput';
 
 
 const PersonalInfo = () => {
 
-  const [checkedInput, setCheckedInput] = useState(false);
+  const [, setCheckedInput] = useState(false);
 
   return (
     <div className={classes.Container}>
@@ -16,19 +17,23 @@ const PersonalInfo = () => {
       <p className={classes.LittleInfo}>(preencher corretamente para um melhor resultado)</p>
       <TextInput 
         default='Primeiro Nome' 
+        name='PrimeiroNome'
         checkedValue={setCheckedInput}
       />
       <TextInput
        default='Ultimo Nome' 
+       name='UltimoNome'
        checkedValue={setCheckedInput}
       />
       <SelectInput 
         default='Género' 
         checkedValue={setCheckedInput}
+        name='Genero'
       >
-        <option value='Feminino'>Feminino</option>
-        <option value='Masculino'>Masculino</option>
+        <Option value='Masculino'>Masculino</Option>
+        <Option value='Feminino'>Feminino</Option>
       </SelectInput>
+      <DateInput></DateInput>
     </div>  
   )
 }

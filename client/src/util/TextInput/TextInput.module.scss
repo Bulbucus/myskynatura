@@ -2,23 +2,48 @@
 @import '../../style/font.scss';
 @import '../../style/size.scss';
 
+$padding-bottom: 4px;
+$border: 1px;
+$offBox: $padding-bottom + $border;
+
 .Container{
   display: flex;
-  margin-top: 12px;
+  margin-bottom: 12px;
   
   @media ( min-width:$size-mobile ) {
-    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+.Message{
+  width: fit-content;
+  padding: 2px 5px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+
+  background-color: #e67272ab;
+
+  font-size: $font-14;
+  font-weight: $font-thin;
+  animation: FadeIn 0.6s;
+
+  @media ( min-width:$size-mobile ) {
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+
+    font-size: $font-14 * 2;
   }
 }
 
 .TextInput{
   width: 200px;
   height: 32px;
-  padding: 4px 0px 4px 8px;
+  padding: 4px 0px $padding-bottom 8px;
 
   font-size: $font-18;
 
-  border: 1px solid $line-color;
+  border: $border solid $line-color;
   border-radius: 5px;
 
   &::placeholder{
@@ -28,7 +53,7 @@
   @media ( min-width:$size-mobile ) {
     width: 200px * 2;
     height: 32px * 2;
-    padding: 8px 0px 8px 16px;
+    padding: 8px 0px $padding-bottom * 2 16px;
 
     font-size: $font-18 * 2;
 
@@ -54,10 +79,23 @@
   @include Icon;
 
   fill:$green;
+  animation: FadeIn 0.6s;
 }
 
 .WrongIcon {
   @include Icon;
 
   fill:$red;
+  animation: FadeIn 0.6s;
+}
+
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

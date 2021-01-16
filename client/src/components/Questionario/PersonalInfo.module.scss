@@ -4,7 +4,10 @@
 
 .Container{
   margin: 20px 7px 0px 16px;
-
+  
+  @media (min-width: $size-mobile){
+    margin: 20px 7px 0px 26px;
+  }
 }
 
 .Title{
@@ -40,6 +43,7 @@
 .LittleInfo{
   font-size: $font-12;
   font-weight: $font-light;
+  margin-bottom: 12px;
 
   @media (min-width: $size-mobile){
     font-size: $font-12 * 2;
