@@ -1,5 +1,9 @@
 @import  '../TextInput/TextInput.module.scss';
 
+.Container{
+  display: inline-flex;
+}
+
 .SelectInputOriginal{
   @extend .TextInput;
   position: relative;
