@@ -1,6 +1,6 @@
 @import  '../TextInput/TextInput.module.scss';
 
-.SelectInput{
+.SelectInputOriginal{
   @extend .TextInput;
   position: relative;
 
@@ -11,11 +11,11 @@
   background-position-x: 100%;
   background-position-y: 3px;
 
-  .Default{
+  .DefaultOriginal{
     color: $gray-dark;
   }
 
-  .Selected{
+  .SelectedOriginal{
     color: $black;
   }
 
@@ -29,7 +29,7 @@
   }
 }
 
-.Options{
+.OptionsOriginal{
   position: absolute;
   width: 200px;
   margin-top: 5px;
@@ -49,14 +49,14 @@
   }
 }
 
-.OpenSelect{
+.OpenSelectOriginal{
   opacity: 1;
   visibility: visible
 }
 
 
 // Option class
-.Option{
+.OptionOriginal{
   display: block;
   padding: 3px 0px 3px 8px;
 

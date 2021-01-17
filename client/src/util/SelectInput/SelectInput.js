@@ -9,7 +9,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 const SelectContext = createContext();
 
 const initialState = {
-  toogleSelect:[classes.Options],
+  toogleSelect:[classes.OptionsOriginal],
   value:'',
   iconError:'',
   errorMessage:'',
@@ -20,12 +20,12 @@ const reducer = (state, action) => {
     case 'open':
       return {
         ...state,
-        toogleSelect:[...state.toogleSelect, classes.OpenSelect]
+        toogleSelect:[...state.toogleSelect, classes.OpenSelectOriginal]
       }
     case 'close':
       return {
         ...state,
-        toogleSelect:[classes.Options]
+        toogleSelect:[classes.OptionsOriginal]
       }
     case 'put_value':
       return {
@@ -57,7 +57,7 @@ const Option = (props) => {
 
   return (
     <span
-      className={[classes.Option, props.className].join(" ")}
+      className={[classes.OptionOriginal, props.className].join(" ")}
       onClick={(event) => {stateContext.dispatch({type:'put_value', value:event.target.innerHTML})}}
       data-value={props.value}
     >
@@ -90,9 +90,9 @@ const SelectInput = (props) => {
     const removeSelect = (event) => {
       if (
         state.toogleSelect[1] &&
-        event.target.className !== classes.SelectInput &&
-        event.target.className !== classes.Default &&
-        event.target.className !== classes.Selected
+        event.target.className !== classes.SelectInputOriginal &&
+        event.target.className !== classes.DefaultOriginal &&
+        event.target.className !== classes.SelectedOriginal
       ) {
         dispatch({ type: "close" });
       }
@@ -113,12 +113,12 @@ const SelectInput = (props) => {
       {props.errorMessage && <ErrorMessage errorMessage={state.errorMessage}></ErrorMessage>}
       <div className={classes.Container}>
         <div
-          className={[classes.SelectInput, props.className].join(" ")}
+          className={[classes.SelectInputOriginal, props.className].join(" ")}
           onClick={() => {state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})}}
           onBlur={(props.onBlur) || ((props.showIcon && props.errorMessage) && (() => state.value ? dispatch({type:'right'}) : dispatch({type:'wrong'})))}
           tabIndex="-1"
         >
-          {state.value ? <span className={classes.Selected}>{state.value}</span> : <span className={classes.Default}>{props.default}</span>}
+          {state.value ? <span className={classes.SelectedOriginal}>{state.value}</span> : <span className={classes.DefaultOriginal}>{props.default}</span>}
           {props.children}
         </div>
         {props.showIcon && <ErrorIcon error={state.iconError}></ErrorIcon>}

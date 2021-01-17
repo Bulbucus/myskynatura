@@ -41,6 +41,7 @@ const PersonalInfo = () => {
           <Option value='Feminino'>Feminino</Option>
         </Options>
       </SelectInput>
+      <DateInput></DateInput>
     </div>  
   )
 }
