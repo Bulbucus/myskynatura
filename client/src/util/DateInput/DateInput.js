@@ -12,11 +12,11 @@ const DateInput = (props) => {
   return (
     <div>
       <div className={classes.Title}>Aniversário:</div>
-      <Select className={classes.Select}>
+      <SelectInput className={classes.Select}>
         <Options>
           <Option>01</Option>
         </Options>
-      </Select>
+      </SelectInput>
     </div>
   )
 }

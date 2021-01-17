@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import classes from "./TextInput.module.scss";
 
-import RightIcon from '../ErrorMessage/RightIcon'
-import WrongIcon from '../ErrorMessage/WrongIcon'
+import ErrorIcon from "../ErrorMessage/ErrorIcon"
 
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
@@ -20,24 +19,24 @@ const TextInput = (props) => {
       const regex = /[`~=!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]|\d/;
 
       if (value.match(regex)) {
-        setCheckedValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
         props.checkedValue(false);
+        setCheckedValue('wrong')
         setMessage("Por favor, coloque apenas letras.");
       }else{
-        setCheckedValue(<RightIcon className={classes.RightIcon}></RightIcon>)
         props.checkedValue(true);
+        setCheckedValue('right')
         setMessage();
       }
     } else {
-      setCheckedValue(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
       props.checkedValue(false);
+      setCheckedValue('wrong')
       setMessage("Por favor preencha com os dados corretos.");
     }
   }
 
   return(
     <>
-      <ErrorMessage errorMessage={message}></ErrorMessage>
+      {props.errorMessage && <ErrorMessage errorMessage={message}></ErrorMessage>}
       <div className={classes.Container}>
         <input 
           type='text' 
@@ -49,7 +48,7 @@ const TextInput = (props) => {
           onChange={(event) => {checkValue(event)}}
           >
         </input>
-        {props.showIcon && checkedValue}
+        {props.showIcon && <ErrorIcon error={checkedValue} ></ErrorIcon>}
       </div>
     </>
   )

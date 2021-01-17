@@ -1,17 +1,64 @@
-import { useEffect, useReducer, useContext, createContext } from "react";
+import { useEffect, useReducer, useContext, createContext, useCallback, useMemo } from "react";
 
 import classes from "./SelectInput.module.scss";
 
-import RightIcon from "../ErrorMessage/RightIcon";
-import WrongIcon from "../ErrorMessage/WrongIcon";
+import ErrorIcon from "../ErrorMessage/ErrorIcon";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
+const SelectContext = createContext();
+
+const initialState = {
+  toogleSelect:[classes.Options],
+  value:'',
+  iconError:'',
+  errorMessage:'',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'open':
+      return {
+        ...state,
+        toogleSelect:[...state.toogleSelect, classes.OpenSelect]
+      }
+    case 'close':
+      return {
+        ...state,
+        toogleSelect:[classes.Options]
+      }
+    case 'put_value':
+      return {
+        ...state,
+        value: action.value,
+        errorMessage:'',
+        iconError: 'right',
+      }
+    case 'right':
+      return{
+        ...state,
+        iconError: action.type,
+        errorMessage:'',
+      }
+    case 'wrong':
+      return{
+        ...state,
+        iconError:action.type,
+        errorMessage:'Por favor preencha com os dados corretos.'
+      }
+    default:
+      return;
+  }
+}
+
 // Custom Option Box
 const Option = (props) => {
+  const stateContext = useContext(SelectContext)
+
   return (
     <span
       className={[classes.Option, props.className].join(" ")}
+      onClick={(event) => {stateContext.dispatch({type:'put_value', value:event.target.innerHTML})}}
       data-value={props.value}
     >
       {props.children}
@@ -21,10 +68,12 @@ const Option = (props) => {
 
 // Custom DropBox
 const Options = (props) => {
+  
+  const stateContext = useContext(SelectContext)
+
   return (
     <div
-      className={[...state.toogleSelect, props.className].join(" ")}
-      onClick={props.onClick}
+      className={[...stateContext.state.toogleSelect, props.className].join(" ")}
     >
       {props.children}
     </div>
@@ -33,45 +82,48 @@ const Options = (props) => {
 
 // Custom Select
 const SelectInput = (props) => {
+
+  const [state,dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     // para fechar o dropbox quando se carrega fora do dropbox
     const removeSelect = (event) => {
       if (
-        stateSelect.toogleSelect[1] &&
+        state.toogleSelect[1] &&
         event.target.className !== classes.SelectInput &&
         event.target.className !== classes.Default &&
         event.target.className !== classes.Selected
       ) {
-        dispatchSelect({ type: "close" });
+        dispatch({ type: "close" });
       }
-    };
-
+    }; 
+    console.log(state)
+    
     window && window.addEventListener("click", removeSelect);
-
     // Serve para apagar o evento para nao acumular
     return () => {
       window.removeEventListener("click", removeSelect);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateSelect.toogleSelect]);
+  }, [state.toogleSelect]);
 
   return (
-    <>
-    {props.errorMessage && <ErrorMessage></ErrorMessage>}
-    <div className={classes.Container}>
-      <div
-        className={[classes.SelectInput, props.className].join(" ")}
-        onClick={props.onClick}
-        onBlur={props.onBlur}
-        tabIndex="-1"
-      >
-        {stateValue.valueSelect ? <span className={classes.Selected}>{stateValue.valueSelect}</span> : <span className={classes.Default}>{props.default}</span>}
-        {props.children}
+    <SelectContext.Provider value={{state,dispatch}}>
+      {props.errorMessage && <ErrorMessage errorMessage={state.errorMessage}></ErrorMessage>}
+      <div className={classes.Container}>
+        <div
+          className={[classes.SelectInput, props.className].join(" ")}
+          onClick={() => {state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})}}
+          onBlur={(props.onBlur) || ((props.showIcon && props.errorMessage) && (() => state.value ? dispatch({type:'right'}) : dispatch({type:'wrong'})))}
+          tabIndex="-1"
+        >
+          {state.value ? <span className={classes.Selected}>{state.value}</span> : <span className={classes.Default}>{props.default}</span>}
+          {props.children}
+        </div>
+        {props.showIcon && <ErrorIcon error={state.iconError}></ErrorIcon>}
       </div>
-      {props.showIcon}
-    </div>
-    </>
+    </SelectContext.Provider>
   );
 };
 

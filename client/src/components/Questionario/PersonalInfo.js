@@ -3,7 +3,7 @@ import { useState } from 'react';
 import classes from './PersonalInfo.module.scss';
 
 import TextInput from '../../util/TextInput/TextInput';
-import {SelectInput, Option} from '../../util/SelectInput/SelectInput';
+import {SelectInput, Options, Option} from '../../util/SelectInput/SelectInput';
 import DateInput from '../../util/DateInput/DateInput';
 
 
@@ -36,8 +36,10 @@ const PersonalInfo = () => {
         showIcon={true}
         errorMessage={true}
       >
-        <Option value='Masculino'>Masculino</Option>
-        <Option value='Feminino'>Feminino</Option>
+        <Options>
+          <Option value='Masculino'>Masculino</Option>
+          <Option value='Feminino'>Feminino</Option>
+        </Options>
       </SelectInput>
     </div>  
   )
