@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {SelectInput , Option} from '../SelectInput/SelectInput';
+import {SelectInput,Options, Option} from '../SelectInput/SelectInput';
 
 import classes from './DateInput.module.scss';
 
@@ -12,7 +12,11 @@ const DateInput = (props) => {
   return (
     <div>
       <div className={classes.Title}>Aniversário:</div>
-      <div className={classes.InputContainer}></div>
+      <Select className={classes.Select}>
+        <Options>
+          <Option>01</Option>
+        </Options>
+      </Select>
     </div>
   )
 }
