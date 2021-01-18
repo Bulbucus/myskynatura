@@ -37,7 +37,7 @@ const TextInput = (props) => {
   return(
     <>
       {props.errorMessage && <ErrorMessage errorMessage={message}></ErrorMessage>}
-      <div className={classes.Container}>
+      <div className={classes.ContainerText}>
         <input 
           type='text' 
           className={classes.TextInput} 

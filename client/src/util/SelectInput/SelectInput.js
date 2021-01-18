@@ -11,7 +11,7 @@ const SelectContext = createContext();
 
 // INITIAL STATE ______________________________
 const initialState = {
-  toogleSelect:[classes.OptionsOriginal],
+  toogleSelect:[classes.OptionsSelect],
   id: '',
   html:'',
   iconError:'',
@@ -24,12 +24,12 @@ const reducer = (state, action) => {
     case 'open':
       return {
         ...state,
-        toogleSelect:[...state.toogleSelect, classes.OpenSelectOriginal]
+        toogleSelect:[...state.toogleSelect, classes.OpenSelectSelect]
       }
     case 'close':
       return {
         ...state,
-        toogleSelect:[classes.OptionsOriginal]
+        toogleSelect:[classes.OptionsSelect]
       }
     case 'put_value':
       return {
@@ -75,7 +75,7 @@ const Option = (props) => {
 
   return (
     <span
-      className={[classes.OptionOriginal, props.className].join(" ")}
+      className={[classes.OptionSelect, props.className].join(" ")}
       onClick={(event) => {putValue(event); (props.onClick && props.onClick(event))}}
       data-value={props.value}
     >
@@ -107,12 +107,12 @@ const DefaultMessage = (props) => {
     <>
       {stateContext.state.value ? 
 
-        <span className={classes.SelectedOriginal} 
+        <span className={classes.SelectedSelect} 
         data-value={props.data || stateContext.state.value} >
           {props.children ||stateContext.state.html}
         </span> : 
   
-        <span className={classes.DefaultOriginal} >
+        <span className={classes.DefaultSelect} >
           {props.defaultValue}
         </span>}
     </>
@@ -140,7 +140,7 @@ const SelectInput = (props) => {
     return () => {
       window.removeEventListener("click", removeSelect);
     };
-    
+
   }, [state.toogleSelect]);
 
   // serve para abrir o select
@@ -151,9 +151,9 @@ const SelectInput = (props) => {
   return (
     <SelectContext.Provider value={{state,dispatch}}>
     {props.errorMessage && <ErrorMessage errorMessage={state.errorMessage}></ErrorMessage>}
-      <div className={classes.Container}>
+      <div className={classes.ContainerSelect}>
         <div
-          className={[classes.SelectInputOriginal, props.className].join(" ")}
+          className={[classes.SelectInput, props.className].join(" ")}
           onClick={(event) => {openSelect(); (props.onClick && props.onClick(event))}}      
           onBlur={(props.onBlur) || ( (props.showIcon || props.errorMessage) && (() => state.value ? dispatch({type:'right'}) : dispatch({type:'wrong'})) ) }
           tabIndex="-1"

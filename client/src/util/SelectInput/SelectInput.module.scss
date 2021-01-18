@@ -1,10 +1,11 @@
 @import  '../TextInput/TextInput.module.scss';
 
-.Container{
+.ContainerSelect{
   display: inline-flex;
+  margin-bottom: 12px
 }
 
-.SelectInputOriginal{
+.SelectInput{
   @extend .TextInput;
   position: relative;
 
@@ -15,11 +16,11 @@
   background-position-x: 100%;
   background-position-y: 3px;
 
-  .DefaultOriginal{
+  .DefaultSelect{
     color: $gray-dark;
   }
 
-  .SelectedOriginal{
+  .SelectedSelect{
     color: $black;
   }
 
@@ -33,7 +34,7 @@
   }
 }
 
-.OptionsOriginal{
+.OptionsSelect{
   position: absolute;
   width: 200px;
   margin-top: 5px;
@@ -53,14 +54,14 @@
   }
 }
 
-.OpenSelectOriginal{
+.OpenSelectSelect{
   opacity: 1;
   visibility: visible
 }
 
 
 // Option class
-.OptionOriginal{
+.OptionSelect{
   display: block;
   padding: 3px 0px 3px 8px;
 

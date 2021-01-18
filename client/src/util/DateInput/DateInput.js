@@ -5,8 +5,8 @@ import {SelectInput,Options, Option, DefaultMessage} from '../SelectInput/Select
 
 import classes from './DateInput.module.scss';
 
+//Constante ______________________________
 const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outrobro', 'Novembro', 'Dezembro']
-
 
 // Funçao que coloca os valores no state automaticamente, evitando repetiçao
 const setOptionsState = (type, value, stateFunc, index) => {
@@ -19,13 +19,15 @@ const setOptionsState = (type, value, stateFunc, index) => {
           key={value} 
           value={index === undefined ? value : index} 
           className={classes.Option}
-          onClick={(event) => {stateFunc((selectOptions) => ({...selectOptions,[type]:event.target.dataset.value}));}}>
+          onClick={(event) => {
+            stateFunc((selectOptions) => ({...selectOptions,[type]:event.target.dataset.value}));
+            }}>
             {value}
         </Option>]
     })
   )
 }
-
+  
 // para limpar a array do state especifico
 const cleanState = (type) => {
   return (optionsDate) => ({...optionsDate, [type]: []})
@@ -71,8 +73,6 @@ const DateInput = (props) => {
 
   }
 
-
-
   // re-renderiza o componente quando os valores selecionados mudam e verifica se o valor do dia é correto consoante o ano e o mes:
   useEffect(() => {
     // limpa os dias cada vez que o mes muda ou se é ano bissexto
@@ -107,9 +107,10 @@ const DateInput = (props) => {
 
 
   return (
-    <div>
+    <>
       <div className={classes.Title}>Aniversário:</div>
-      <SelectInput className={classes.DiaInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
+      <div className={classes.Container}>
+      <SelectInput classContainer={classes.removeMargin} className={classes.DiaInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
         <DefaultMessage defaultValue='Dia' data-value={selectOptions.day}>
           {selectOptions.day}
         </DefaultMessage>
@@ -117,19 +118,20 @@ const DateInput = (props) => {
           {optionsDate.days}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.MesInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
+      <SelectInput classContainer={classes.removeMargin} className={classes.MesInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
         <DefaultMessage defaultValue='Mes' />
         <Options className={classes.Options}>
           {optionsDate.months}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.AnoInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
+      <SelectInput classContainer={classes.removeMargin} className={classes.AnoInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
         <DefaultMessage defaultValue='Ano'/>
         <Options className={classes.Options}>
           {optionsDate.years}
         </Options>
       </SelectInput>
-    </div>
+      </div>
+      </>
   )
 }
 
