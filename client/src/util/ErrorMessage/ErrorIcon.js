@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
-import RightIcon from "./RightIcon";
-import WrongIcon from "./WrongIcon";
+import { ReactComponent as RightIcon} from '../../assets/RightIcon.svg';
+import { ReactComponent as WrongIcon} from '../../assets/WrongIcon.svg';
+
+import classes from './ErrorIcon.module.scss';
 
 const ErrorIcon = (props) => {
 
@@ -9,9 +11,9 @@ const ErrorIcon = (props) => {
 
   useEffect(() => {
     if(props.error === 'right'){
-      setIcon(<RightIcon ></RightIcon>)
+      setIcon(<RightIcon className={classes.RightIcon}></RightIcon>)
     }else if (props.error === 'wrong'){
-      setIcon(<WrongIcon></WrongIcon>)
+      setIcon(<WrongIcon className={classes.WrongIcon}></WrongIcon>)
     }
   },[props.error])
 

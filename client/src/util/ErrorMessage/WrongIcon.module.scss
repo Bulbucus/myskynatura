@@ -1,8 +1,0 @@
-@import './ErrorIcon.scss';
-
-.WrongIcon {
-  @include Icon;
-
-  fill:$red;
-  animation: FadeIn 0.6s;
-}

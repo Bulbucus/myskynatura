@@ -18,6 +18,7 @@ const setOptionsState = (type, value, stateFunc, index) => {
         <Option 
           key={value} 
           value={index === undefined ? value : index} 
+          className={classes.Option}
           onClick={(event) => {stateFunc((selectOptions) => ({...selectOptions,[type]:event.target.dataset.value}));}}>
             {value}
         </Option>]
@@ -25,10 +26,10 @@ const setOptionsState = (type, value, stateFunc, index) => {
   )
 }
 
+// para limpar a array do state especifico
 const cleanState = (type) => {
   return (optionsDate) => ({...optionsDate, [type]: []})
 }
-
 
 
 const DateInput = (props) => {
@@ -47,20 +48,21 @@ const DateInput = (props) => {
     day:0
   })
 
-  // funçao que so é executada uma vez quando se carrega no select indicado
+  // funçao que so é executada quando se carrega no select indicado
   const setOptions = (type) => {
     switch (type) {
       case 'years':
-        const date = new Date();
-        const currYear = date.getFullYear()
-        for(let i = currYear; i > 1920; i -= 1){
+        const firstYearAllow = 2005;
+        for(let i = firstYearAllow; i > 1910; i -= 1){
           setOptionsDate(setOptionsState('year', i, setSelectOptions))
         }
         break;
       case 'months':
         for(let i = 0; i < MONTHS.length; i += 1){
+          let addZero = i;
+        if(i < 10) {addZero = `0${i}`}
           let month = MONTHS[i]
-          setOptionsDate(setOptionsState('month', month, setSelectOptions, i))
+          setOptionsDate(setOptionsState('month', month, setSelectOptions, addZero))
         }
         break;
       default :
@@ -69,41 +71,45 @@ const DateInput = (props) => {
 
   }
 
-  // Loop para criar as opçoes do dia
-  const daysLoop = (lastDay) => {
-    for(let i = 1; i <= lastDay; i += 1) {
-      setOptionsDate(setOptionsState('day', i, setSelectOptions))
-    }
-  }
 
 
   // re-renderiza o componente quando os valores selecionados mudam e verifica se o valor do dia é correto consoante o ano e o mes:
   useEffect(() => {
-    // limpa os dias cada vez que 
+    // limpa os dias cada vez que o mes muda ou se é ano bissexto
     setOptionsDate(cleanState('days'));
+
+      // modifica os dias que da para selecionar nos options
+    const setStateDays = (days) => {
+      selectOptions.day > days && setSelectOptions((selectOptions) => ({...selectOptions,day:days}))
+      for(let i = 1; i <= days; i += 1) {
+        let addZero = i;
+        if(i < 10) {addZero = `0${i}`}
+        setOptionsDate(setOptionsState('day', addZero, setSelectOptions))
+      }
+    }
+
+    // verifica se o mes tem 31 ou 30 dias e se for fevereiro mostra apenas 28 ou 29 dias
     if(selectOptions.month % 2){
       if(selectOptions.month == 1 ){
         if(( selectOptions.year % 4 == 0 && selectOptions.year % 100 != 0 ) || (selectOptions.year % 400 == 0)){
-          selectOptions.day > 29 && setSelectOptions((selectOptions) => ({...selectOptions,day:29}))
-          return daysLoop(29)
+          return setStateDays(29)
         } else {
-          selectOptions.day > 28 && setSelectOptions((selectOptions) => ({...selectOptions,day:28}))
-          return daysLoop(28)
+          return setStateDays(28)
         }
       }
-    selectOptions.day > 30 && setSelectOptions((selectOptions) => ({...selectOptions,day:30}))
-    return daysLoop(30)
+    return setStateDays(30)
     }
     else if (!(selectOptions.month % 2)){
-      return daysLoop(31)
+      return setStateDays(31)
     }
+  
   },[selectOptions.day,selectOptions.month, selectOptions.year])
 
 
   return (
     <div>
       <div className={classes.Title}>Aniversário:</div>
-      <SelectInput className={classes.SelectInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
+      <SelectInput className={classes.DiaInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
         <DefaultMessage defaultValue='Dia' data-value={selectOptions.day}>
           {selectOptions.day}
         </DefaultMessage>
@@ -111,13 +117,13 @@ const DateInput = (props) => {
           {optionsDate.days}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.SelectInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
+      <SelectInput className={classes.MesInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
         <DefaultMessage defaultValue='Mes' />
         <Options className={classes.Options}>
           {optionsDate.months}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.SelectInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
+      <SelectInput className={classes.AnoInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
         <DefaultMessage defaultValue='Ano'/>
         <Options className={classes.Options}>
           {optionsDate.years}

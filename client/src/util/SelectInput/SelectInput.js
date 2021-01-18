@@ -6,6 +6,7 @@ import ErrorIcon from "../ErrorMessage/ErrorIcon";
 
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
+// STATE MANAGEMENT
 const SelectContext = createContext();
 
 // INITIAL STATE ______________________________
@@ -95,24 +96,31 @@ const Options = (props) => {
   );
 };
 
-// Custom defaultValue
+// Custom defaultValue _____________________________________________________________
 // argumentos: defaultValue:String(default value) data:String(se necessario)
 // aceita props.children se necessario
 const DefaultMessage = (props) => {
 
   const stateContext = useContext(SelectContext);
-  
+
   return (
     <>
       {stateContext.state.value ? 
-        <span className={classes.SelectedOriginal} data-value={props.data || stateContext.state.value}>{props.children ||stateContext.state.html}</span> : 
-        <span className={classes.DefaultOriginal}>{props.defaultValue}</span>}
+
+        <span className={classes.SelectedOriginal} 
+        data-value={props.data || stateContext.state.value} >
+          {props.children ||stateContext.state.html}
+        </span> : 
+  
+        <span className={classes.DefaultOriginal} >
+          {props.defaultValue}
+        </span>}
     </>
   )
 }
 
 
-// Custom Select
+// Custom Select _____________________________________________________________
 // argumentos: errorMessage:Boolean showIcon:Boolean
 // aceita tambem onClick e onBlur
 const SelectInput = (props) => {
@@ -123,14 +131,7 @@ const SelectInput = (props) => {
   useEffect(() => {
     // para fechar o dropbox quando se carrega fora do dropbox
     const removeSelect = (event) => {
-      if (
-        state.toogleSelect[1] &&
-        event.target.className !== classes.SelectInputOriginal &&
-        event.target.className !== classes.DefaultOriginal &&
-        event.target.className !== classes.SelectedOriginal
-      ) {
-        dispatch({ type: "close" });
-      }
+      state.toogleSelect[1] && dispatch({ type: "close" })
     }; 
     
     window && window.addEventListener("click", removeSelect);
@@ -139,7 +140,7 @@ const SelectInput = (props) => {
     return () => {
       window.removeEventListener("click", removeSelect);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [state.toogleSelect]);
 
   // serve para abrir o select
@@ -165,5 +166,13 @@ const SelectInput = (props) => {
   );
 };
 
+//Estrutura para criar um select e os props disponiveis:
+/* <SelectInput className onClick onBlur errorMessage showIcon>
+  <DefaultMessage (data-value(optional)) defaultValue>{children(optional)}</DefaultMessage>
+  <Options>
+    ...<Option onclick>{props.children}</Option>
+    {children(optional)}
+  </Options>
+</SelectInput> */
 
 export {SelectInput, DefaultMessage , Options, Option };

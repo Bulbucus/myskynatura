@@ -25,3 +25,17 @@
     }
   }
 }
+
+.RightIcon {
+  @include Icon;
+
+  fill:$green;
+  animation: FadeIn 0.6s;
+}
+
+.WrongIcon {
+  @include Icon;
+
+  fill:$red;
+  animation: FadeIn 0.6s;
+}
