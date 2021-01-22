@@ -1,0 +1,21 @@
+@import './font.scss';
+@import './size.scss';
+@import './color.scss';
+
+.button{
+  font-size: $font-24;
+
+  padding: 3px 21px;
+
+  border: 2px solid $green;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-24 * 2;
+
+    border: 4px solid $green;
+    border-radius: 10px;
+  }
+}

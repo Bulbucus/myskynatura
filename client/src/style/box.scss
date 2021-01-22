@@ -1,0 +1,16 @@
+@import './size.scss';
+@import './color.scss';
+
+
+.box{
+  padding: 9px 14px;
+  margin: 0px 5px 12px 5px;
+
+  border: solid 1px $gray-dark;
+  border-radius: 5px;
+
+  @media (min-width: $size-mobile){
+    padding: 9px * 2  14px * 2;
+    margin: 0px 5px 20px 5px;
+  }
+}

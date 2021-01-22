@@ -1,13 +1,10 @@
 @import  '../TextInput/TextInput.module.scss';
 
-.ContainerSelect{
-  display: inline-flex;
-  margin-bottom: 12px
-}
-
 .SelectInput{
   @extend .TextInput;
   position: relative;
+
+  cursor: pointer;
 
   // Pequena seta para selecina
   background: transparent;
@@ -34,6 +31,13 @@
   }
 }
 
+.DefaultMessage{
+  height: 22px;
+  @media ( min-width:$size-mobile ) {
+    height: 43px;
+  }
+}
+
 .OptionsSelect{
   position: absolute;
   width: 200px;
@@ -54,7 +58,7 @@
   }
 }
 
-.OpenSelectSelect{
+.OpenSelect{
   opacity: 1;
   visibility: visible
 }

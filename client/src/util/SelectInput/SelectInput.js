@@ -2,20 +2,14 @@ import { useEffect, useReducer, useContext, createContext } from "react";
 
 import classes from "./SelectInput.module.scss";
 
-import ErrorIcon from "../ErrorMessage/ErrorIcon";
-
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-
 // STATE MANAGEMENT
 const SelectContext = createContext();
 
 // INITIAL STATE ______________________________
 const initialState = {
   toogleSelect:[classes.OptionsSelect],
-  id: '',
+  value: '',
   html:'',
-  iconError:'',
-  errorMessage:'',
 }
 
 // REDUCER ________________________________
@@ -24,7 +18,7 @@ const reducer = (state, action) => {
     case 'open':
       return {
         ...state,
-        toogleSelect:[...state.toogleSelect, classes.OpenSelectSelect]
+        toogleSelect:[...state.toogleSelect, classes.OpenSelect]
       }
     case 'close':
       return {
@@ -36,28 +30,6 @@ const reducer = (state, action) => {
         ...state,
         value: action.value,
         html: action.html,
-        errorMessage:'',
-        iconError: 'right',
-      }
-    case 'clean_value':
-      return {
-        ...state,
-        value:'',
-        html:'',
-        errorMessage:'',
-        iconError: '',
-      }
-    case 'right':
-      return{
-        ...state,
-        iconError: action.type,
-        errorMessage:'',
-      }
-    case 'wrong':
-      return{
-        ...state,
-        iconError:action.type,
-        errorMessage:'Por favor preencha com os dados corretos.'
       }
     default:
       return;
@@ -84,6 +56,7 @@ const Option = (props) => {
   );
 };
 
+
 // Custom DropBox _____________________________________________________________
 const Options = (props) => {
   
@@ -96,22 +69,32 @@ const Options = (props) => {
   );
 };
 
+
 // Custom defaultValue _____________________________________________________________
 // argumentos: defaultValue:String(default value) data:String(se necessario)
 // aceita props.children se necessario
 const DefaultMessage = (props) => {
 
-  const stateContext = useContext(SelectContext);
+  const stateContext = useContext(SelectContext)
+
+
+  //Vem logo com um valor em vez de o default
+  const putValue = (event) => {
+    return stateContext.dispatch({type:'put_value', html:props.children, value:props.value})
+  }
+
+
+  useEffect(() => {
+    putValue()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
       {stateContext.state.value ? 
-
-        <span className={classes.SelectedSelect} 
-        data-value={props.data || stateContext.state.value} >
-          {props.children ||stateContext.state.html}
-        </span> : 
-  
+        <span className={classes.SelectedSelect} data-value={props.value || stateContext.state.value}>
+          {stateContext.state.html || props.children }
+          </span> : 
         <span className={classes.DefaultSelect} >
           {props.defaultValue}
         </span>}
@@ -143,6 +126,7 @@ const SelectInput = (props) => {
 
   }, [state.toogleSelect]);
 
+
   // serve para abrir o select
   const openSelect = () => {
     return state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})
@@ -150,29 +134,16 @@ const SelectInput = (props) => {
 
   return (
     <SelectContext.Provider value={{state,dispatch}}>
-    {props.errorMessage && <ErrorMessage errorMessage={state.errorMessage}></ErrorMessage>}
-      <div className={classes.ContainerSelect}>
         <div
           className={[classes.SelectInput, props.className].join(" ")}
           onClick={(event) => {openSelect(); (props.onClick && props.onClick(event))}}      
-          onBlur={(props.onBlur) || ( (props.showIcon || props.errorMessage) && (() => state.value ? dispatch({type:'right'}) : dispatch({type:'wrong'})) ) }
+          onBlur={(props.onBlur)}
           tabIndex="-1"
         >
           {props.children}
         </div>
-        {props.showIcon && <ErrorIcon error={state.iconError}></ErrorIcon>}
-      </div>
     </SelectContext.Provider>
   );
 };
-
-//Estrutura para criar um select e os props disponiveis:
-/* <SelectInput className onClick onBlur errorMessage showIcon>
-  <DefaultMessage (data-value(optional)) defaultValue>{children(optional)}</DefaultMessage>
-  <Options>
-    ...<Option onclick>{props.children}</Option>
-    {children(optional)}
-  </Options>
-</SelectInput> */
 
 export {SelectInput, DefaultMessage , Options, Option };

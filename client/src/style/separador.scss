@@ -1,0 +1,9 @@
+@import './color.scss';
+
+.separador{
+  height: 2px;
+  margin: 0 5px;
+  border-radius: 5px;
+
+  background-color: $gray-light;
+}

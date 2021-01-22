@@ -1,0 +1,69 @@
+@import '../../../style/box.scss';
+@import '../../../style/font.scss';
+@import '../../../style/color.scss';
+@import '../../../style/size.scss';
+
+@import '../../../style/separador.scss';
+
+.separador{
+  margin: 15px 0px;
+}
+
+@import '../../../style/button.scss';
+
+.button{
+  display:block;
+  margin: 0 auto;
+
+  font-size: $font-18;
+  
+  @media (min-width: $size-mobile){
+    font-size: $font-18*2;
+  
+  }
+}
+
+// _____________________
+
+.Title {
+  display: block;
+  margin: 15px auto;
+  padding: 2px 8px;
+
+  color:$white;
+  background-color: $green;
+
+  font-size: $font-18;
+  font-weight: $font-light;
+}
+
+.Description{
+  margin-bottom: 2px;
+
+  color: $gray-dark;
+
+  font-size: $font-14;
+  font-weight: $font-light;
+
+
+  @media (min-width: $size-mobile){
+    font-size: $font-14 * 2;
+  }
+}
+
+.SelectInput{
+  margin-bottom: 12px;
+}
+
+.TitleDate{
+  margin-left: 3px;
+
+  color: $gray-dark;
+
+  font-size: $font-14;
+  font-weight: $font-light;
+
+  @media ( min-width:$size-mobile ) {
+    font-size: $font-14 * 2;
+  }
+}

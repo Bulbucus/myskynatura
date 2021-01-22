@@ -1,0 +1,9 @@
+@import './size.scss';
+
+.container{
+  margin: 12px 7px 12px 16px;
+  
+  @media (min-width: $size-mobile){
+    margin: 20px 7px 20px 26px;
+  }
+}

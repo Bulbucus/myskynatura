@@ -1,0 +1,15 @@
+@import '../../style/size.scss';
+@import '../../style/button.scss';
+@import '../../style/separador.scss';
+
+.button{
+  display: block;
+  width: 180px;
+  margin: 15px auto;
+
+  text-align: center;
+
+  @media (min-width:$size-mobile){
+    width: 180px * 2;
+  }
+}

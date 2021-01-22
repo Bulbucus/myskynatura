@@ -1,4 +1,7 @@
-@import  '../SelectInput/SelectInput.module.scss';
+@import '../../style/color.scss';
+@import '../../style/font.scss';
+@import '../../style/size.scss';
+
 
 @mixin removeArrow {
   background: inherit;
@@ -30,18 +33,11 @@
   }
 }
 
-
-.Title{
-  margin-left: 3px;
-
-  color: $gray-dark;
-
-  font-size: $font-18;
-
-  @media ( min-width:$size-mobile ) {
-    font-size: $font-18 * 2;
-  }
+.Container{
+  display: flex;
 }
+
+
 
 .DiaInput{
   @include removeArrow;

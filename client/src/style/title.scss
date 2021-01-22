@@ -1,0 +1,11 @@
+@import './font.scss';
+@import './size.scss';
+
+.title{
+  position: relative;
+  font-size: $font-18;
+
+  @media (min-width: $size-mobile){
+    font-size: $font-18 * 2;
+  }
+}

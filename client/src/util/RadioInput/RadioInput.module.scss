@@ -1,0 +1,66 @@
+@import '../../style/color.scss';
+@import '../../style/size.scss';
+@import '../../style/font.scss';
+
+// por o radio original invisivel mas por cima do custom radio
+.Radio{
+  appearance: none;
+  opacity: 0;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+
+  @media(min-width: $size-mobile){
+    width: 20px * 2;
+    height: 20px * 2;
+  }
+}
+
+// tirar o checked custom
+.CustomRadio::after{
+  display: none;
+}
+
+// se tiver checked colocar o checked custom
+.Radio:checked ~ .CustomRadio::after{
+  display: block;
+}
+
+// criar o custom radio
+.CustomRadio{
+  display: table;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  border: 3px solid $line-color;
+  margin-bottom: 3px;
+
+  // criar o checked custom
+  &:after{
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 1px;
+    top: 1px;
+    border-radius: 20px;
+    background-color: $green;
+
+    @media(min-width: $size-mobile){
+      left: 2px;
+      top: 2px;
+      width: 12px * 2; 
+      height: 12px * 2;
+    }
+  }
+
+  @media(min-width: $size-mobile){
+    width: 20px * 2;
+    height: 20px * 2;
+    border: 3px*2 solid $line-color;
+    margin-bottom: 6px;
+  }
+}
+

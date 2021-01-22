@@ -9,7 +9,7 @@
 
   background-color: $white;
 
-  z-index: 1000;
+  z-index: 2;
 
   //Polyfill para o position:sticky
   @media (min-width:768px) {

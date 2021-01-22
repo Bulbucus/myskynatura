@@ -1,23 +1,10 @@
-@import '../../style/font.scss';
-@import '../../style/color.scss';
-@import '../../style/size.scss';
+@import '../../../style/font.scss';
+@import '../../../style/color.scss';
+@import '../../../style/size.scss';
+@import '../../../style/title.scss';
+@import '../../../style/container.scss';
 
-.Container{
-  margin: 20px 7px 0px 16px;
-  
-  @media (min-width: $size-mobile){
-    margin: 20px 7px 0px 26px;
-  }
-}
-
-.Title{
-  position: relative;
-  font-size: $font-18;
-
-  @media (min-width: $size-mobile){
-    font-size: $font-18 * 2;
-  }
-
+.title{
   // Pequeno botao
   &::before{
     content: "";
@@ -47,5 +34,23 @@
 
   @media (min-width: $size-mobile){
     font-size: $font-12 * 2;
+  }
+}
+
+.Select{
+  display: inline-flex;
+  margin-bottom: 12px
+}
+
+
+.TitleDate{
+  margin-left: 3px;
+
+  color: $gray-dark;
+
+  font-size: $font-18;
+
+  @media ( min-width:$size-mobile ) {
+    font-size: $font-18 * 2;
   }
 }

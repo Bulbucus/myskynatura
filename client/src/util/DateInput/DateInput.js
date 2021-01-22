@@ -73,6 +73,18 @@ const DateInput = (props) => {
 
   }
 
+  // coloca os valores no state se vier do props inicialmente
+  useEffect(() => {
+    if(props.day && props.month && props.year){
+      setSelectOptions({
+        day:props.day,
+        month: props.month,
+        year:props.year
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   // re-renderiza o componente quando os valores selecionados mudam e verifica se o valor do dia é correto consoante o ano e o mes:
   useEffect(() => {
     // limpa os dias cada vez que o mes muda ou se é ano bissexto
@@ -108,24 +120,27 @@ const DateInput = (props) => {
 
   return (
     <>
-      <div className={classes.Title}>Aniversário:</div>
       <div className={classes.Container}>
-      <SelectInput classContainer={classes.removeMargin} className={classes.DiaInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
-        <DefaultMessage defaultValue='Dia' data-value={selectOptions.day}>
-          {selectOptions.day}
+      <SelectInput className={classes.DiaInput}  onClick={(event) => {optionsDate.days.length < 1 && setOptions("days")}}>
+        <DefaultMessage defaultValue='Dia' value={selectOptions.day || props.day}>
+          {selectOptions.day || props.day}
         </DefaultMessage>
         <Options className={classes.Options} >
           {optionsDate.days}
         </Options>
       </SelectInput>
-      <SelectInput classContainer={classes.removeMargin} className={classes.MesInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
-        <DefaultMessage defaultValue='Mes' />
-        <Options className={classes.Options}>
+      <SelectInput className={classes.MesInput} onClick={(event) => {(optionsDate.months.length < 1 && setOptions("months"))}}>
+        <DefaultMessage defaultValue='Mes' value={selectOptions.month || props.month}>
+          {selectOptions.month || MONTHS[Number(props.month)]}
+        </DefaultMessage>
+        <Options className={classes.Options} >
           {optionsDate.months}
         </Options>
       </SelectInput>
-      <SelectInput classContainer={classes.removeMargin} className={classes.AnoInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
-        <DefaultMessage defaultValue='Ano'/>
+      <SelectInput className={classes.AnoInput} onClick={(event) => {optionsDate.years.length < 1 && setOptions("years")}}>
+        <DefaultMessage defaultValue='Ano' value={selectOptions.year || props.year}>
+          {selectOptions.year || props.year}
+        </DefaultMessage>
         <Options className={classes.Options}>
           {optionsDate.years}
         </Options>
