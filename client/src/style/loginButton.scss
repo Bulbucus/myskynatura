@@ -1,0 +1,16 @@
+@import './color.scss';
+@import './font.scss';
+
+.loginButton{
+  margin-right: 24px;
+  padding: 2px 15px;
+  border-radius: 5px;
+
+  color:$white;
+  background-color: $green;
+
+  font-size: $font-18;
+  font-weight: $font-light;
+
+  cursor: pointer;
+}

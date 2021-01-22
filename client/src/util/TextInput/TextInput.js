@@ -7,10 +7,10 @@ const TextInput = (props) => {
 
   return(
     <>
-      <div className={classes.ContainerText}>
+      <div className={[classes.ContainerText, props.classContainer].join(' ')}>
         <input 
           type={props.type}
-          className={classes.TextInput} 
+          className={[classes.TextInput, props.className].join(' ')} 
           id={props.name} 
           name={props.name} 
           placeholder={props.defaultValue}

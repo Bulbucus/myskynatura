@@ -14,7 +14,6 @@ const App = () => {
 
   const [login, setLogin] = useState(false)
 
-  console.log(login)
   return (
     <>
       <Router>

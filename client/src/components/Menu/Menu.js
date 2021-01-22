@@ -11,9 +11,9 @@ const Menu = (props) => {
         <Link to='/'>
           <Logo className={classes.Logo}></Logo>
         </Link>
-        <button className={classes.Login} onClick={props.login}>Login</button>
+        <button className={classes.loginButton} onClick={props.login}>Login</button>
       </div>
-      <span className={classes.Line}></span>
+      <span className={classes.line}></span>
     </div>
   )
 }

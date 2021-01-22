@@ -1,6 +1,8 @@
 @import '../../style/font';
 @import '../../style/color';
 @import '../../style/size';
+@import '../../style/line';
+@import '../../style/loginButton';
 
 .Menu{
   width: 100%;
@@ -34,27 +36,4 @@
   cursor: pointer;
 }
 
-.Login{
-  margin-right: 24px;
-  padding: 2px 15px;
-  border-radius: 5px;
-
-  color:$white;
-  background-color: $green;
-
-  font-size: $font-18;
-  font-weight: $font-light;
-
-  cursor: pointer;
-}
-
-.Line{
-  height: 2px;
-  
-  display: block;
-  
-  margin: 0 5px;
-
-  background-color: $black;
-}
 

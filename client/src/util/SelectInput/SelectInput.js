@@ -9,7 +9,7 @@ const SelectContext = createContext();
 const initialState = {
   toogleSelect:[classes.OptionsSelect],
   value: '',
-  html:'',
+  htmlValue:'',
 }
 
 // REDUCER ________________________________
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         value: action.value,
-        html: action.html,
+        htmlValue: action.htmlValue,
       }
     default:
       return;
@@ -42,7 +42,7 @@ const Option = (props) => {
   const stateContext = useContext(SelectContext)
 
   const putValue = (event) => {
-    return stateContext.dispatch({type:'put_value', html:event.target.innerHTML, value:event.target.dataset.value})
+    return stateContext.dispatch({type:'put_value', htmlValue:event.target.innerHTML, value:event.target.dataset.value})
   }
 
   return (
@@ -79,8 +79,8 @@ const DefaultMessage = (props) => {
 
 
   //Vem logo com um valor em vez de o default
-  const putValue = (event) => {
-    return stateContext.dispatch({type:'put_value', html:props.children, value:props.value})
+  const putValue = () => {
+    return stateContext.dispatch({type:'put_value', htmlValue:props.children, value:props.value})
   }
 
 
@@ -93,7 +93,7 @@ const DefaultMessage = (props) => {
     <>
       {stateContext.state.value ? 
         <span className={classes.SelectedSelect} data-value={props.value || stateContext.state.value}>
-          {stateContext.state.html || props.children }
+          { props.children ||  stateContext.state.htmlValue}
           </span> : 
         <span className={classes.DefaultSelect} >
           {props.defaultValue}
