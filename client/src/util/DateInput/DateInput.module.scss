@@ -33,9 +33,6 @@
   }
 }
 
-.Container{
-  display: flex;
-}
 
 
 
@@ -76,6 +73,7 @@
 .AnoInput{
   @include removeArrow;
   @include centerText;
+  margin-right: 0px;
   width: 51px;
 
   .Options{

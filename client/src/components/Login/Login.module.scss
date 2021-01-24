@@ -5,7 +5,7 @@
   top: 50%;
   left: 50%;
   width: 300px;
-  height: 285px;
+  height: 265px;
 
   margin: 0 auto;
   padding: 9px 4px;
@@ -43,7 +43,7 @@
 
   @media (min-width:$size-mobile){
     width: 300px * 2;
-    height: 490px;
+    height: 480px;
   }
 }
 
@@ -84,11 +84,8 @@
   }
 }
 
-.ContainerText{
-  margin-bottom: 0px;
-}
-
 .TextInputTop{
+  display: block;
   width: 230px;
 
   margin: 0 auto;
@@ -102,14 +99,16 @@
 }
 
 .TextInputBottom{
+  display: block;
   width: 230px;
 
-  margin: 0 auto;
+  margin: 0px auto 12px auto;
 
   border-radius: 0px 0px 5px 5px ;
 
   @media (min-width:$size-mobile){
     width: 230px*2;
+    margin: 0px auto 24px auto;
   }
 }
 

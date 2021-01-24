@@ -30,6 +30,8 @@
   @include Icon;
 
   fill:$green;
+
+  transform: translateY(5px);
   animation: FadeIn 0.6s;
 }
 
@@ -37,5 +39,7 @@
   @include Icon;
 
   fill:$red;
+
+  transform: translateY(5px);
   animation: FadeIn 0.6s;
 }

@@ -21,7 +21,6 @@ const Login = (props) => {
         <Logo className={classes.Logo}></Logo>
         <div className={classes.line}></div>
         <TextInput 
-          classContainer={classes.ContainerText} 
           className={classes.TextInputTop}
           type='email'
           defaultValue='Email'

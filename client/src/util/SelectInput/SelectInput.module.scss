@@ -3,6 +3,7 @@
 .SelectInput{
   @extend .TextInput;
   position: relative;
+  display: inline-block;
 
   cursor: pointer;
 

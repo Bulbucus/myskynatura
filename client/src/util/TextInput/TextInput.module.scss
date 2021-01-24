@@ -6,14 +6,6 @@ $padding-bottom: 4px;
 $border: 1px;
 $offBox: $padding-bottom + $border;
 
-.ContainerText{
-  display: flex;
-  margin-bottom: 12px;
-  
-  @media ( min-width:$size-mobile ) {
-    margin-bottom: 24px;
-  }
-}
 
 .TextInput{
   width: 200px;

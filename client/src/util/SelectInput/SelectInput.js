@@ -7,6 +7,8 @@ const SelectContext = createContext();
 
 // INITIAL STATE ______________________________
 const initialState = {
+  type: '',
+  name: '',
   toogleSelect:[classes.OptionsSelect],
   value: '',
   htmlValue:'',
@@ -31,6 +33,16 @@ const reducer = (state, action) => {
         value: action.value,
         htmlValue: action.htmlValue,
       }
+    case 'put_name':
+      return{
+        ...state,
+        name: action.name
+      }
+    case 'put_type':
+        return{
+          ...state,
+          type: action.name
+        }
     default:
       return;
   }
@@ -49,6 +61,8 @@ const Option = (props) => {
     <span
       className={[classes.OptionSelect, props.className].join(" ")}
       onClick={(event) => {putValue(event); (props.onClick && props.onClick(event))}}
+      data-type={stateContext.state.type}
+      data-name={stateContext.state.name}
       data-value={props.value}
     >
       {props.children}
@@ -92,7 +106,7 @@ const DefaultMessage = (props) => {
   return (
     <>
       {stateContext.state.value ? 
-        <span className={classes.SelectedSelect} data-value={props.value || stateContext.state.value}>
+        <span className={classes.SelectedSelect} data-type={stateContext.state.type} data-name={stateContext.state.name} data-value={props.value || stateContext.state.value}>
           { props.children ||  stateContext.state.htmlValue}
           </span> : 
         <span className={classes.DefaultSelect} >
@@ -128,7 +142,10 @@ const SelectInput = (props) => {
 
 
   // serve para abrir o select
+  // quando abre coloca tambem o tipo e o id em todas as opcoes
   const openSelect = () => {
+    dispatch({type:'put_type', name: props.type})
+    dispatch({type:'put_name', name: props.name})
     return state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})
   }
 
@@ -137,7 +154,8 @@ const SelectInput = (props) => {
         <div
           className={[classes.SelectInput, props.className].join(" ")}
           onClick={(event) => {openSelect(); (props.onClick && props.onClick(event))}}      
-          onBlur={(props.onBlur)}
+          onBlur={props.onBlur}
+          onChange={props.onChange}
           tabIndex="-1"
         >
           {props.children}

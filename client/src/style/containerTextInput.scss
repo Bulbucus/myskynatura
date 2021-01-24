@@ -1,0 +1,7 @@
+.containerTextInput{
+  margin-bottom: 12px;
+  
+  @media ( min-width:$size-mobile ) {
+    margin-bottom: 24px;
+  }
+}

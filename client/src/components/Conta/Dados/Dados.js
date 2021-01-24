@@ -12,9 +12,13 @@ const Dados = () => {
           <button className={classes.Title}>Meus Dados</button>
           <div className={classes.box}>
             <p className={classes.Description}>Primeiro Nome</p>
+            <div className={classes.containerTextInput}>
             <TextInput type='text' value='Emanuel'></TextInput>
+            </div>
             <p className={classes.Description}>Ultimo Nome</p>
+            <div className={classes.containerTextInput}>
             <TextInput type='text' value='Farinha'></TextInput>
+            </div>
             <p className={classes.Description}>Género</p>
             <SelectInput className={classes.SelectInput}>
               <DefaultMessage value='Masculino'>Masculino</DefaultMessage>
@@ -24,7 +28,7 @@ const Dados = () => {
               </Options>
             </SelectInput>
             <p className={classes.TitleDate}>Aniversario</p>
-            <DateInput day='01' month='01' year='1998'></DateInput>
+            <DateInput day='31' month='03' year='1998'></DateInput>
             <div className={classes.separador}></div>
             <button className={classes.button}>Editar dados</button>
           </div>

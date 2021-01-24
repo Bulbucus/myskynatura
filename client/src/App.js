@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Componentes
@@ -7,7 +8,7 @@ import Questionario from './components/Questionario/Questionario';
 import Resultados from './components/Resultados/Resultados';
 import Conta from './components/Conta/Dados/Dados';
 import Login from './components/Login/Login';
-import { useState } from 'react';
+
 
 
 const App = () => {
