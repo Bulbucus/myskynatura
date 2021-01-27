@@ -8,7 +8,7 @@ import Pergunta from './Pergunta/Pergunta'
 
 import {ErrorMessage} from '../../../util/ErrorHandler/ErrorHandler';
 
-const Perguntas = ({error}) => {
+const Perguntas = () => {
 
   // Recebe do API os dados
   const [perguntas, setPerguntas] = useState()
@@ -38,28 +38,27 @@ const Perguntas = ({error}) => {
     },[dispatch])
 
   return (
-    <div name='Perguntas'>
+    <div name='Perguntas' key='1'>
     <div className={classes.container}>
       <div className={classes.title}>Inicio do questionário</div>
     </div>
       {perguntas 
       && 
       perguntas.map((perguntas, index) =>
-      <> 
+      <div key={perguntas.id_pergunta} > 
         {/*esta operaçao ser para que a message de erro apareça so na primeira pergunta e nao em todas as que acontece o erro:*/}
         {(state.incomplete_question.message && state.incomplete_question.index === index)
         && 
         <div style={{marginLeft:'10px'}}><ErrorMessage errorMessage={state.incomplete_question.message}></ErrorMessage></div>}
         <Pergunta 
           index={index} 
-          key={perguntas.id_pergunta} 
           name={perguntas.id_pergunta} 
           pergunta={perguntas.pergunta} 
           respostas={perguntas.respostas} 
           id={perguntas.tags} 
           onClick={(event) => {pushResposta(index, event.target.value); dispatch({type:'incomplete_question', message:''})}}
         />
-      </>
+      </div>
       )}
     </div>
   )

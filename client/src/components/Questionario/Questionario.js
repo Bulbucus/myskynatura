@@ -1,6 +1,6 @@
 import React, {useReducer} from 'react';
 //import {Link} from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 
 import classes from './Questionario.module.scss';
 
@@ -99,7 +99,7 @@ const reducer = (state, action) => {
           ...state.personalInfo,
           [action.name]:{
             ...state.personalInfo[action.name],
-            whatError:'Por favor, preencha o dado(s) antes de finalizar o questionario'
+            whatError:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'
           }
         }
       }
@@ -126,19 +126,44 @@ const Questionario = () => {
   const [state, dispatch] = useReducer(reducer,initialState)
 
   const fetch = () => {
+    let noError = true;
+    // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
       if(state.personalInfo[element].haveError){
         document.getElementsByName(element)[0].scrollIntoView({block:'center', behavior:'smooth'})
         dispatch({type:'show_error_fetch', name:element});
+        noError = false;
         break
       }
     }
+    
+    // faz scroll nas perguntas e mostra ao user que falta preencher com uma mensagem
     if(state.questionario.includes(undefined)){
       const location = state.questionario.findIndex((element) => element === undefined)
       const div = document.getElementsByName(`pergunta${location}`)[0]
       div.scrollIntoView({block:'center', behavior:'smooth'})
       dispatch({type:'incomplete_question', index:location ,message:'Por favor preencha todas as perguntas'})
+      noError = false;
     }
+
+    if(noError){
+      const value = name  => state.personalInfo[name].value
+      axios.post(
+        'http://95.93.159.118:8888/user/registar',
+        {
+          primeiro_nome: value('primeiro_nome'),
+          ultimo_nome: value('ultimo_nome'),
+          genero: value('genero'),
+          idade: value('idade'),
+          email: value('email'),
+          palavrapasse: value('palavrapasse'),
+          questionario: state.questionario
+        }
+      ).then(
+        (response) => {console.log(response)}
+      )
+    }
+
   }
 
   return (
