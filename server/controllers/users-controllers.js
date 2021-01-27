@@ -29,6 +29,7 @@ const singUpUser = (req, res) => {
       error: errors,
     });
   }
+  
   // encriptar palavrapasse
   const palavrapasse = bcrypt.hashSync(req.body.palavrapasse, 15);
   // Inserir os dados na base de dados
