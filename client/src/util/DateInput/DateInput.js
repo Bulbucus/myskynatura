@@ -121,7 +121,7 @@ const DateInput = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selected.day, state.selected.month, state.selected.year])
 
-  // quando recebe um valor proveninte do props, valores recebeidos pelo back-end
+  // quando recebe um valor proveninte do props, ex: valores recebidos pelo back-end
   useEffect(() => {
     if(props.day && props.month && props.year){
     dispatch({type:'put_value', option:'day', event:props.day})
