@@ -1,6 +1,6 @@
-import React, {useEffect, useReducer} from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
+import React, {useReducer} from 'react';
+//import {Link} from 'react-router-dom';
+//import axios from 'axios';
 
 import classes from './Questionario.module.scss';
 
@@ -81,13 +81,12 @@ const Questionario = () => {
   const [state, dispatch] = useReducer(reducer,initialState)
 
   const fetch = () => {
+    if(!state.questionario.includes(undefined)){
+      console.log(state.personalInfo)
+      console.log(state.questionario)
+    }
     
   }
-
-  useEffect(() => {
-    console.log(state.personalInfo)
-    console.log(state.questionario)
-  })
 
   return (
     <QuestionarioContext.Provider value={[state,dispatch]}>

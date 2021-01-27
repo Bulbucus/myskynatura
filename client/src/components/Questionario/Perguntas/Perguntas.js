@@ -34,8 +34,7 @@ const Perguntas = () => {
         // coloca logo na array do store quantas respostas sao necessarias
         dispatch({type:'put_value_questionario', array: Array(response.data.perguntas.length)})
       })
-      
-    },[])
+    },[dispatch])
 
   return (
     <div>

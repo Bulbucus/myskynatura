@@ -88,69 +88,68 @@ const reducer = (state, action) => {
 }
 
 
-const DateInput = (props) => {
+const DateInput = ({type, name, value, day, month, year}) => {
 
   const [state, dispatch] = useReducer(reducer,InitialState)
 
-  
-  const getDays = () => {
+  // executar funçao so quando é selecionado um novo dia, mes ou ano
+  useEffect(() => {
+    
     // Envia valor da data para parente
     // em formado (yyyy-mm-dd)
-    props.value && props.value(`${state.selected.year}-${state.selected.month}-${state.selected.day}`)
+    value && value(`${state.selected.year}-${state.selected.month}-${state.selected.day}`)
 
-    // Modificar o input select dos dias automaticamente consoante o ano e o mes que é selecionado
-    switch(state.selected.month) {
-      case '02':
-        if((state.selected.year % 4 === 0 && state.selected.year % 100 !== 0) || state.selected.year % 400 === 0) {
-            return dispatch({type:'get_days', lengthDays:29})
-          }
-          return dispatch({type:'get_days', lengthDays:28})
-      case '04':
-      case '06':
-      case '09':
-      case '11':
-        return dispatch({type:'get_days', lengthDays:30})
-      default:
-        return dispatch({type:'get_days', lengthDays:31})
+    const getDays = () => {
+      // Modificar o input select dos dias automaticamente consoante o ano e o mes que é selecionado
+      switch(state.selected.month) {
+        case '02':
+          if((state.selected.year % 4 === 0 && state.selected.year % 100 !== 0) || state.selected.year % 400 === 0) {
+              return dispatch({type:'get_days', lengthDays:29})
+            }
+            return dispatch({type:'get_days', lengthDays:28})
+        case '04':
+        case '06':
+        case '09':
+        case '11':
+          return dispatch({type:'get_days', lengthDays:30})
+        default:
+          return dispatch({type:'get_days', lengthDays:31})
+      }
     }
-  }
-
-  // executar funçao so quando é selecionado um mes ou um ano ou um dia novo
-  useEffect(() => {
     getDays()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.selected.day, state.selected.month, state.selected.year])
 
-  // quando recebe um valor proveninte do props, ex: valores recebidos pelo back-end
+  }, [value, state.selected.day, state.selected.month, state.selected.year])
+
+  // quando recebe um valor proveninte do  ex: valores recebidos pelo back-end
   useEffect(() => {
-    if(props.day && props.month && props.year){
-    dispatch({type:'put_value', option:'day', event:props.day})
-    dispatch({type:'put_value', option:'month', event:props.month})
-    dispatch({type:'put_value', option:'year', event:props.year})
+    if(day && month && year){
+    dispatch({type:'put_value', option:'day', event:day})
+    dispatch({type:'put_value', option:'month', event:month})
+    dispatch({type:'put_value', option:'year', event:year})
     }
-  },[props.day, props.month, props.year])
+  },[day, month, year])
 
   return (
     <DateContext.Provider value={{state, dispatch}}>
-      <SelectInput className={classes.DiaInput} type={props.type} name={props.name} onClick={() => {getDays()}}>
-        <DefaultMessage defaultValue='Dia' value={state.selected.day || props.day}>
-          {state.selected.day || props.day}
+      <SelectInput className={classes.DiaInput} type={type} name={name}>
+        <DefaultMessage defaultValue='Dia' value={state.selected.day || day}>
+          {state.selected.day || day}
         </DefaultMessage>
         <Options className={classes.Options} >
           {state.options.days.map(day => <Option key={day} value={day} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'day', event:event.target.dataset.value})}}>{day}</Option>)}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.MesInput} type={props.type} name={props.name} onClick={() => {dispatch({type:'get_months'})}}>
-        <DefaultMessage defaultValue='Mes' value={state.selected.month || props.month}>
-          {MONTHS[Number(state.selected.month-1)] || MONTHS[Number(props.month-1)]}
+      <SelectInput className={classes.MesInput} type={type} name={name} onClick={() => {dispatch({type:'get_months'})}}>
+        <DefaultMessage defaultValue='Mes' value={state.selected.month || month}>
+          {MONTHS[Number(state.selected.month-1)] || MONTHS[Number(month-1)]}
         </DefaultMessage>
         <Options className={classes.Options} >
           {state.options.months.map((month, index) => <Option key={month} value={month} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'month', event:event.target.dataset.value})}}>{MONTHS[index]}</Option>)}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.AnoInput} type={props.type} name={props.name} onClick={() => {dispatch({type:'get_years'})}}>
-        <DefaultMessage defaultValue='Ano' value={state.selected.year || props.year}>
-          {state.selected.year || props.year}
+      <SelectInput className={classes.AnoInput} type={type} name={name} onClick={() => {dispatch({type:'get_years'})}}>
+        <DefaultMessage defaultValue='Ano' value={state.selected.year || year}>
+          {state.selected.year || year}
         </DefaultMessage>
         <Options className={classes.Options}>
           {state.options.years.map(year => <Option key={year} value={year} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'year', event:event.target.dataset.value})}}>{year}</Option>)}

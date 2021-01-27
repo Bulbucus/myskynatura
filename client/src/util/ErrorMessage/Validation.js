@@ -59,6 +59,11 @@ const checkPassword = (password, confirmPassword, setErrorMessage, setIcon) => {
   if(password !== confirmPassword) {
     return Ouput('wrong', 'As passwords não são iguais, por favor verifique as mesmas.')
   }
+
+  if(confirmPassword.length < 1) {
+    return Ouput('wrong', '')
+  }
+
   return Ouput('right', '');
 }
 
@@ -71,9 +76,9 @@ const Validation = ({error, value, password, confirmPassword ,children}) => {
 
 
   useEffect(() => {
-    
+
     // se for um input de password
-    if(password && confirmPassword){
+    if(confirmPassword){
       return whereError && checkPassword(password, value ,setErrorMessage, setIcon)
     }
 
