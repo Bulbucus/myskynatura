@@ -6,8 +6,9 @@ import classes from './Perguntas.module.scss';
 
 import Pergunta from './Pergunta/Pergunta'
 
+import {ErrorMessage} from '../../../util/ErrorHandler/ErrorHandler';
 
-const Perguntas = () => {
+const Perguntas = ({error}) => {
 
   // Recebe do API os dados
   const [perguntas, setPerguntas] = useState()
@@ -37,13 +38,18 @@ const Perguntas = () => {
     },[dispatch])
 
   return (
-    <div>
+    <div name='Perguntas'>
     <div className={classes.container}>
       <div className={classes.title}>Inicio do questionário</div>
     </div>
       {perguntas 
       && 
-      perguntas.map((perguntas, index) => 
+      perguntas.map((perguntas, index) =>
+      <> 
+        {/*esta operaçao ser para que a message de erro apareça so na primeira pergunta e nao em todas as que acontece o erro:*/}
+        {(state.incomplete_question.message && state.incomplete_question.index === index)
+        && 
+        <div style={{marginLeft:'10px'}}><ErrorMessage errorMessage={state.incomplete_question.message}></ErrorMessage></div>}
         <Pergunta 
           index={index} 
           key={perguntas.id_pergunta} 
@@ -51,9 +57,10 @@ const Perguntas = () => {
           pergunta={perguntas.pergunta} 
           respostas={perguntas.respostas} 
           id={perguntas.tags} 
-          onClick={(event) => {pushResposta(index, event.target.value)}}
-          >
-        </Pergunta>)}
+          onClick={(event) => {pushResposta(index, event.target.value); dispatch({type:'incomplete_question', message:''})}}
+        />
+      </>
+      )}
     </div>
   )
 }

@@ -6,7 +6,7 @@ const Pergunta = (props) => {
 
   //Cada pergunta cria automaticamente os RadiosInput necessarios
   return (
-    <div className={classes.box}>
+    <div className={classes.box} name={`pergunta${props.index}`}>
       <div className={classes.TitleBox}>
         <div className={classes.TitlePergunta}>Pergunta {props.index+1}</div>
       </div>

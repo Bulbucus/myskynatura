@@ -4,6 +4,10 @@ import React, {useReducer} from 'react';
 
 import classes from './Questionario.module.scss';
 
+import {checkValue, checkPassword} from '../../util/Validation/checkValue'
+
+
+
 import PersonalInfo from './PersonalInfo/PersonalInfo';
 import Perguntas from './Perguntas/Perguntas';
 import Registo from './Registo/Registo';
@@ -11,93 +15,53 @@ import Registo from './Registo/Registo';
 const initialState = {
   personalInfo:{
     primeiro_nome:{
+      type:'text',
       value:'',
       haveError:true,
       whatError: ''
     },
     ultimo_nome:{
+      type:'text',
       value:'',
       haveError:true,
       whatError: ''
     },
     genero:{
+      type:'text',
       value:'',
       haveError:true,
       whatError: ''
     },
     idade:{
+      type:'date',
       value:'',
       haveError:true,
       whatError: ''
     },
     email:{
+      type:'email',
       value:'',
       haveError:true,
       whatError: ''
     },
     palavrapasse:{
+      type:'password',
       value:'',
       haveError:true,
       whatError: ''
     },
     palavrapasseConfirm:{
+      type:'password',
       value:'',
       haveError:true,
       whatError: ''
     }
   },
   questionario:[],
-}
-
-// verifica os valores em tempo real
-const checkValue = (input, value) => {
-
-  // se o input for uma data:
-  if(input === 'date') {
-    const Date = value.split('-')
-    if(Date.filter(element => element === '0').length < 1){
-      return {haveError:false, whatError:''}
-    }
+  incomplete_question:{
+    index: null,
+    message:''
   }
-
-  // se o input for um email:
-  if(input === 'email') {
-    // regex para verificar se é mesmo um email valido:
-    if((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)){
-      return {haveError:false, whatError:''}
-    }
-    return {haveError:true, whatError:'Por favor, coloque um email valido'}
-  }
-
-  //se for uma password
-  if(input === 'password'){
-    if(value.length < 7){
-      return {haveError:true, whatError:'A password necessita de ter pelo menos 7 caracteres'}
-    } else if (value.search(/[A-Z]/g) === -1){
-      return {haveError:true, whatError:'Necessita de pelo menos uma letra maiuscula'}
-    }
-    return {haveError:false, whatError:''}
-  }
-
-  // se for nome ou subnome
-  if(input === 'text'){
-    if(value.search(/[0-9]|[!-/]|[:-@]|[[-`]|[{-~]/g) !== -1) {  
-      return {haveError:true, whatError:'Por favor, colocar apenas letras.'}
-    } else if(value.length < 3){
-      return {haveError:true, whatError:'Letras insuficientes, precisa mais que 2 letras.'}
-    } 
-    return {haveError:false, whatError:''}
-  }
-}
-
-// verifica se a password e confirm_password sao iguais:
-const checkPassword = (value, passwordValue) => {
-  if(value !== passwordValue){
-    return {haveError:true, whatError:'As passwords não são iguais, por favor verifique.'}
-  } else if (!passwordValue){
-    return {haveError:true, whatError:''}
-  }
-  return {haveError:false, whatError:''}
 }
 
 const reducer = (state, action) => {
@@ -128,6 +92,25 @@ const reducer = (state, action) => {
           }
         }
       }
+    case 'show_error_fetch':
+      return {
+        ...state,
+        personalInfo:{
+          ...state.personalInfo,
+          [action.name]:{
+            ...state.personalInfo[action.name],
+            whatError:'Por favor, preencha o dado(s) antes de finalizar o questionario'
+          }
+        }
+      }
+    case 'incomplete_question':
+      return{
+        ...state,
+        incomplete_question: {
+          index: action.index,
+          message: action.message
+        }
+      }
     case 'put_value_questionario':
       return{
         ...state,
@@ -143,11 +126,19 @@ const Questionario = () => {
   const [state, dispatch] = useReducer(reducer,initialState)
 
   const fetch = () => {
-    if(!state.questionario.includes(undefined)){
-      console.log(state.personalInfo)
-      console.log(state.questionario)
+    for(const element in state.personalInfo) {
+      if(state.personalInfo[element].haveError){
+        document.getElementsByName(element)[0].scrollIntoView({block:'center', behavior:'smooth'})
+        dispatch({type:'show_error_fetch', name:element});
+        break
+      }
     }
-    
+    if(state.questionario.includes(undefined)){
+      const location = state.questionario.findIndex((element) => element === undefined)
+      const div = document.getElementsByName(`pergunta${location}`)[0]
+      div.scrollIntoView({block:'center', behavior:'smooth'})
+      dispatch({type:'incomplete_question', index:location ,message:'Por favor preencha todas as perguntas'})
+    }
   }
 
   return (

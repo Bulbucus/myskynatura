@@ -1,6 +1,9 @@
-import {useEffect, useReducer} from 'react';
+import {useEffect, useReducer, useCallback} from 'react';
 
 import classes from './Dados.module.scss';
+
+import {checkValue} from '../../../util/Validation/checkValue'
+import {ErrorMessage, ErrorIcon} from '../../../util/ErrorHandler/ErrorHandler';
 
 import TextInput from '../../../util/TextInput/TextInput';
 import {SelectInput, DefaultMessage, Options, Option} from '../../../util/SelectInput/SelectInput';
@@ -9,51 +12,51 @@ import DateInput from '../../../util/DateInput/DateInput';
 const initialState = {
   personalInfo:{
     primeiro_nome:{
+      type: 'text',
       value:'',
-      haveError:false
+      haveError:true,
+      whatError: ''
     },
     ultimo_nome:{
+      type: 'text',
       value:'',
-      haveError:false
+      haveError:true,
+      whatError: ''
     },
     genero:{
+      type: 'text',
       value:'',
-      haveError:false
+      haveError:true,
+      whatError: ''
     },
     idade:{
+      type: 'date',
       value:'',
-      haveError:true
+      haveError:true,
+      whatError: ''
     },
   }
 }
 
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'put_value_personalInfo':
+      const checkedValue = checkValue(state.personalInfo[action.name].type, action.value)
       return {
         ...state,
         personalInfo:{
           ...state.personalInfo,
           [action.name]:{
             ...state.personalInfo[action.name],
+            ...checkedValue,
             value: action.value
           }
         }
       }
-    case 'toogle_error':
-      return {
-        ...state,
-        personalInfo:{
-          ...state.personalInfo,
-          [action.name]:{
-            ...state.personalInfo[action.name],
-            haveError:action.boolean
-          }
-        }
-      }
-    default:
-      break;
-  }
+      default:
+        break
+    }
 }
   
 
@@ -61,19 +64,17 @@ const Dados = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
 
-  const dispatchValue = (event) => {
-    dispatch({type:'put_value_personalInfo', name:event.target.name , value:event.target.value})
-  }
 
-  const dispatchError = (boolean, name) => {
-    dispatch({type:'toogle_error', boolean:boolean, name: name})
+  const dispatchValue = (data) => {
+    dispatch({type:'put_value_personalInfo', name: data.name , value: data.value})
   }
-
+  
   useEffect(() => {
     dispatch({type:'put_value_personalInfo', name:'primeiro_nome' , value:'Emanuel'})
+    dispatch({type:'put_value_personalInfo', name:'ultimo_nome' , value:'Farinha'})
+    dispatch({type:'put_value_personalInfo', name:'genero' , value:'Masculino'})
   },[])
 
-  console.log(state)
     return (
       <>
         <div>
@@ -81,24 +82,49 @@ const Dados = () => {
           <div className={classes.box}>
             <p className={classes.Description}>Primeiro Nome</p>
             <div className={classes.containerTextInput}>
-
-              <TextInput type='text' defaultValue='Primeiro Nome' name='primeiro_nome' value={state.personalInfo.primeiro_nome.value} onChange={(event) => dispatchValue(event)}></TextInput>
-            
+              <ErrorMessage errorMessage={state.personalInfo.primeiro_nome.whatError}/>
+              <TextInput 
+                name='primeiro_nome' 
+                value={state.personalInfo.primeiro_nome.value} 
+                onChange={(event) => dispatchValue(event.target)}
+              />
+              <ErrorIcon error={state.personalInfo.primeiro_nome.haveError}/>
             </div>
             <p className={classes.Description}>Ultimo Nome</p>
             <div className={classes.containerTextInput}>
-            <TextInput type='text' value='Farinha'>Farinha</TextInput>
+            <ErrorMessage errorMessage={state.personalInfo.ultimo_nome.whatError}/>
+            <TextInput 
+              name='ultimo_nome'
+              value={state.personalInfo.ultimo_nome.value} 
+              onChange={(event) => dispatchValue(event.target)}
+            />
+            <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
             </div>
             <p className={classes.Description}>Género</p>
-            <SelectInput className={classes.SelectInput}>
-              <DefaultMessage value='Masculino'>Masculino</DefaultMessage>
+            <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
+            <SelectInput 
+              className={classes.SelectInput} 
+              name='genero' 
+              // coloquei if event.target.dataset.name se nao cria undefined no context
+              onClick={(event) => {event.target.dataset.name && dispatchValue(event.target.dataset)}}
+              >
+              <DefaultMessage value={state.personalInfo.genero.value}>{state.personalInfo.genero.value}</DefaultMessage>
               <Options>
                 <Option value='Feminino'>Feminino</Option>
                 <Option value='Masculino'>Masculino</Option>
               </Options>
             </SelectInput>
+            <ErrorIcon error={state.personalInfo.genero.haveError}/>
             <p className={classes.TitleDate}>Aniversario</p>
-            <DateInput day='31' month='03' year='1998'></DateInput>
+            <ErrorMessage errorMessage={state.personalInfo.idade.whatError}/>
+            <DateInput 
+              name='idade' 
+              // precisa de useCallback pois o props.value encontra se dentro de useEffect, assim cada vez
+              // que user muda a data o context recebe no mesmo ciclo
+              value={useCallback((value) => dispatch({type:'put_value_personalInfo',name:'idade', value:value}),[dispatch])}
+              date='1954-01-31'
+              />
+              <ErrorIcon error={state.personalInfo.idade.haveError}/>
             <div className={classes.separador}></div>
             <button className={classes.button}>Editar dados</button>
           </div>

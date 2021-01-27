@@ -149,6 +149,7 @@ const SelectInput = ({className, onClick, name, type, children}) => {
   return (
     <SelectContext.Provider value={[state,dispatch]}>
         <div
+          name={name}
           className={[classes.SelectInput, className].join(" ")}
           onClick={(event) => {openSelect(); (onClick && onClick(event))}}      
           tabIndex="-1"

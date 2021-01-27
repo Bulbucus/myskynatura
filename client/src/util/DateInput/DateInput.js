@@ -88,7 +88,7 @@ const reducer = (state, action) => {
 }
 
 
-const DateInput = ({type, name, value, day, month, year}) => {
+const DateInput = ({type, name, value, date}) => {
 
   const [state, dispatch] = useReducer(reducer,InitialState)
 
@@ -123,34 +123,35 @@ const DateInput = ({type, name, value, day, month, year}) => {
 
   // quando recebe um valor proveninte do props. ex: valores recebidos pelo back-end
   useEffect(() => {
-    if(day && month && year){
+    if(date){
+      const [year, month, day] = date.split('-')
     dispatch({type:'put_value', option:'day', event:day})
     dispatch({type:'put_value', option:'month', event:month})
     dispatch({type:'put_value', option:'year', event:year})
     }
-  },[day, month, year])
+  },[date])
 
   return (
     <DateContext.Provider value={{state, dispatch}}>
       <SelectInput className={classes.DiaInput} type={type} name={name}>
-        <DefaultMessage defaultValue='Dia' value={state.selected.day || day}>
-          {state.selected.day || day}
+        <DefaultMessage defaultValue='Dia' value={state.selected.day}>
+          {state.selected.day}
         </DefaultMessage>
         <Options className={classes.Options} >
           {state.options.days.map(day => <Option key={day} value={day} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'day', event:event.target.dataset.value})}}>{day}</Option>)}
         </Options>
       </SelectInput>
       <SelectInput className={classes.MesInput} type={type} name={name} onClick={() => {dispatch({type:'get_months'})}}>
-        <DefaultMessage defaultValue='Mes' value={state.selected.month || month}>
-          {MONTHS[Number(state.selected.month-1)] || MONTHS[Number(month-1)]}
+        <DefaultMessage defaultValue='Mes' value={state.selected.month}>
+          {MONTHS[Number(state.selected.month-1)]}
         </DefaultMessage>
         <Options className={classes.Options} >
           {state.options.months.map((month, index) => <Option key={month} value={month} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'month', event:event.target.dataset.value})}}>{MONTHS[index]}</Option>)}
         </Options>
       </SelectInput>
       <SelectInput className={classes.AnoInput} type={type} name={name} onClick={() => {dispatch({type:'get_years'})}}>
-        <DefaultMessage defaultValue='Ano' value={state.selected.year || year}>
-          {state.selected.year || year}
+        <DefaultMessage defaultValue='Ano' value={state.selected.year}>
+          {state.selected.year }
         </DefaultMessage>
         <Options className={classes.Options}>
           {state.options.years.map(year => <Option key={year} value={year} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'year', event:event.target.dataset.value})}}>{year}</Option>)}

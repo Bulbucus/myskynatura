@@ -22,17 +22,29 @@ const Registo = () => {
       <p className={classes.title}>Para acabar o questionário precisa de criar uma conta no nosso site:</p>
       <div className={classes.containerTextInput}>
         <ErrorMessage errorMessage={state.personalInfo.email.whatError}/>
-        <TextInput type='email' defaultValue="Email" name='email' onChange={(event) => dispatchValue(event.target)}/>
+        <TextInput 
+          type={state.personalInfo.email.type} 
+          defaultValue="Email" 
+          name='email' 
+          onChange={(event) => dispatchValue(event.target)}/>
         <ErrorIcon error={state.personalInfo.email.haveError}/>
       </div>
       <div className={classes.containerTextInput}>
         <ErrorMessage errorMessage={state.personalInfo.palavrapasse.whatError}/>
-        <TextInput type='password' defaultValue="Password" name='palavrapasse' onChange={(event) => dispatchValue(event.target)}/>
+        <TextInput 
+          type={state.personalInfo.palavrapasse.type} 
+          defaultValue="Password" 
+          name='palavrapasse' 
+          onChange={(event) => dispatchValue(event.target)}/>
         <ErrorIcon error={state.personalInfo.palavrapasse.haveError}/>
       </div>
       <div className={classes.containerTextInput}>
         <ErrorMessage errorMessage={state.personalInfo.palavrapasseConfirm.whatError}/>
-        <TextInput type='password' defaultValue="Confirmar Password" name='palavrapasseConfirm' onChange={(event) => dispatchConfirmPassword(event.target)}/>
+        <TextInput 
+          type={state.personalInfo.palavrapasseConfirm.type} 
+          defaultValue="Confirmar Password" 
+          name='palavrapasseConfirm' 
+          onChange={(event) => dispatchConfirmPassword(event.target)}/>
         <ErrorIcon error={state.personalInfo.palavrapasseConfirm.haveError}/>
       </div>
     </div>

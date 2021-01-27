@@ -24,7 +24,7 @@ const PersonalInfo = () => {
       <div className={classes.containerTextInput}>
         <ErrorMessage errorMessage={state.personalInfo.primeiro_nome.whatError}/>
         <TextInput 
-          type='text' 
+          type={state.personalInfo.primeiro_nome.type} 
           defaultValue='Primeiro Nome' 
           name='primeiro_nome' 
           value={state.personalInfo.primeiro_nome.value} 
@@ -35,7 +35,7 @@ const PersonalInfo = () => {
         <div className={classes.containerTextInput}>
           <ErrorMessage errorMessage={state.personalInfo.ultimo_nome.whatError}/>
           <TextInput 
-            type='text' 
+            type={state.personalInfo.ultimo_nome.type} 
             defaultValue='Ultimo Nome' 
             name='ultimo_nome'  
             value={state.personalInfo.ultimo_nome.value}
@@ -43,10 +43,11 @@ const PersonalInfo = () => {
           />
           <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
         </div>
-      <div className={classes.Select}>
-      <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
+
+        <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
+        <div className={classes.Select}>
         <SelectInput 
-          type='text' 
+          type={state.personalInfo.genero.type}
           name='genero' 
           // coloquei if event.target.dataset.name se nao cria undefined no context
           onClick={(event) => {event.target.dataset.name && dispatchValue(event.target.dataset)}}
@@ -62,10 +63,10 @@ const PersonalInfo = () => {
         <ErrorIcon error={state.personalInfo.genero.haveError}/>
       </div>
       <div className={classes.TitleDate}>Aniversario</div>
-      <div className={classes.container_date}>
       <ErrorMessage errorMessage={state.personalInfo.idade.whatError}/>
+      <div className={classes.container_date}>
         <DateInput 
-          type='date'
+          type={state.personalInfo.idade.type}
           name='idade' 
           // precisa de useCallback pois o props.value encontra se dentro de useEffect, assim cada vez
           // que user muda a data o context recebe no mesmo ciclo
