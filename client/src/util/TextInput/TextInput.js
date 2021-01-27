@@ -11,7 +11,7 @@ const TextInput = (props) => {
           name={props.name} 
           placeholder={props.defaultValue}
           onChange={props.onChange}
-          onBlur={props.onBlur}
+          value={props.value}
           >
         </input>
     </>

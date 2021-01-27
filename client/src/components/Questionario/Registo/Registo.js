@@ -3,37 +3,37 @@ import {QuestionarioContext} from '../Questionario';
 import classes from './Registo.module.scss';
 
 import TextInput from '../../../util/TextInput/TextInput'
-import Validation from '../../../util/ErrorMessage/Validation'
+import {ErrorMessage, ErrorIcon} from '../../../util/ErrorHandler/ErrorHandler';
 
 const Registo = () => {
 
   const [state, dispatch] = useContext(QuestionarioContext)
 
-  const dispatchValue = (event) => {
-    dispatch({type:'put_value_personalInfo', name:event.target.name , value:event.target.value})
+  const dispatchValue = (data) => {
+    dispatch({type:'put_value_personalInfo', input: data.type, name:data.name , value:data.value})
   }
 
-  const dispatchError = (boolean, name) => {
-    dispatch({type:'toogle_error', boolean:boolean, name: name})
+  const dispatchConfirmPassword = (data) => {
+    dispatch({type:'confirm_password', value:data.value, passwordValue:state.personalInfo.palavrapasse.value})
   }
 
   return (
     <div className={classes.container}>
       <p className={classes.title}>Para acabar o questionário precisa de criar uma conta no nosso site:</p>
       <div className={classes.containerTextInput}>
-      <Validation value={state.personalInfo.email.value} error={(boolean, name) => dispatchError(boolean, name)}>
-        <TextInput type='email' defaultValue="Email" name='email' onChange={(event) => dispatchValue(event)}/>
-      </Validation>
+        <ErrorMessage errorMessage={state.personalInfo.email.whatError}/>
+        <TextInput type='email' defaultValue="Email" name='email' onChange={(event) => dispatchValue(event.target)}/>
+        <ErrorIcon error={state.personalInfo.email.haveError}/>
       </div>
       <div className={classes.containerTextInput}>
-      <Validation value={state.personalInfo.palavrapasse.value} error={(boolean, name) => dispatchError(boolean, name)}>
-        <TextInput type='password' defaultValue="Password" name='palavrapasse' onChange={(event) => dispatchValue(event)}/>
-      </Validation>
+        <ErrorMessage errorMessage={state.personalInfo.palavrapasse.whatError}/>
+        <TextInput type='password' defaultValue="Password" name='palavrapasse' onChange={(event) => dispatchValue(event.target)}/>
+        <ErrorIcon error={state.personalInfo.palavrapasse.haveError}/>
       </div>
       <div className={classes.containerTextInput}>
-      <Validation confirmPassword={true} value={state.personalInfo.palavrapasseConfirm.value} password={state.personalInfo.palavrapasse.value} error={(boolean, name) => dispatchError(boolean, name)}>
-        <TextInput type='password' defaultValue="Confirmar Password" name='palavrapasseConfirm' onChange={(event) => dispatchValue(event)}/>
-      </Validation>
+        <ErrorMessage errorMessage={state.personalInfo.palavrapasseConfirm.whatError}/>
+        <TextInput type='password' defaultValue="Confirmar Password" name='palavrapasseConfirm' onChange={(event) => dispatchConfirmPassword(event.target)}/>
+        <ErrorIcon error={state.personalInfo.palavrapasseConfirm.haveError}/>
       </div>
     </div>
   )

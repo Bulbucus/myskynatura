@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useContext, createContext } from "react";
+import { useEffect, useReducer, useContext, createContext, useCallback } from "react";
 
 import classes from "./SelectInput.module.scss";
 
@@ -50,35 +50,35 @@ const reducer = (state, action) => {
 
 // Custom Option Box ______________________________________________
 // Aceita onClick se necessario
-const Option = (props) => {
-  const stateContext = useContext(SelectContext)
+const Option = ({className, value, onClick ,children}) => {
+  const [state,dispatch] = useContext(SelectContext)
 
   const putValue = (event) => {
-    return stateContext.dispatch({type:'put_value', htmlValue:event.target.innerHTML, value:event.target.dataset.value})
+    return dispatch({type:'put_value', htmlValue:event.target.innerHTML, value:event.target.dataset.value})
   }
 
   return (
     <span
-      className={[classes.OptionSelect, props.className].join(" ")}
-      onClick={(event) => {putValue(event); (props.onClick && props.onClick(event))}}
-      data-type={stateContext.state.type}
-      data-name={stateContext.state.name}
-      data-value={props.value}
+      className={[classes.OptionSelect, className].join(" ")}
+      onClick={(event) => {putValue(event); onClick && onClick(event)}}
+      data-type={state.type} 
+      data-name={state.name} 
+      data-value={value}
     >
-      {props.children}
+      {children}
     </span>
   );
 };
 
 
 // Custom DropBox _____________________________________________________________
-const Options = (props) => {
+const Options = ({className, children}) => {
   
-  const stateContext = useContext(SelectContext)
+  const [state] = useContext(SelectContext)
 
   return (
-    <div className={[...stateContext.state.toogleSelect, props.className].join(" ")}>
-      {props.children}
+    <div className={[...state.toogleSelect, className].join(" ")}>
+      {children}
     </div>
   );
 };
@@ -86,33 +86,30 @@ const Options = (props) => {
 
 // Custom defaultValue _____________________________________________________________
 // argumentos: defaultValue:String(default value) data:String(se necessario)
-// aceita props.children se necessario
-const DefaultMessage = (props) => {
+// aceita children se necessario
+const DefaultMessage = ({value, defaultValue, children}) => {
 
-  const stateContext = useContext(SelectContext)
-
+  const [state, dispatch] = useContext(SelectContext)
 
   //Vem logo com um valor em vez de o default
-  const putValue = () => {
-    return stateContext.dispatch({type:'put_value', htmlValue:props.children, value:props.value})
-  }
+  const putValue = useCallback(() => {
+    return dispatch({type:'put_value', htmlValue:children, value:value})
+  },[dispatch, children, value])
 
-
+  // so executa quando vem com valor do props:
   useEffect(() => {
     putValue()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [putValue])
 
   return (
-    <>
-      {stateContext.state.value ? 
-        <span className={classes.SelectedSelect} data-type={stateContext.state.type} data-name={stateContext.state.name} data-value={props.value || stateContext.state.value}>
-          { props.children ||  stateContext.state.htmlValue}
-          </span> : 
-        <span className={classes.DefaultSelect} >
-          {props.defaultValue}
-        </span>}
-    </>
+        <span 
+          className={state.value ? classes.SelectedSelect : classes.DefaultSelect} 
+          data-type={state.type} 
+          data-name={state.name} 
+          data-value={value || state.value}
+        >
+          {state.value ? children ||  state.htmlValue : defaultValue}
+        </span> 
   )
 }
 
@@ -120,11 +117,11 @@ const DefaultMessage = (props) => {
 // Custom Select _____________________________________________________________
 // argumentos: errorMessage:Boolean showIcon:Boolean
 // aceita tambem onClick e onBlur
-const SelectInput = (props) => {
+const SelectInput = ({className, onClick, name, type, children}) => {
 
   const [state,dispatch] = useReducer(reducer, initialState);
 
-
+  // so executa quando o toogleselect muda
   useEffect(() => {
     // para fechar o dropbox quando se carrega fora do dropbox
     const removeSelect = (event) => {
@@ -144,21 +141,19 @@ const SelectInput = (props) => {
   // serve para abrir o select
   // quando abre coloca tambem o tipo e o id em todas as opcoes
   const openSelect = () => {
-    dispatch({type:'put_type', name: props.type})
-    dispatch({type:'put_name', name: props.name})
+    dispatch({type:'put_type', name: type})
+    dispatch({type:'put_name', name: name})
     return state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})
   }
 
   return (
-    <SelectContext.Provider value={{state,dispatch}}>
+    <SelectContext.Provider value={[state,dispatch]}>
         <div
-          className={[classes.SelectInput, props.className].join(" ")}
-          onClick={(event) => {openSelect(); (props.onClick && props.onClick(event))}}      
-          onBlur={props.onBlur}
-          onChange={props.onChange}
+          className={[classes.SelectInput, className].join(" ")}
+          onClick={(event) => {openSelect(); (onClick && onClick(event))}}      
           tabIndex="-1"
         >
-          {props.children}
+          {children}
         </div>
     </SelectContext.Provider>
   );

@@ -43,3 +43,25 @@
   transform: translateY(5px);
   animation: FadeIn 0.6s;
 }
+
+
+.Message{
+  width: fit-content;
+  padding: 2px 5px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+
+  background-color: #e67272ab;
+
+  font-size: $font-14;
+  font-weight: $font-thin;
+  animation: FadeIn 0.6s;
+
+  @media ( min-width:$size-mobile ) {
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+
+    font-size: $font-14 * 2;
+  }
+}

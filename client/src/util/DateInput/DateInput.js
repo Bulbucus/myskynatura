@@ -92,6 +92,7 @@ const DateInput = ({type, name, value, day, month, year}) => {
 
   const [state, dispatch] = useReducer(reducer,InitialState)
 
+  
   // executar funçao so quando é selecionado um novo dia, mes ou ano
   useEffect(() => {
     
@@ -120,7 +121,7 @@ const DateInput = ({type, name, value, day, month, year}) => {
 
   }, [value, state.selected.day, state.selected.month, state.selected.year])
 
-  // quando recebe um valor proveninte do  ex: valores recebidos pelo back-end
+  // quando recebe um valor proveninte do props. ex: valores recebidos pelo back-end
   useEffect(() => {
     if(day && month && year){
     dispatch({type:'put_value', option:'day', event:day})
