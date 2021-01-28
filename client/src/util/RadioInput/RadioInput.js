@@ -6,7 +6,7 @@ const RadioInput = (props) => {
     <>
     <input
     className={classes.Radio}
-    type="radio"
+    type={props.type}
     id={props.id}
     value={props.id}
     name={props.name}

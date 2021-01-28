@@ -28,7 +28,7 @@ const PersonalInfo = () => {
           defaultValue='Primeiro Nome' 
           name='primeiro_nome' 
           value={state.personalInfo.primeiro_nome.value} 
-          onChange={(event) => dispatchValue(event.target)}
+          onChange={(event) => {dispatchValue(event.target)}}
         />
         <ErrorIcon error={state.personalInfo.primeiro_nome.haveError}/>
       </div>

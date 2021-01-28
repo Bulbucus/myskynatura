@@ -16,7 +16,7 @@ const Pergunta = (props) => {
       {props.respostas.map((respostas, index) => {
         return (
         <div className={classes.RadioBox} key={respostas}>
-          <RadioInput name={props.name} id={props.id[index]} onClick={(event) => {props.onClick(event)}}></RadioInput>
+          <RadioInput type={props.type} name={props.name} id={props.id[index]} onClick={(event) => {props.onClick(event)}}></RadioInput>
           <label htmlFor={props.id[index]} className={classes.Label}>{respostas}</label>
         </div>
         )

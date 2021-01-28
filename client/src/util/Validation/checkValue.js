@@ -1,6 +1,6 @@
 // verifica os valores em tempo real
 const checkValue = (input, value) => {
-  if(value){
+
     // se o input for uma data:
     if(input === 'date') {
       const Date = value.split('-')
@@ -30,14 +30,13 @@ const checkValue = (input, value) => {
   
     // se for nome ou subnome
     if(input === 'text'){
-      if(value.search(/[0-9]|[!-/]|[:-@]|[[-`]|[{-~]/g) !== -1 || value.includes('  ')) {  
+      if((value && value.search(/[0-9]|[!-/]|[:-@]|[[-`]|[{-~]/g) !== -1) || (value && value.includes('  '))) {  
         return {haveError:true, whatError:'Por favor, colocar apenas letras.'}
-      } else if(value.length < 3){
+      } else if(!value || value.length < 3){
         return {haveError:true, whatError:'Letras insuficientes, precisa mais que 2 letras.'}
       } 
       return {haveError:false, whatError:''}
     }
-  }
 }
 
 

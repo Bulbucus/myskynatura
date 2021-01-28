@@ -1,0 +1,14 @@
+@import './size.scss';
+
+.loading{
+  display: block;
+  width: 58px;
+  height: 58px;
+  margin: 15px auto;
+
+
+  @media (min-width:$size-mobile){
+    width: 116px;
+    height: 116px;
+  }
+}

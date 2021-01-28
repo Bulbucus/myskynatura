@@ -1,16 +1,17 @@
-import React, {useReducer} from 'react';
-//import {Link} from 'react-router-dom';
+import React, {useReducer, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
 import classes from './Questionario.module.scss';
 
 import {checkValue, checkPassword} from '../../util/Validation/checkValue'
 
-
+import {ReactComponent as Loading} from '../../assets/Loading.svg'
 
 import PersonalInfo from './PersonalInfo/PersonalInfo';
 import Perguntas from './Perguntas/Perguntas';
 import Registo from './Registo/Registo';
+
 
 const initialState = {
   personalInfo:{
@@ -99,7 +100,7 @@ const reducer = (state, action) => {
           ...state.personalInfo,
           [action.name]:{
             ...state.personalInfo[action.name],
-            whatError:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'
+            whatError:action.message
           }
         }
       }
@@ -124,14 +125,17 @@ const reducer = (state, action) => {
 const Questionario = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
+  const [loading, setLoading] = useState(false)
+  let history = useHistory();
 
   const fetch = () => {
+    setLoading(true)
     let noError = true;
     // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
       if(state.personalInfo[element].haveError){
         document.getElementsByName(element)[0].scrollIntoView({block:'center', behavior:'smooth'})
-        dispatch({type:'show_error_fetch', name:element});
+        dispatch({type:'show_error_fetch', name:element, message:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'});
         noError = false;
         break
       }
@@ -157,11 +161,26 @@ const Questionario = () => {
           idade: value('idade'),
           email: value('email'),
           palavrapasse: value('palavrapasse'),
-          questionario: state.questionario
+          // transforma questionario (['value1', ['value2','value3'], ['value4','value5']])
+          // para isto (['value1', 'value2', value3', 'value4', 'value5'])
+          questionario: [].concat.apply([],state.questionario)
         }
       ).then(
-        (response) => {console.log(response)}
-      )
+        (response) => {
+          if(response.data.status !== 200) {
+            setLoading(false)
+            dispatch({type:'show_error_fetch', name:'email', message:response.data.message})
+          }
+          if(response.data.status === 200) {
+            setLoading(false)
+            history.push('/')
+          }
+          
+        }
+      ).catch(() => {
+        setLoading(false)
+        dispatch({type:'show_error_fetch', name:'email', message:'Erro interno. Por favor tente mais tarde'})
+      })
     }
 
   }
@@ -174,7 +193,7 @@ const Questionario = () => {
       <div className={classes.separador}></div>
       <Registo></Registo>
       <div className={classes.separador}></div>
-      <button className={classes.button} onClick={fetch}>Acabar o questionário</button>
+      {loading ? <Loading className={classes.loading}></Loading> : <button className={classes.button} onClick={fetch}>Acabar o questionário</button>}
     </QuestionarioContext.Provider>
   )
 }
