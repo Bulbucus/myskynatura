@@ -1,17 +1,19 @@
-import React, {useReducer, useState} from 'react';
+import {useReducer, useState, createContext, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
 import classes from './Questionario.module.scss';
 
 import {checkValue, checkPassword} from '../../util/Validation/checkValue'
-
 import {ReactComponent as Loading} from '../../assets/Loading.svg'
+
+import {LoginContext} from '../../App';
 
 import PersonalInfo from './PersonalInfo/PersonalInfo';
 import Perguntas from './Perguntas/Perguntas';
 import Registo from './Registo/Registo';
 
+const QuestionarioContext = createContext();
 
 const initialState = {
   personalInfo:{
@@ -28,7 +30,7 @@ const initialState = {
       whatError: ''
     },
     genero:{
-      type:'text',
+      type:'select',
       value:'',
       haveError:true,
       whatError: ''
@@ -124,12 +126,20 @@ const reducer = (state, action) => {
 
 const Questionario = () => {
 
-  const [state, dispatch] = useReducer(reducer,initialState)
-  const [loading, setLoading] = useState(false)
+  const [state, dispatch] = useReducer(reducer,initialState);
+
+  // Context Login
+  const [loginState, loginDispatch] = useContext(LoginContext);
+
+  const [loading, setLoading] = useState(false);
+
   let history = useHistory();
 
+  // criei um handler que melhora a experiencia no user se faltar algum dado,
+  // antes de enviar os dados para o back end, melhorando assim a rapidez de respostas
+  // e envitando mais requests para o back end.
   const fetch = () => {
-    setLoading(true)
+
     let noError = true;
     // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
@@ -140,10 +150,18 @@ const Questionario = () => {
         break
       }
     }
-    
+
     // faz scroll nas perguntas e mostra ao user que falta preencher com uma mensagem
-    if(state.questionario.includes(undefined)){
-      const location = state.questionario.findIndex((element) => element === undefined)
+    if(state.questionario.includes(undefined) || (state.questionario.findIndex(el => el.length === 0) > -1)){
+      let location
+      // o state.questionario pode ser composto por strings ou arrays de strings:
+      // ['string', ['string', 'string'] ]
+      // esta logica a baixo serve so para procurar qual das strings ou as arrays de strings esta sem valor
+      state.questionario.findIndex((element) => element === undefined) === -1 ? 
+      location = state.questionario.findIndex(el => el.length === 0) 
+      :
+      location = state.questionario.findIndex((element) => element === undefined)
+
       const div = document.getElementsByName(`pergunta${location}`)[0]
       div.scrollIntoView({block:'center', behavior:'smooth'})
       dispatch({type:'incomplete_question', index:location ,message:'Por favor preencha todas as perguntas'})
@@ -151,6 +169,7 @@ const Questionario = () => {
     }
 
     if(noError){
+      setLoading(true)
       const value = name  => state.personalInfo[name].value
       axios.post(
         'http://95.93.159.118:8888/user/registar',
@@ -174,6 +193,8 @@ const Questionario = () => {
           if(response.data.status === 200) {
             setLoading(false)
             history.push('/')
+            // using Context Login
+            loginDispatch({type:'toogle_login', boolean:true, text:'Registo feito com sucesso'})
           }
           
         }
@@ -198,6 +219,4 @@ const Questionario = () => {
   )
 }
 
-export const QuestionarioContext = React.createContext(initialState);
-
-export default Questionario;
+export {Questionario , QuestionarioContext};

@@ -1,14 +1,13 @@
 @import '../../style/box.scss';
 
 .box{
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   width: 300px;
-  height: 265px;
+  z-index: 3;
 
-  margin: 0 auto;
-  padding: 9px 4px;
+  padding: 9px 4px 15px 4px;
 
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -18,32 +17,8 @@
 
   background-color: $white;
 
-  &::before{
-    content: '';
-
-    position: absolute;
-    top: -20px;
-    right: -12px;
-    padding: 20px;
-
-    border-radius: 30px;
-
-    background-color: $gray-dark;
-    background-image: url('data:image/svg+xml;utf8,
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13 0C5.81486 0 0 5.8143 0 13C0 20.1852 5.8143 26 13 26C20.1851 26 26 20.1857 26 13C26 5.81481 20.1857 0 13 0ZM13 23.9688C6.93753 23.9688 2.03125 19.0629 2.03125 13C2.03125 6.93748 6.93707 2.03125 13 2.03125C19.0625 2.03125 23.9688 6.93707 23.9688 13C23.9688 19.0625 19.0629 23.9688 13 23.9688Z" fill="black"/>
-    <path d="M17.4477 16.0114L14.4363 13L17.4477 9.98858C17.8443 9.59197 17.8444 8.94893 17.4478 8.55228C17.0511 8.15563 16.408 8.15568 16.0115 8.55228L13 11.5637L9.98852 8.55228C9.59197 8.15563 8.94883 8.15563 8.55222 8.55228C8.15562 8.94893 8.15562 9.59197 8.55228 9.98858L11.5637 13L8.55228 16.0114C8.15562 16.4081 8.15557 17.0511 8.55222 17.4477C8.94898 17.8444 9.59202 17.8443 9.98852 17.4477L13 14.4363L16.0115 17.4477C16.408 17.8443 17.0511 17.8444 17.4478 17.4477C17.8444 17.0511 17.8444 16.408 17.4477 16.0114Z" fill="black"/>
-    </svg>'
-    );
-    background-repeat: no-repeat;
-    background-position: center;
-
-    cursor: pointer;
-  }
-
   @media (min-width:$size-mobile){
     width: 300px * 2;
-    height: 480px;
   }
 }
 
@@ -74,6 +49,30 @@
 }
 
 // ______________
+.Background{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  
+  z-index: 2;
+}
+
+.CloseIcon{
+  position: absolute;
+  top: -20px;
+  right: -12px;
+  padding: 20px;
+
+  border-radius: 30px;
+
+  background-color: $gray-dark;
+  background-image: url('data:image/svg+xml;utf8,<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 0C5.81486 0 0 5.8143 0 13C0 20.1852 5.8143 26 13 26C20.1851 26 26 20.1857 26 13C26 5.81481 20.1857 0 13 0ZM13 23.9688C6.93753 23.9688 2.03125 19.0629 2.03125 13C2.03125 6.93748 6.93707 2.03125 13 2.03125C19.0625 2.03125 23.9688 6.93707 23.9688 13C23.9688 19.0625 19.0629 23.9688 13 23.9688Z" fill="black"/><path d="M17.4477 16.0114L14.4363 13L17.4477 9.98858C17.8443 9.59197 17.8444 8.94893 17.4478 8.55228C17.0511 8.15563 16.408 8.15568 16.0115 8.55228L13 11.5637L9.98852 8.55228C9.59197 8.15563 8.94883 8.15563 8.55222 8.55228C8.15562 8.94893 8.15562 9.59197 8.55228 9.98858L11.5637 13L8.55228 16.0114C8.15562 16.4081 8.15557 17.0511 8.55222 17.4477C8.94898 17.8444 9.59202 17.8443 9.98852 17.4477L13 14.4363L16.0115 17.4477C16.408 17.8443 17.0511 17.8444 17.4478 17.4477C17.8444 17.0511 17.8444 16.408 17.4477 16.0114Z" fill="black"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+
+  cursor: pointer;
+}
+
 .Logo{
   display: block;
   width: 265px;

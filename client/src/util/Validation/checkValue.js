@@ -27,7 +27,14 @@ const checkValue = (input, value) => {
       }
       return {haveError:false, whatError:''}
     }
-  
+
+    if(input === 'select'){
+      if(!value){
+        return {haveError:true, whatError:'Por favor, preencha com uma das opções.'}
+      }
+      return {haveError:false, whatError:''}
+    }
+    
     // se for nome ou subnome
     if(input === 'text'){
       if((value && value.search(/[0-9]|[!-/]|[:-@]|[[-`]|[{-~]/g) !== -1) || (value && value.includes('  '))) {  
@@ -37,6 +44,7 @@ const checkValue = (input, value) => {
       } 
       return {haveError:false, whatError:''}
     }
+
 }
 
 

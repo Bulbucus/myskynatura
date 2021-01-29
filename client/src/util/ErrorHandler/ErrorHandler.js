@@ -29,7 +29,7 @@ const ErrorMessage = (props) => {
 
   return(
     <>
-    {props.errorMessage && <div className={classes.Message}>{props.errorMessage}</div>}
+    {props.errorMessage && <div className={classes.Message} style={props.style}>{props.errorMessage}</div>}
     </>
   )
 }

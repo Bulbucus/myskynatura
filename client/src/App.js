@@ -1,25 +1,29 @@
-import { useState } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+//Store
+import initialState from './store/initialState';
+import reducer from './store/reducer';
 
 // Componentes
 import Menu from './components/Menu/Menu';
 import Inicio from './components/Inicio/Inicio';
-import Questionario from './components/Questionario/Questionario';
+import {Questionario} from './components/Questionario/Questionario';
 import Resultados from './components/Resultados/Resultados';
 import Conta from './components/Conta/Dados/Dados';
 import Login from './components/Login/Login';
 
-
+const LoginContext = createContext()
 
 const App = () => {
 
-  const [login, setLogin] = useState(false)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <>
+    <LoginContext.Provider value={[state, dispatch]}>
       <Router>
-        <Menu login={() => setLogin(!login)}></Menu>
-        <Login login={login}></Login>
+        <Menu></Menu>
+        <Login></Login>
         <div style={{height:'70px'}}></div>
         <Switch>
           <Route path='/questionario'>
@@ -36,8 +40,8 @@ const App = () => {
           </Route>
         </Switch>
       </Router>
-    </>
+    </LoginContext.Provider>
   );
 }
 
-export default App;
+export {App, LoginContext};
