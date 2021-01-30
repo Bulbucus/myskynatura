@@ -127,7 +127,7 @@ const Questionario = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
 
   const [loading, setLoading] = useState(false);
-
+  console.log(state)
   let history = useHistory();
 
   // criei um handler que melhora a experiencia no user se faltar algum dado,

@@ -84,10 +84,10 @@ const DateInput = ({name, value, date}) => {
   // transforma o mes de nome para numero (ex: de fevereiro para '02')
   const numericMonth = useCallback(() => {
     const monthIndex = state.options.months.findIndex(el => el === state.selected.month)
-    let month_withTwoZeros = month
+    let month_withTwoZeros = monthIndex
     if(monthIndex < 10) {month_withTwoZeros = `0${monthIndex+1}`}
     return month_withTwoZeros;
-  },[month, state.options.months, state.selected.month])
+  },[state.options.months, state.selected.month])
 
   // ira criar no state os anos todos automaticamente ao renderizar a primeira vez e uma unica vez
   useEffect(() => {
