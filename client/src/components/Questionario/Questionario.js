@@ -127,7 +127,7 @@ const Questionario = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
 
   const [loading, setLoading] = useState(false);
-  console.log(state)
+
   let history = useHistory();
 
   // criei um handler que melhora a experiencia no user se faltar algum dado,
@@ -139,9 +139,6 @@ const Questionario = () => {
     // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
       if(state.personalInfo[element].haveError){
-        console.log(element)
-        console.log(document.getElementsByName(element)[0])
-        console.log(document.getElementById(element))
         let getElement = document.getElementsByName(element)[0] || document.getElementById(element)
         getElement.scrollIntoView({block:'center', behavior:'smooth'})
         dispatch({type:'show_error_fetch', name:element, message:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'});
@@ -192,7 +189,7 @@ const Questionario = () => {
           if(response.data.status === 200) {
             setLoading(false)
             history.push('/')
-            console.log(response.data)
+
           }
           
         }

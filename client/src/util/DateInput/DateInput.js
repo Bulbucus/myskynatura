@@ -79,25 +79,36 @@ const DateInput = ({name, value, date}) => {
   let [year, month, day] = [];
   if(date){
     [year, month, day] = date.split('-')
+
   }
 
   // transforma o mes de nome para numero (ex: de fevereiro para '02')
   const numericMonth = useCallback(() => {
+    if(state.selected.month !== 0){
     const monthIndex = state.options.months.findIndex(el => el === state.selected.month)
-    let month_withTwoZeros = monthIndex
-    if(monthIndex < 10) {month_withTwoZeros = `0${monthIndex+1}`}
+    let month_withTwoZeros = monthIndex + 1
+    if(monthIndex + 1 < 10) {month_withTwoZeros = `0${monthIndex + 1}`}
     return month_withTwoZeros;
+    }
   },[state.options.months, state.selected.month])
 
-  // ira criar no state os anos todos automaticamente ao renderizar a primeira vez e uma unica vez
+  // ira renderizar as options para o ano quando cria o componente
   useEffect(() => {
     dispatch({type:'get_years'})
-  }, [])
+  },[])
+
+  // coloca os dados do parente (date) , se existir, no initialState
+  useEffect(() => {
+    if(date){
+    dispatch({type:'put_value', option:'day', event:day})
+    dispatch({type:'put_value', option:'month', event:state.options.months[Number(month-1)]})
+    dispatch({type:'put_value', option:'year', event:year})
+    }
+  }, [date, day, month, state.options.months, year])
   
 
-  // executar funçao so quando é selecionado um novo dia, mes ou ano
+  // executa so quando é selecionado um novo dia, mes ou ano
   useEffect(() => {
-
     const getDays = () => {
       // Modificar o input select dos dias automaticamente consoante o ano e o mes que é selecionado
       switch(state.selected.month) {
@@ -117,12 +128,18 @@ const DateInput = ({name, value, date}) => {
     }
     getDays()
     
-    const month = numericMonth()
-    // Envia valor da data para parente
-    // em formado (yyyy-mm-dd)
-    value && value(`${state.selected.year}-${month}-${state.selected.day}`)
+    // so envia o valor para o parente se os states nao estiverem vazios:
+    // isto porque se o useeffect executa cada vez que um deles muda e se
+    // mudamos um dos inputs e os outros estao vazios iremos mandar os outros inputs vazios para o parent
+    // desta forma evita isso e obriga que so envia o valor para o parent se no state todos tiverem valores
+    if(state.selected.day !== 0 && state.selected.month !== 0 && state.selected.year !== 0){
+      const month = numericMonth()
+      // Envia valor da data para parente
+      // em formado (yyyy-mm-dd)
+      value && value(`${state.selected.year}-${month}-${state.selected.day}`)
+    }
   
-  }, [value, state.selected.day, state.selected.month, state.selected.year, numericMonth])
+  }, [numericMonth, state.selected.day, state.selected.month, state.selected.year, value])
 
 
 
@@ -134,7 +151,7 @@ const DateInput = ({name, value, date}) => {
         className={classes.DiaInput} 
         placeholder='Dia' 
         name='dia' 
-        value={day || state.selected.day}>
+        value={state.selected.day || day}>
         <Options 
           parentClass={classes.Options} 
           childClass={classes.Option} options={[...state.options.days]} 
@@ -145,7 +162,7 @@ const DateInput = ({name, value, date}) => {
         className={classes.MesInput} 
         placeholder='Mes' 
         name='mes' 
-        value={month ||state.selected.month}>
+        value={state.selected.month || state.options.months[Number(month-1)]}>
         <Options 
           parentClass={classes.Options} 
           childClass={classes.Option} options={[...state.options.months]} 
@@ -156,7 +173,7 @@ const DateInput = ({name, value, date}) => {
         className={classes.AnoInput} 
         placeholder='Ano' 
         name='ano' 
-        value={year || state.selected.year}>
+        value={state.selected.year || year}>
         <Options 
           parentClass={classes.Options} 
           childClass={classes.Option} options={[...state.options.years]} 

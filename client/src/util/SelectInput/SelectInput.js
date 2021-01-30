@@ -35,8 +35,8 @@ const Options = ({parentClass, childClass, options, onClick}) => {
 
   return (
     <div className={[...state.toogleSelect, parentClass].join(" ")}>
-      {options.map((option) => (
-        <span className={[classes.OptionSelect, childClass].join(" ")} onClick={() => {onClick(option)}}> 
+      {options.map((option, index) => (
+        <span className={[classes.OptionSelect, childClass].join(" ")} key={index} onClick={() => {onClick(option)}}> 
         {option}
         </span>
       ))}

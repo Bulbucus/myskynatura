@@ -6,7 +6,7 @@ import {checkValue} from '../../../util/Validation/checkValue'
 import {ErrorMessage, ErrorIcon} from '../../../util/ErrorHandler/ErrorHandler';
 
 import TextInput from '../../../util/TextInput/TextInput';
-import {SelectInput, DefaultMessage, Options, Option} from '../../../util/SelectInput/SelectInput';
+import {SelectInput, Options} from '../../../util/SelectInput/SelectInput';
 import DateInput from '../../../util/DateInput/DateInput';
 
 const initialState = {
@@ -63,10 +63,8 @@ const reducer = (state, action) => {
 const Dados = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
-  console.log(state.personalInfo)
 
   const dispatchValue = (data) => {
-    console.log(data)
     dispatch({type:'put_value_personalInfo',name: data.name , value: data.value})
   }
   
@@ -74,6 +72,7 @@ const Dados = () => {
     dispatch({type:'put_value_personalInfo', name:'primeiro_nome' , value:'Emanuel'})
     dispatch({type:'put_value_personalInfo', name:'ultimo_nome' , value:'Farinha'})
     dispatch({type:'put_value_personalInfo', name:'genero' , value:'Masculino'})
+    dispatch({type:'put_value_personalInfo', name:'idade' , value:'1998-03-31'})
   },[])
 
     return (
@@ -93,21 +92,35 @@ const Dados = () => {
             </div>
             <p className={classes.Description}>Ultimo Nome</p>
             <div className={classes.containerTextInput}>
-            <ErrorMessage errorMessage={state.personalInfo.ultimo_nome.whatError}/>
-            <TextInput 
-              name='ultimo_nome'
-              value={state.personalInfo.ultimo_nome.value} 
-              onChange={(event) => dispatchValue(event.target)}
-            />
-            <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
+              <ErrorMessage errorMessage={state.personalInfo.ultimo_nome.whatError}/>
+              <TextInput 
+                name='ultimo_nome'
+                value={state.personalInfo.ultimo_nome.value} 
+                onChange={(event) => dispatchValue(event.target)}
+              />
+              <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
             </div>
             <p className={classes.Description}>Género</p>
             <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
-            {/* Select Input */}
-            <ErrorIcon error={state.personalInfo.genero.haveError}/>
+            <div className={classes.Select}>
+              <SelectInput 
+                placeholder='Genero' 
+                name='genero' 
+                value={state.personalInfo.genero.value}>
+                <Options 
+                  options={['Masculino', 'Feminino']} 
+                  onClick={(value) => {dispatch({type:'put_value_personalInfo', input:'select', name:'genero' ,value:value})}}
+                />
+              </SelectInput>
+              <ErrorIcon error={state.personalInfo.genero.haveError}/>
+            </div>
             <p className={classes.TitleDate}>Aniversario</p>
             <ErrorMessage errorMessage={state.personalInfo.idade.whatError}/>
-            {/* Date Input */}
+            <DateInput
+                name='idade' 
+                date={state.personalInfo.idade.value}
+                value={useCallback((value) => {dispatch({type:'put_value_personalInfo', input:'date', name:'idade',value:value})},[dispatch])}
+              />
               <ErrorIcon error={state.personalInfo.idade.haveError}/>
             <div className={classes.separador}></div>
             <button className={classes.button}>Editar dados</button>

@@ -3,8 +3,8 @@ const checkValue = (input, value) => {
 
     // se o input for uma data:
     if(input === 'date') {
-      const Date = value.split('-')
-      if(Date.filter(element => element === '0').length < 1){
+      const date = value.split('-')
+      if(date.filter(element => element === '0').length < 1){
         return {haveError:false, whatError:''}
       }
     }
