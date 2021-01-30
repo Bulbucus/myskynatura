@@ -46,18 +46,11 @@ const PersonalInfo = () => {
 
         <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
         <div className={classes.Select}>
-        <SelectInput 
-          type={state.personalInfo.genero.type}
-          name='genero' 
-          // coloquei if event.target.dataset.name se nao cria undefined no context
-          onClick={(event) => {event.target.dataset.name && dispatchValue(event.target.dataset)}}
-        >
-          <DefaultMessage 
-          defaultValue='Género' 
-          />
+        <SelectInput type={state.personalInfo.genero.type} name='genero'>
+          <DefaultMessage defaultValue='Género'/>
           <Options>
-            <Option value='Masculino'>Masculino</Option>
-            <Option value='Feminino'>Feminino</Option>
+            <Option onClick={(event) => {dispatch({type:'put_value_personalInfo', input: event.target.dataset.type, name: event.target.id , value: event.target.dataset.value})}} value='Masculino'>Masculino</Option>
+            <Option onClick={(event) => {dispatch({type:'put_value_personalInfo', input: event.target.dataset.type, name: event.target.id , value: event.target.dataset.value})}} value='Feminino'>Feminino</Option>
           </Options>
         </SelectInput>
         <ErrorIcon error={state.personalInfo.genero.haveError}/>

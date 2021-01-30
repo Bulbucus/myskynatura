@@ -11,6 +11,7 @@ const TextInput = (props) => {
           name={props.name} 
           placeholder={props.defaultValue}
           onChange={props.onChange}
+          onKeyPress={props.onKeyPress}
           value={props.value}
           >
         </input>

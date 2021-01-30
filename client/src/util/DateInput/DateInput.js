@@ -133,7 +133,7 @@ const DateInput = ({type, name, value, date}) => {
 
   return (
     <DateContext.Provider value={{state, dispatch}}>
-      <SelectInput className={classes.DiaInput} type={type} name={'dia'}>
+      <SelectInput className={classes.DiaInput} type={type} name={name}>
         <DefaultMessage defaultValue='Dia' value={state.selected.day}>
           {state.selected.day}
         </DefaultMessage>
@@ -141,7 +141,7 @@ const DateInput = ({type, name, value, date}) => {
           {state.options.days.map(day => <Option key={day} value={day} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'day', event:event.target.dataset.value})}}>{day}</Option>)}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.MesInput} type={type} name={'mes'} onClick={() => {dispatch({type:'get_months'})}}>
+      <SelectInput className={classes.MesInput} type={type} name={name} onClick={() => {dispatch({type:'get_months'})}}>
         <DefaultMessage defaultValue='Mes' value={state.selected.month}>
           {MONTHS[Number(state.selected.month-1)]}
         </DefaultMessage>
@@ -149,7 +149,7 @@ const DateInput = ({type, name, value, date}) => {
           {state.options.months.map((month, index) => <Option key={month} value={month} className={classes.Option} onClick={(event) => {dispatch({type:'put_value', option:'month', event:event.target.dataset.value})}}>{MONTHS[index]}</Option>)}
         </Options>
       </SelectInput>
-      <SelectInput className={classes.AnoInput} type={type} name={'ano'} onClick={() => {dispatch({type:'get_years'})}}>
+      <SelectInput className={classes.AnoInput} type={type} name={name} onClick={() => {dispatch({type:'get_years'})}}>
         <DefaultMessage defaultValue='Ano' value={state.selected.year}>
           {state.selected.year }
         </DefaultMessage>

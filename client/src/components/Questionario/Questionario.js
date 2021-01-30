@@ -134,7 +134,7 @@ const Questionario = () => {
   const [loading, setLoading] = useState(false);
 
   let history = useHistory();
-
+  console.log(state)
   // criei um handler que melhora a experiencia no user se faltar algum dado,
   // antes de enviar os dados para o back end, melhorando assim a rapidez de respostas
   // e envitando mais requests para o back end.
@@ -144,7 +144,8 @@ const Questionario = () => {
     // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
       if(state.personalInfo[element].haveError){
-        document.getElementsByName(element)[0].scrollIntoView({block:'center', behavior:'smooth'})
+        let getElement = document.getElementsByName(element)[0] || document.getElementById(element)
+        getElement.scrollIntoView({block:'center', behavior:'smooth'})
         dispatch({type:'show_error_fetch', name:element, message:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'});
         noError = false;
         break
@@ -194,7 +195,7 @@ const Questionario = () => {
             setLoading(false)
             history.push('/')
             // using Context Login
-            loginDispatch({type:'toogle_login', boolean:true, text:'Registo feito com sucesso'})
+            console.log(response.data)
           }
           
         }

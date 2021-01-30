@@ -1,7 +1,12 @@
 const initialState = {
   login:{
     show:false,
-    preMessage:''
+    preMessage:'',
+    path:'/'
+  },
+  user:{
+    id:0,
+    token:0,
   }
 }
 

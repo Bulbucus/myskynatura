@@ -14,7 +14,7 @@ const initialState = {
     primeiro_nome:{
       type: 'text',
       value:'',
-      haveError:true,
+      haveError:false,
       whatError: ''
     },
     ultimo_nome:{
@@ -24,7 +24,7 @@ const initialState = {
       whatError: ''
     },
     genero:{
-      type: 'text',
+      type: 'select',
       value:'',
       haveError:true,
       whatError: ''
@@ -63,10 +63,11 @@ const reducer = (state, action) => {
 const Dados = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
-
+  console.log(state.personalInfo)
 
   const dispatchValue = (data) => {
-    dispatch({type:'put_value_personalInfo', name: data.name , value: data.value})
+    console.log(data)
+    dispatch({type:'put_value_personalInfo',name: data.name , value: data.value})
   }
   
   useEffect(() => {
@@ -103,15 +104,14 @@ const Dados = () => {
             <p className={classes.Description}>Género</p>
             <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
             <SelectInput 
-              className={classes.SelectInput} 
+              className={classes.SelectInput}
+              type={state.personalInfo.genero.type}
               name='genero' 
-              // coloquei if event.target.dataset.name se nao cria undefined no context
-              onClick={(event) => {event.target.dataset.name && dispatchValue(event.target.dataset)}}
               >
               <DefaultMessage value={state.personalInfo.genero.value}>{state.personalInfo.genero.value}</DefaultMessage>
               <Options>
-                <Option value='Feminino'>Feminino</Option>
-                <Option value='Masculino'>Masculino</Option>
+                <Option value='Feminino' onClick={(event) => {dispatch({type:'put_value_personalInfo',name: event.target.id , value: event.target.dataset.value})}}>Feminino</Option>
+                <Option value='Masculino' onClick={(event) => {dispatch({type:'put_value_personalInfo',name: event.target.id , value: event.target.dataset.value})}}>Masculino</Option>
               </Options>
             </SelectInput>
             <ErrorIcon error={state.personalInfo.genero.haveError}/>

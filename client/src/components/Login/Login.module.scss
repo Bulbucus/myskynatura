@@ -1,3 +1,8 @@
+@import '../../style/loading.scss';
+
+.loading{
+  height: 59px;
+}
 @import '../../style/box.scss';
 
 .box{
@@ -17,8 +22,18 @@
 
   background-color: $white;
 
+  animation: fadeIn 1s;
   @media (min-width:$size-mobile){
     width: 300px * 2;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100%{
+    opacity: 100%;
   }
 }
 

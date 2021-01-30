@@ -19,6 +19,7 @@ const Menu = () => {
           <Logo className={classes.Logo}></Logo>
         </Link>
         <button className={classes.loginButton} onClick={() => {dispatch({type:'toogle_login', boolean:true, text:''})}}>Login</button>
+        <Link to='/conta/dados'>Conta</Link>
       </div>
       <span className={classes.line}></span>
     </div>

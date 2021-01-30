@@ -62,7 +62,7 @@ const Option = ({className, value, onClick ,children}) => {
       className={[classes.OptionSelect, className].join(" ")}
       onClick={(event) => {putValue(event); onClick && onClick(event)}}
       data-type={state.type} 
-      data-name={state.name} 
+      id={state.name} 
       data-value={value}
     >
       {children}
@@ -105,7 +105,7 @@ const DefaultMessage = ({value, defaultValue, children}) => {
         <span 
           className={state.value ? classes.SelectedSelect : classes.DefaultSelect} 
           data-type={state.type} 
-          data-name={state.name} 
+          id={state.name} 
           data-value={value || state.value}
         >
           {state.value ? children ||  state.htmlValue : defaultValue}
@@ -129,7 +129,7 @@ const SelectInput = ({className, onClick, name, type, children}) => {
       // so fecha o dropbox se o click for feito fora do select
       //(segundo argumento serve para quando existe mais que um select na pagina) 
       //e se o click for feito noutro select fecha o anterior
-      if(!event.target.className.includes('SelectInput') || state.name !== event.target.dataset.name) {
+      if(!event.target.className.includes('SelectInput') || state.name !== event.target.id) {
         state.toogleSelect[1] && dispatch({ type: "close" })
       }
 
@@ -146,8 +146,9 @@ const SelectInput = ({className, onClick, name, type, children}) => {
   }, [state.name, state.toogleSelect]);
   // serve para abrir o select
   // quando abre coloca tambem o tipo e o id em todas as opcoes
+  // e para o removeSelect reconhecer todos os componentes que pertencem ao Select
+  // para assim nao confundir com outros Select's
   const openSelect = () => {
-
     dispatch({type:'put_type', name: type})
     dispatch({type:'put_name', name: name})
     return state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})
@@ -156,7 +157,7 @@ const SelectInput = ({className, onClick, name, type, children}) => {
   return (
     <SelectContext.Provider value={[state,dispatch]}>
         <div
-          data-name={name}
+          id={name}
           className={[classes.SelectInput, className].join(" ")}
           onClick={(event) => {openSelect(); (onClick && onClick(event))}} 
           tabIndex="-1"

@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import initialState from './store/initialState';
 import reducer from './store/reducer';
 
+import PrivatePage from './util/PrivatePage/PrivatePage';
+
 // Componentes
 import Menu from './components/Menu/Menu';
 import Inicio from './components/Inicio/Inicio';
@@ -18,7 +20,7 @@ const LoginContext = createContext()
 const App = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  console.log(state)
   return (
     <LoginContext.Provider value={[state, dispatch]}>
       <Router>
@@ -32,9 +34,9 @@ const App = () => {
           <Route path='/resultados'>
             <Resultados></Resultados>
           </Route>
-          <Route path='/conta/dados'>
+          <PrivatePage path='/conta/dados'>
             <Conta></Conta>
-          </Route>
+          </PrivatePage>
           <Route path='/'>
             <Inicio></Inicio>
           </Route>
