@@ -143,7 +143,11 @@ const loginUser = async (req, res) => {
       );
     if (token) {
         autenticacao.token = token;
+<<<<<<< HEAD
         return res.json({status:200, ...autenticacao});
+=======
+        return res.json({ status:200, ...autenticacao });
+>>>>>>> change-selectinput
     } else {
         return res.json({
             status: 500,

@@ -4,7 +4,7 @@ import { QuestionarioContext } from '../Questionario';
 import classes from './PersonalInfo.module.scss';
 
 import TextInput from '../../../util/TextInput/TextInput';
-import {SelectInput, DefaultMessage, Options, Option} from '../../../util/SelectInput/SelectInput';
+import {SelectInput, Options} from '../../../util/SelectInput/SelectInput';
 import DateInput from '../../../util/DateInput/DateInput';
 import {ErrorMessage, ErrorIcon} from '../../../util/ErrorHandler/ErrorHandler';
 
@@ -43,28 +43,27 @@ const PersonalInfo = () => {
           />
           <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
         </div>
-
         <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
         <div className={classes.Select}>
-        <SelectInput type={state.personalInfo.genero.type} name='genero'>
-          <DefaultMessage defaultValue='Género'/>
-          <Options>
-            <Option onClick={(event) => {dispatch({type:'put_value_personalInfo', input: event.target.dataset.type, name: event.target.id , value: event.target.dataset.value})}} value='Masculino'>Masculino</Option>
-            <Option onClick={(event) => {dispatch({type:'put_value_personalInfo', input: event.target.dataset.type, name: event.target.id , value: event.target.dataset.value})}} value='Feminino'>Feminino</Option>
-          </Options>
-        </SelectInput>
-        <ErrorIcon error={state.personalInfo.genero.haveError}/>
+          <SelectInput 
+            placeholder='Genero' 
+            name='genero' 
+            value={state.personalInfo.genero.value}>
+            <Options 
+              options={['Masculino', 'Feminino']} 
+              onClick={(value) => {dispatch({type:'put_value_personalInfo', input:'select', name:'genero' ,value:value})}}
+            />
+          </SelectInput>
+          <ErrorIcon error={state.personalInfo.genero.haveError}/>
       </div>
       <div className={classes.TitleDate}>Aniversario</div>
       <ErrorMessage errorMessage={state.personalInfo.idade.whatError}/>
       <div className={classes.container_date}>
-        <DateInput 
-          type={state.personalInfo.idade.type}
+        <DateInput
           name='idade' 
-          // precisa de useCallback pois o props.value encontra se dentro de useEffect, assim cada vez
-          // que user muda a data o context recebe no mesmo ciclo
-          value={useCallback((value) => dispatch({type:'put_value_personalInfo',input:'date' ,name:'idade', value:value}),[dispatch])}></DateInput >
-      <ErrorIcon error={state.personalInfo.idade.haveError}/>
+          value={useCallback((value) => {dispatch({type:'put_value_personalInfo', input:'date', name:'idade',value:value})},[dispatch])}
+        />
+        <ErrorIcon error={state.personalInfo.idade.haveError}/>
       </div>
     </div>
   )
