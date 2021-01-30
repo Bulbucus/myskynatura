@@ -1,4 +1,4 @@
-import {useReducer, useState, createContext, useContext} from 'react';
+import {useReducer, useState, createContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,8 +6,6 @@ import classes from './Questionario.module.scss';
 
 import {checkValue, checkPassword} from '../../util/Validation/checkValue'
 import {ReactComponent as Loading} from '../../assets/Loading.svg'
-
-import {LoginContext} from '../../App';
 
 import PersonalInfo from './PersonalInfo/PersonalInfo';
 import Perguntas from './Perguntas/Perguntas';
@@ -128,13 +126,10 @@ const Questionario = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState);
 
-  // Context Login
-  const [loginState, loginDispatch] = useContext(LoginContext);
-
   const [loading, setLoading] = useState(false);
 
   let history = useHistory();
-  console.log(state)
+
   // criei um handler que melhora a experiencia no user se faltar algum dado,
   // antes de enviar os dados para o back end, melhorando assim a rapidez de respostas
   // e envitando mais requests para o back end.
@@ -144,6 +139,9 @@ const Questionario = () => {
     // faz scroll na pagina e mostra ao user qual o input que falta preencher
     for(const element in state.personalInfo) {
       if(state.personalInfo[element].haveError){
+        console.log(element)
+        console.log(document.getElementsByName(element)[0])
+        console.log(document.getElementById(element))
         let getElement = document.getElementsByName(element)[0] || document.getElementById(element)
         getElement.scrollIntoView({block:'center', behavior:'smooth'})
         dispatch({type:'show_error_fetch', name:element, message:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'});
@@ -194,7 +192,6 @@ const Questionario = () => {
           if(response.data.status === 200) {
             setLoading(false)
             history.push('/')
-            // using Context Login
             console.log(response.data)
           }
           

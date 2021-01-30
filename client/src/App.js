@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 //Store
@@ -20,7 +20,9 @@ const LoginContext = createContext()
 const App = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
   console.log(state)
+  
   return (
     <LoginContext.Provider value={[state, dispatch]}>
       <Router>

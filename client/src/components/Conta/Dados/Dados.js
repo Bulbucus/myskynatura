@@ -103,27 +103,11 @@ const Dados = () => {
             </div>
             <p className={classes.Description}>Género</p>
             <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
-            <SelectInput 
-              className={classes.SelectInput}
-              type={state.personalInfo.genero.type}
-              name='genero' 
-              >
-              <DefaultMessage value={state.personalInfo.genero.value}>{state.personalInfo.genero.value}</DefaultMessage>
-              <Options>
-                <Option value='Feminino' onClick={(event) => {dispatch({type:'put_value_personalInfo',name: event.target.id , value: event.target.dataset.value})}}>Feminino</Option>
-                <Option value='Masculino' onClick={(event) => {dispatch({type:'put_value_personalInfo',name: event.target.id , value: event.target.dataset.value})}}>Masculino</Option>
-              </Options>
-            </SelectInput>
+            {/* Select Input */}
             <ErrorIcon error={state.personalInfo.genero.haveError}/>
             <p className={classes.TitleDate}>Aniversario</p>
             <ErrorMessage errorMessage={state.personalInfo.idade.whatError}/>
-            <DateInput 
-              name='idade' 
-              // precisa de useCallback pois o props.value encontra se dentro de useEffect, assim cada vez
-              // que user muda a data o context recebe no mesmo ciclo
-              value={useCallback((value) => dispatch({type:'put_value_personalInfo',name:'idade', value:value}),[dispatch])}
-              date='1954-01-31'
-              />
+            {/* Date Input */}
               <ErrorIcon error={state.personalInfo.idade.haveError}/>
             <div className={classes.separador}></div>
             <button className={classes.button}>Editar dados</button>

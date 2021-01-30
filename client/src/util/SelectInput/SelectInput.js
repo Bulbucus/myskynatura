@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useContext, createContext, useCallback } from "react";
+import { useEffect, useReducer, useContext, createContext } from "react";
 
 import classes from "./SelectInput.module.scss";
 
@@ -7,11 +7,7 @@ const SelectContext = createContext();
 
 // INITIAL STATE ______________________________
 const initialState = {
-  type: '',
-  name: '',
   toogleSelect:[classes.OptionsSelect],
-  value: '',
-  htmlValue:'',
 }
 
 // REDUCER ________________________________
@@ -27,130 +23,55 @@ const reducer = (state, action) => {
         ...state,
         toogleSelect:[classes.OptionsSelect]
       }
-    case 'put_value':
-      return {
-        ...state,
-        value: action.value,
-        htmlValue: action.htmlValue,
-      }
-    case 'put_name':
-      return{
-        ...state,
-        name: action.name
-      }
-    case 'put_type':
-        return{
-          ...state,
-          type: action.name
-        }
     default:
       return;
   }
 }
 
 // Custom Option Box ______________________________________________
-// Aceita onClick se necessario
-const Option = ({className, value, onClick ,children}) => {
-  const [state,dispatch] = useContext(SelectContext)
+const Options = ({parentClass, childClass, options, onClick}) => {
 
-  const putValue = (event) => {
-    return dispatch({type:'put_value', htmlValue:event.target.innerHTML, value:event.target.dataset.value})
-  }
-
-  return (
-    <span
-      className={[classes.OptionSelect, className].join(" ")}
-      onClick={(event) => {putValue(event); onClick && onClick(event)}}
-      data-type={state.type} 
-      id={state.name} 
-      data-value={value}
-    >
-      {children}
-    </span>
-  );
-};
-
-
-// Custom DropBox _____________________________________________________________
-const Options = ({className, children}) => {
-  
   const [state] = useContext(SelectContext)
 
   return (
-    <div className={[...state.toogleSelect, className].join(" ")}>
-      {children}
+    <div className={[...state.toogleSelect, parentClass].join(" ")}>
+      {options.map((option) => (
+        <span className={[classes.OptionSelect, childClass].join(" ")} onClick={() => {onClick(option)}}> 
+        {option}
+        </span>
+      ))}
     </div>
   );
 };
 
 
-// Custom defaultValue _____________________________________________________________
-// argumentos: defaultValue:String(default value) data:String(se necessario)
-// aceita children se necessario
-const DefaultMessage = ({value, defaultValue, children}) => {
-
-  const [state, dispatch] = useContext(SelectContext)
-
-  //Vem logo com um valor em vez de o default
-  const putValue = useCallback(() => {
-    return dispatch({type:'put_value', htmlValue:children || '', value:value || ''})
-  },[dispatch, children, value])
-
-  // so executa quando vem com valor do props:
-  useEffect(() => {
-    putValue()
-  }, [putValue])
-
-  return (
-        <span 
-          className={state.value ? classes.SelectedSelect : classes.DefaultSelect} 
-          data-type={state.type} 
-          id={state.name} 
-          data-value={value || state.value}
-        >
-          {state.value ? children ||  state.htmlValue : defaultValue}
-        </span> 
-  )
-}
-
 
 // Custom Select _____________________________________________________________
-// argumentos: errorMessage:Boolean showIcon:Boolean
-// aceita tambem onClick e onBlur
-const SelectInput = ({className, onClick, name, type, children}) => {
+const SelectInput = ({className, name, placeholder, value, children}) => {
 
   const [state,dispatch] = useReducer(reducer, initialState);
 
   // so executa quando o toogleselect muda
   useEffect(() => {
-
     // para fechar o dropbox quando se carrega fora do dropbox
     const removeSelect = (event) => {
       // so fecha o dropbox se o click for feito fora do select
       //(segundo argumento serve para quando existe mais que um select na pagina) 
       //e se o click for feito noutro select fecha o anterior
-      if(!event.target.className.includes('SelectInput') || state.name !== event.target.id) {
+      if(name !== event.target.id ) {
         state.toogleSelect[1] && dispatch({ type: "close" })
       }
-
     }; 
-
     // cria um event que esta sempre ativo cada vez que o utilizador abre um select e carrega em algo
     window && window.addEventListener("click", removeSelect);
-
     // Serve para apagar o evento para nao acumular
     return () => {
       window.removeEventListener("click", removeSelect);
     };
+  }, [name, state.toogleSelect]);
 
-  }, [state.name, state.toogleSelect]);
   // serve para abrir o select
-  // quando abre coloca tambem o tipo e o id em todas as opcoes
-  // e para o removeSelect reconhecer todos os componentes que pertencem ao Select
-  // para assim nao confundir com outros Select's
   const openSelect = () => {
-    dispatch({type:'put_type', name: type})
-    dispatch({type:'put_name', name: name})
     return state.toogleSelect[1] ? dispatch({type:'close'}) : dispatch({type:'open'})
   }
   
@@ -159,13 +80,16 @@ const SelectInput = ({className, onClick, name, type, children}) => {
         <div
           id={name}
           className={[classes.SelectInput, className].join(" ")}
-          onClick={(event) => {openSelect(); (onClick && onClick(event))}} 
+          onClick={() => {openSelect()}} 
           tabIndex="-1"
         >
+          <span className={ value ? classes.SelectedSelect : classes.DefaultSelect} id={name}>
+            {value || placeholder}
+          </span> 
           {children}
         </div>
     </SelectContext.Provider>
   );
 };
 
-export {SelectInput, DefaultMessage , Options, Option };
+export {SelectInput , Options };

@@ -145,7 +145,7 @@ const loginUser = async (req, res) => {
       );
     if (token) {
         autenticacao.token = token;
-        return res.json(autenticacao);
+        return res.json({ status:200, ...autenticacao });
     } else {
         return res.json({
             status: 500,
