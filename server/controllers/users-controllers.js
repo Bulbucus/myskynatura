@@ -47,7 +47,6 @@ const singUpUser = (req, res) => {
       const token = jwt.sign(
         {
           id: respond.rows[0].id_utilizador,
-          email:req.body.email,
         },
         process.env.JWT_SECRET,
         {expiresIn: '1h'}
@@ -59,7 +58,7 @@ const singUpUser = (req, res) => {
       // guarda as respostas do questionario numa base de dados
       questionarioController.addQuestionario(respond.rows[0].id_utilizador, req.body.questionario)
     
-      return res.json({ status: 200 });
+      return res.json({ status: 200, token: token });
     }
   });
 };
@@ -119,7 +118,6 @@ const loginUser = async (req, res) => {
 
         autenticacao = {
           id: verifyPassword.rows[0].id_utilizador,
-          email: req.body.email,
         };
 
       } else {
@@ -145,7 +143,7 @@ const loginUser = async (req, res) => {
       );
     if (token) {
         autenticacao.token = token;
-        return res.json(autenticacao);
+        return res.json({status:200, ...autenticacao});
     } else {
         return res.json({
             status: 500,
