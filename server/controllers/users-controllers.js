@@ -210,6 +210,16 @@ const updateUser = async (req,res) => {
       error: errors,
     });
   }
+
+  try {
+    jwt.verify(req.body.token, process.env.JWT_SECRET)
+  } catch(err){
+    return res.json({
+      status: 500,
+      message: "Erro interno, por favor tentar mais tarde",
+    });
+  }
+
   try{
     const updateUser = await client.query(userQuery.updateUserQuery(req.body))
 

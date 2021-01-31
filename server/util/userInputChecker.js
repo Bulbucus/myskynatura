@@ -1,6 +1,7 @@
 const {body} = require('express-validator');
 
 const InputChecker = {
+
     signUpUser : [
         body('primeiro_nome').notEmpty().escape(),
         body('ultimo_nome').notEmpty().escape(),
@@ -8,7 +9,7 @@ const InputChecker = {
         body('email').notEmpty().isEmail().escape(),
         body('palavrapasse').notEmpty().isLength({min: 6}).escape(),
         body('genero').custom(value => {
-            if(value !== 'F' || value !== 'M') {
+            if(value === "Feminino" || value === "Masculino") {
                 return true;
             }
             throw new Error('Genero não definido')
@@ -28,10 +29,10 @@ const InputChecker = {
         body('ultimo_nome').notEmpty().escape(),
         body('idade').notEmpty().isDate(),
         body('genero').custom(value => {
-            if(value !== "F" && value !== "M") {
-                throw new Error('Genero não definido')
+            if(value !== "Feminino" || value !== "Masculino") {
+                return true;
             }
-            return true;
+            throw new Error('Genero não definido')
         })
     ],
 }

@@ -32,11 +32,11 @@ const getUserInfoQuery = (id) => {
 }
 
 const updateUserQuery = (body) => {
-    body.idade = new Date(body.idade).toISOString();
     const arrayBody = Object.values(body);
-    
+    arrayBody.shift();
+
     return {
-        text: 'update users set primeiro_nome=$2, ultimo_nome=$3, idade=$4, genero=$5 where id_utilizador=$1',
+        text: 'update users set primeiro_nome=$2, ultimo_nome=$3, genero=$4, idade=$5 where id_utilizador=$1',
         values: arrayBody
     }
 }
