@@ -81,7 +81,6 @@ const Login = () => {
         cancelToken: source.token,
       }
     ).then((response) => {
-      console.log(response)
       if(response.data.status !== 200) {
         dispatch({type:'handler', boolean:false ,message: response.data.message})
       }

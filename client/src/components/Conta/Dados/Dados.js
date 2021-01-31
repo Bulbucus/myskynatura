@@ -1,9 +1,13 @@
-import {useEffect, useReducer, useCallback} from 'react';
+import {useEffect, useReducer, useCallback, useContext, useState} from 'react';
+import axios from 'axios';
+
+import { LoginContext } from '../../../App';
 
 import classes from './Dados.module.scss';
 
 import {checkValue} from '../../../util/Validation/checkValue'
 import {ErrorMessage, ErrorIcon} from '../../../util/ErrorHandler/ErrorHandler';
+import {ReactComponent as Loading} from '../../../assets/Loading.svg';
 
 import TextInput from '../../../util/TextInput/TextInput';
 import {SelectInput, Options} from '../../../util/SelectInput/SelectInput';
@@ -14,7 +18,7 @@ const initialState = {
     primeiro_nome:{
       type: 'text',
       value:'',
-      haveError:false,
+      haveError:true,
       whatError: ''
     },
     ultimo_nome:{
@@ -35,6 +39,10 @@ const initialState = {
       haveError:true,
       whatError: ''
     },
+  },
+  update:{
+    error: false,
+    message:''
   }
 }
 
@@ -54,6 +62,26 @@ const reducer = (state, action) => {
           }
         }
       }
+      case 'show_error_fetch':
+        return {
+          ...state,
+          personalInfo:{
+            ...state.personalInfo,
+            [action.name]:{
+              ...state.personalInfo[action.name],
+              whatError:action.message
+            }
+          }
+        }
+      case 'message_update':{
+        return {
+          ...state,
+          update:{
+            error: action.error || false,
+            message: action.message
+          }
+        }
+      }
       default:
         break
     }
@@ -63,17 +91,62 @@ const reducer = (state, action) => {
 const Dados = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
+  const [loginState, loginDispatch] = useContext(LoginContext)
+
+  const [loading, setLoading] = useState(false)
 
   const dispatchValue = (data) => {
+    dispatch({type:'message_update', message:''})
     dispatch({type:'put_value_personalInfo',name: data.name , value: data.value})
   }
   
   useEffect(() => {
-    dispatch({type:'put_value_personalInfo', name:'primeiro_nome' , value:'Emanuel'})
-    dispatch({type:'put_value_personalInfo', name:'ultimo_nome' , value:'Farinha'})
-    dispatch({type:'put_value_personalInfo', name:'genero' , value:'Masculino'})
-    dispatch({type:'put_value_personalInfo', name:'idade' , value:'1998-03-31'})
-  },[])
+    axios.post('http://95.93.159.118:8888/user/getUser',{
+      token: loginState.user.token,
+      id: loginState.user.id
+    }).then((response) => {
+      if(response.status === 200) {
+        for( const element in response.data){
+          dispatch({type:'put_value_personalInfo', name: element, value:response.data[element]})
+        }
+      }
+    })
+  },[loginState.user.id, loginState.user.token])
+
+  const updateUser = () => {
+
+    let noError = true;
+    // faz scroll na pagina e mostra ao user qual o input que falta preencher ou tem erro
+    for(const element in state.personalInfo) {
+      if(state.personalInfo[element].haveError){
+        let getElement = document.getElementsByName(element)[0] || document.getElementById(element)
+        getElement.scrollIntoView({block:'center', behavior:'smooth'})
+        dispatch({type:'show_error_fetch', name:element, message:'Por favor, preencha o dado(s) corretamente antes de finalizar o questionario'});
+        noError = false;
+        break
+      }
+    }
+
+    if(noError){
+      setLoading(true)
+      const value = name  => state.personalInfo[name].value
+    axios.post('http://95.93.159.118:8888/user/updateUser',{
+      token: loginState.user.token,
+      id: loginState.user.id,
+      primeiro_nome: value('primeiro_nome'),
+      ultimo_nome: value('ultimo_nome'),
+      genero: value('genero'),
+      idade: value('idade'),
+    }).then((response) => {
+      if(response.data.status === 200) {
+        setLoading(false)
+        dispatch({type:'message_update', message:'Ediçao de dados feita com sucesso!'})
+      }
+    }).catch((error) => {
+      setLoading(false)
+      dispatch({type:'message_update', error: true, message:'Error interno, por favor tente mais tarde!'})
+    })
+  }}
 
     return (
       <>
@@ -109,7 +182,10 @@ const Dados = () => {
                 value={state.personalInfo.genero.value}>
                 <Options 
                   options={['Masculino', 'Feminino']} 
-                  onClick={(value) => {dispatch({type:'put_value_personalInfo', input:'select', name:'genero' ,value:value})}}
+                  onClick={(value) => {
+                      dispatch({type:'put_value_personalInfo', input:'select', name:'genero' ,value:value})
+                      dispatch({type:'message_update', message:''})
+                  }}
                 />
               </SelectInput>
               <ErrorIcon error={state.personalInfo.genero.haveError}/>
@@ -119,11 +195,15 @@ const Dados = () => {
             <DateInput
                 name='idade' 
                 date={state.personalInfo.idade.value}
-                value={useCallback((value) => {dispatch({type:'put_value_personalInfo', input:'date', name:'idade',value:value})},[dispatch])}
+                value={useCallback((value) => {
+                  dispatch({type:'put_value_personalInfo', input:'date', name:'idade',value:value})
+                  dispatch({type:'message_update', message:''})
+                },[dispatch])}
               />
               <ErrorIcon error={state.personalInfo.idade.haveError}/>
             <div className={classes.separador}></div>
-            <button className={classes.button}>Editar dados</button>
+            <ErrorMessage style={!state.update.error ? {backgroundColor:'#26B44E', margin:'15px auto'} : {margin:'15px auto'}} errorMessage={state.update.message}/>
+            {loading ? <Loading className={classes.loading}></Loading> :<button className={classes.button} onClick={() => {updateUser()}}>Editar dados</button>}
           </div>
         </div>
       </>

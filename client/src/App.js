@@ -20,8 +20,6 @@ const LoginContext = createContext()
 const App = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  console.log(state)
   
   return (
     <LoginContext.Provider value={[state, dispatch]}>

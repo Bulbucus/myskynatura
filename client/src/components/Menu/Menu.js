@@ -18,8 +18,11 @@ const Menu = () => {
         <Link to='/'>
           <Logo className={classes.Logo}></Logo>
         </Link>
-        <button className={classes.loginButton} onClick={() => {dispatch({type:'toogle_login', boolean:true, text:''})}}>Login</button>
-        <Link to='/conta/dados'>Conta</Link>
+        {(state.user.id && state.user.token) ?
+          <Link className={classes.loginButton} to='/conta/dados'>Conta</Link>
+        :
+          <button className={classes.loginButton} onClick={() => {dispatch({type:'toogle_login', boolean:true, text:''})}}>Login</button>
+        }
       </div>
       <span className={classes.line}></span>
     </div>

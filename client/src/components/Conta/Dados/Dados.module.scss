@@ -2,6 +2,18 @@
 @import '../../../style/font.scss';
 @import '../../../style/color.scss';
 @import '../../../style/size.scss';
+@import '../../../style/loading.scss';
+
+.loading{
+  width: 32px;
+  height: 32px;
+  margin: 0px auto;
+
+  @media (min-width: $size-mobile){
+    width: 32px * 2;
+    height: 32px * 2;
+  }
+}
 
 @import '../../../style/separador.scss';
 

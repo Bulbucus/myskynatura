@@ -132,6 +132,7 @@ const DateInput = ({name, value, date}) => {
     // isto porque se o useeffect executa cada vez que um deles muda e se
     // mudamos um dos inputs e os outros estao vazios iremos mandar os outros inputs vazios para o parent
     // desta forma evita isso e obriga que so envia o valor para o parent se no state todos tiverem valores
+    // o que irá fazer uma perfomance melhor e evita bugs
     if(state.selected.day !== 0 && state.selected.month !== 0 && state.selected.year !== 0){
       const month = numericMonth()
       // Envia valor da data para parente

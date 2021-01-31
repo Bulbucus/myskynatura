@@ -164,6 +164,12 @@ const Questionario = () => {
       noError = false;
     }
 
+    // transforma questionario (['value1', ['value2','value3'], ['value4','value5']])
+    // para isto (['value1', 'value2', value3', 'value4', 'value5'])
+    const arrayQuestionario = [].concat.apply([],state.questionario)
+    // remove da array todos os elemento com '_nenhum' pois nao serao necessarios na procura de resultados:
+    const cleanArrayQuestionario = arrayQuestionario.filter(el => el !== el.includes('_nenhum'))
+
     if(noError){
       setLoading(true)
       const value = name  => state.personalInfo[name].value
@@ -176,9 +182,7 @@ const Questionario = () => {
           idade: value('idade'),
           email: value('email'),
           palavrapasse: value('palavrapasse'),
-          // transforma questionario (['value1', ['value2','value3'], ['value4','value5']])
-          // para isto (['value1', 'value2', value3', 'value4', 'value5'])
-          questionario: [].concat.apply([],state.questionario)
+          questionario: cleanArrayQuestionario
         }
       ).then(
         (response) => {
