@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id_users UUID NOT NULL DEFAULT uuid_generate_v4(),
+    id_users UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     primeiro_nome VARCHAR(30) NOT NULL,
     ultimo_nome VARCHAR(30) NOT NULL,
     genero VARCHAR(1) NOT NULL,
