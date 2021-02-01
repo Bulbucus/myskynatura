@@ -1,5 +1,5 @@
 CREATE TABLE produtos (
-  id_produto SERIAL NOT NULL,
+  id_produto SERIAL PRIMARY KEY,
   nome VARCHAR(50) NOT NULL,
   descricao VARCHAR(200) NOT NULL,
   price DECIMAL NOT NULL
