@@ -46,7 +46,7 @@ const singUpUser = (req, res) => {
 
       const token = jwt.sign(
         {
-          id: respond.rows[0].id_utilizador,
+          id: respond.rows[0].id_user,
         },
         process.env.JWT_SECRET,
         {expiresIn: '1h'}
@@ -56,9 +56,9 @@ const singUpUser = (req, res) => {
       //emailSender(req.body.email, req.body.primeiro_nome, token)
 
       // guarda as respostas do questionario numa base de dados
-      questionarioController.addQuestionario(respond.rows[0].id_utilizador, req.body.questionario)
+      questionarioController.addQuestionario(respond.rows[0].id_user, req.body.questionario)
     
-      return res.json({ status: 200, token: token });
+      return res.json({ status: 200, id: respond.rows[0].id_user, token: token });
     }
   });
 };
@@ -102,6 +102,7 @@ const loginUser = async (req, res) => {
     if (!verifyPassword) {
       return res.json({
         status: 500,
+        where:105,
         message: "Erro interno, por favor tentar mais tarde",
       });
     } else {
@@ -115,9 +116,8 @@ const loginUser = async (req, res) => {
             message: "Por favor verifique o seu email"
           })
         }
-
         autenticacao = {
-          id: verifyPassword.rows[0].id_utilizador,
+          id: verifyPassword.rows[0].id_user,
         };
 
       } else {
@@ -130,6 +130,7 @@ const loginUser = async (req, res) => {
   } catch (error) {
     return res.json({
         status: 500,
+        where:133,
         message: "Erro interno, por favor tentar mais tarde",
       });
   }
@@ -147,12 +148,14 @@ const loginUser = async (req, res) => {
     } else {
         return res.json({
             status: 500,
+            where:151,
             message: "Erro interno, por favor tentar mais tarde",
           });
     }
   } catch (error) {
     return res.json({
         status: 500,
+        where:151,
         message: "Erro interno, por favor tentar mais tarde",
       });
   }

@@ -12,7 +12,8 @@ client.connect();
 
 const getPerguntas = async (req, res) => {
   try {
-    const perguntas = await client.query('SELECT * FROM perguntas')
+    const perguntas = await client.query("SELECT perguntas.*, array_agg(opcoes.opcao_texto) as respostas, array_agg(opcoes.id_opcao) as tags FROM perguntas,opcoes where perguntas.id_pergunta=opcoes.id_pergunta group by perguntas.id_pergunta;")
+
     return res.json({
       status:200,
       perguntas: perguntas.rows

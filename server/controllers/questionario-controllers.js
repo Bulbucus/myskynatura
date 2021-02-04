@@ -14,18 +14,9 @@ const client = new Pool({
 });
 client.connect();
 
-const addQuestionario = async (id_utilizador, questionario) => {
+const addQuestionario = async (id_user, questionario) => {
 
-  // colocar todas as respostas numa so array
-  // exemplo: ['muitasBorbulhas',[ 'peleVermelha', 'peleSeca' ],'semRugas']
-  // resultado final: ["peleVermelha", "peleSeca", "muitasBorbulhas", "semRugas"]
-
-  const arrayQuestionario = []
-  await questionario.map(async (pergunta) => {
-    await pergunta instanceof Array ? arrayQuestionario.push(...pergunta) : arrayQuestionario.push(pergunta);
-  })
-
-  client.query(questionarioQuery.addQuestionarioQuery(id_utilizador,arrayQuestionario))
+  client.query(questionarioQuery.addQuestionarioQuery(id_user,questionario))
 }
 
 const resultQuestionario = async (req, res) => {
@@ -41,23 +32,17 @@ const resultQuestionario = async (req, res) => {
 
   try{
     // ira buscar o questionario do utilizador
-    const infoQuestionarioQuery = await client.query(questionarioQuery.infoQuestionarioQuery(req.body.id))
-
-    // ira receber os produtos apropriados as respostas do utilizador
-    const getResultfromQuestionario = await client.query(questionarioQuery.compareQuestionarioResult(infoQuestionarioQuery.rows[0].respostas))
-
-    if ( getResultfromQuestionario.rowCount === 0){
-      let getSimiliarResultfromQuestionario = await client.query(questionarioQuery.similiarQuestionarioResult(infoQuestionarioQuery.rows[0].respostas, "@>"));
-    
-      return res.json({
-        status:200,
-        resultado: getSimiliarResultfromQuestionario.rows
-      })
-    }
+    const produtsMatch = await client.query(questionarioQuery.getMatchProduts(req.body.id))
+    const produtsEnoughMatch = []
+    produtsMatch.rows.forEach((element, i) => {
+      if(element.match >= (element.length_respostas / 2) ){
+        produtsEnoughMatch.push(element)
+      }
+    })
 
     return res.json({
       status:200,
-      resultado: getResultfromQuestionario.rows
+      resultado: produtsEnoughMatch
     })
 
   }catch(err){

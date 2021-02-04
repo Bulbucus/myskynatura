@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config()
 const cors = require('cors');
-const helmet = require('helmet');
 const { urlencoded, json } = require('body-parser');
 const morgan = require('morgan');
 
@@ -13,9 +12,8 @@ const perguntas = require('./router/perguntas');
 
 const app = express();
 
-app.use(helmet());
-
 app.use(morgan('dev'))
+
 // default handlers
 app.use(cors({
   methods:'POST,PUT',
@@ -25,7 +23,9 @@ app.use(cors({
 app.use(urlencoded({extended:true}))
 app.use(json())
 
-app.use(express.static(path.join(__dirname,'build')))
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('view engine', 'ejs')
 
 // perguntas route
 app.use('/perguntas', perguntas)
@@ -34,6 +34,10 @@ app.use('/perguntas', perguntas)
 app.use('/user',user);
 
 app.use('/confirmUser', confirmUser);
+
+app.use('/',(req,res) => {
+  res.sendFile(path.join(__dirname,'views','index.html'));
+})
 
 // error page handler
 app.use((req, res) => {

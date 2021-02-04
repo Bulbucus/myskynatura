@@ -1,34 +1,24 @@
-const addQuestionarioQuery = (id_utilizador, respostas) => {
-  const arrayBody = [id_utilizador, respostas]
+const format = require('pg-format');
 
-  return {
-    text: 'INSERT INTO questionario (id_utilizador, respostas) VALUES ($1, $2) RETURNING *',
-    values: arrayBody
-    }
+const addQuestionarioQuery = (id_user, respostas) => {
+  let values = [];
+
+  respostas.forEach((curr) => {
+    values.push([id_user, curr])
+  })
+
+  const text = format(`INSERT INTO respostas (id_user, id_opcao) VALUES %L RETURNING *`, values);
+
+  return {text: text}
 }
 
-const infoQuestionarioQuery = (id_utilizador) => {
+const getMatchProduts = (id) => {
   return {
-    text: 'select * from questionario where id_utilizador=$1',
-    values: [id_utilizador]
+    text: 'select count(distinct respostas.id_opcao) as match, (select count(respostas.id_resposta) from respostas where respostas.id_user=$1) as length_respostas, produtos.nome, produtos.descricao, produtos.price from prod_op, respostas inner join produtos on id_produto = produtos.id_produto where respostas.id_opcao=prod_op.id_opcao and produtos.id_produto = prod_op.id_produto and respostas.id_user=$1 group by prod_op.id_produto, produtos.nome, produtos.id_produto order by count(distinct respostas.id_opcao) desc;',
+    values: [id]
   }
 }
 
-const compareQuestionarioResult = (respostas) => {
-  return {
-    text: 'select nome, descricao, price from produtos where tags=$1',
-    values: [respostas]
-  }
-}
-
-const similiarQuestionarioResult = (respostas, type) => {
-  return {
-    text: `select nome, descricao, price from produtos where tags${type}$1`,
-    values: [respostas]
-  }
-}
 
 exports.addQuestionarioQuery = addQuestionarioQuery;
-exports.infoQuestionarioQuery = infoQuestionarioQuery;
-exports.compareQuestionarioResult = compareQuestionarioResult;
-exports.similiarQuestionarioResult = similiarQuestionarioResult;
+exports.getMatchProduts = getMatchProduts;

@@ -19,14 +19,14 @@ const verifyEmail = (email) => {
 
 const verifyPassword = (email) => {
     return {
-        text:'SELECT id_utilizador, palavrapasse, email_confirmed from users where email=$1',
+        text:'SELECT id_user, palavrapasse, email_confirmed from users where email=$1',
         values: [email]
     }
 }
 
 const getUserInfoQuery = (id) => {
     return{
-        text:'select primeiro_nome, ultimo_nome, idade, genero from users where id_utilizador=$1',
+        text:'select primeiro_nome, ultimo_nome, idade, genero from users where id_user=$1',
         values:[id]
     }
 }
@@ -36,14 +36,14 @@ const updateUserQuery = (body) => {
     arrayBody.shift();
 
     return {
-        text: 'update users set primeiro_nome=$2, ultimo_nome=$3, genero=$4, idade=$5 where id_utilizador=$1',
+        text: 'update users set primeiro_nome=$2, ultimo_nome=$3, genero=$4, idade=$5 where id_user=$1',
         values: arrayBody
     }
 }
 
 const confirmUser = (id) => {
     return {
-        text: 'update users set email_confirmed=true where id_utilizador=$1',
+        text: 'update users set email_confirmed=true where id_user=$1',
         values: [id]
     }
 }
