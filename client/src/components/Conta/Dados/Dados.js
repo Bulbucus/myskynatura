@@ -159,6 +159,7 @@ const Dados = () => {
               <TextInput 
                 name='primeiro_nome' 
                 value={state.personalInfo.primeiro_nome.value} 
+                defaultValue='Espera por favor ...'
                 onChange={(event) => dispatchValue(event.target)}
               />
               <ErrorIcon error={state.personalInfo.primeiro_nome.haveError}/>
@@ -169,6 +170,7 @@ const Dados = () => {
               <TextInput 
                 name='ultimo_nome'
                 value={state.personalInfo.ultimo_nome.value} 
+                defaultValue='Espera por favor ...'
                 onChange={(event) => dispatchValue(event.target)}
               />
               <ErrorIcon error={state.personalInfo.ultimo_nome.haveError}/>
@@ -177,7 +179,7 @@ const Dados = () => {
             <ErrorMessage errorMessage={state.personalInfo.genero.whatError}/>
             <div className={classes.Select}>
               <SelectInput 
-                placeholder='Genero' 
+                placeholder='Espera por favor ...' 
                 name='genero' 
                 value={state.personalInfo.genero.value}>
                 <Options 

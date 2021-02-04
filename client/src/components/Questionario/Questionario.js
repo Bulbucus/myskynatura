@@ -1,8 +1,10 @@
-import {useReducer, useState, createContext} from 'react';
+import {useReducer, useState, createContext, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
 import classes from './Questionario.module.scss';
+
+import {LoginContext} from '../../App';
 
 import {checkValue, checkPassword} from '../../util/Validation/checkValue'
 import {ReactComponent as Loading} from '../../assets/Loading.svg'
@@ -124,6 +126,8 @@ const reducer = (state, action) => {
 
 const Questionario = () => {
 
+  const [loginState, loginDispatch] = useContext(LoginContext);
+
   const [state, dispatch] = useReducer(reducer,initialState);
 
   const [loading, setLoading] = useState(false);
@@ -193,7 +197,7 @@ const Questionario = () => {
           if(response.data.status === 200) {
             setLoading(false)
             history.push('/')
-
+            loginDispatch({type:'send_token', id:response.data.id , token: response.data.token})
           }
           
         }

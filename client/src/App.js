@@ -15,6 +15,8 @@ import Resultados from './components/Resultados/Resultados';
 import Conta from './components/Conta/Dados/Dados';
 import Login from './components/Login/Login';
 
+import ScrollToTop from './util/ScrollToTop/ScrollTop';
+
 const LoginContext = createContext()
 
 const App = () => {
@@ -24,6 +26,7 @@ const App = () => {
   return (
     <LoginContext.Provider value={[state, dispatch]}>
       <Router>
+        <ScrollToTop>
         <Menu></Menu>
         <Login></Login>
         <div style={{height:'70px'}}></div>
@@ -31,16 +34,17 @@ const App = () => {
           <Route path='/questionario'>
             <Questionario></Questionario>
           </Route>
-          <Route path='/resultados'>
+          <PrivatePage  path='/resultados'>
             <Resultados></Resultados>
-          </Route>
+          </PrivatePage >
           <PrivatePage path='/conta/dados'>
             <Conta></Conta>
-          </PrivatePage>
+          </PrivatePage >
           <Route path='/'>
             <Inicio></Inicio>
           </Route>
         </Switch>
+        </ScrollToTop>
       </Router>
     </LoginContext.Provider>
   );
