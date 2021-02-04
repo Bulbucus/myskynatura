@@ -6,6 +6,6 @@ CREATE TABLE users (
     idade DATE NOT NULL,
     email VARCHAR(100) NOT NULL,
     palavrapasse VARCHAR(100) NOT NULL,
-    email_confirmed BOOLEAN NOT NULL DEFAULT false,
+    email_confirmed BOOLEAN NOT NULL DEFAULT true,
     UNIQUE(email)
 );
