@@ -82,15 +82,33 @@ const reducer = (state, action) => {
           }
         }
       }
+      case 'put_value_password':
+        const checkedPassword = checkValue(action.input, action.value)
+      return {
+        ...state,
+        personalInfo:{
+          ...state.personalInfo,
+          palavrapasse:{
+            ...state.personalInfo.palavrapasse,
+            ...checkedPassword,
+            value: action.value
+          },
+          palavrapasseConfirm:{
+            ...state.personalInfo.palavrapasseConfirm,
+            haveError:true,
+            value:''
+          }
+        }
+      }
     case 'confirm_password':
-      const checkedPassword = checkPassword(action.value, action.passwordValue)
+      const checkedConfirmPassword = checkPassword(action.value, action.passwordValue)
       return {
         ...state,
         personalInfo:{
           ...state.personalInfo,
           palavrapasseConfirm:{
             ...state.personalInfo.palavrapasseConfirm,
-            ...checkedPassword,
+            ...checkedConfirmPassword,
             value: action.value
           }
         }
@@ -171,8 +189,6 @@ const Questionario = () => {
     // transforma questionario (['value1', ['value2','value3'], ['value4','value5']])
     // para isto (['value1', 'value2', value3', 'value4', 'value5'])
     const arrayQuestionario = [].concat.apply([],state.questionario)
-    // remove da array todos os elemento com '_nenhum' pois nao serao necessarios na procura de resultados:
-    const cleanArrayQuestionario = arrayQuestionario.filter(el => el !== el.includes('_nenhum'))
 
     if(noError){
       setLoading(true)
@@ -186,7 +202,7 @@ const Questionario = () => {
           idade: value('idade'),
           email: value('email'),
           palavrapasse: value('palavrapasse'),
-          questionario: cleanArrayQuestionario
+          questionario: arrayQuestionario
         }
       ).then(
         (response) => {

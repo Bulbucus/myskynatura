@@ -13,6 +13,10 @@ const Registo = () => {
     dispatch({type:'put_value_personalInfo', input: data.type, name:data.name , value:data.value})
   }
 
+  const dispatchPassword = (data) => {
+    dispatch({type:'put_value_password', input: data.type, name:data.name , value:data.value})
+  }
+
   const dispatchConfirmPassword = (data) => {
     dispatch({type:'confirm_password', value:data.value, passwordValue:state.personalInfo.palavrapasse.value})
   }
@@ -24,6 +28,7 @@ const Registo = () => {
         <ErrorMessage errorMessage={state.personalInfo.email.whatError}/>
         <TextInput 
           type={state.personalInfo.email.type} 
+          value={state.personalInfo.email.value}
           defaultValue="Email" 
           name='email' 
           onChange={(event) => dispatchValue(event.target)}/>
@@ -33,15 +38,17 @@ const Registo = () => {
         <ErrorMessage errorMessage={state.personalInfo.palavrapasse.whatError}/>
         <TextInput 
           type={state.personalInfo.palavrapasse.type} 
+          value={state.personalInfo.palavrapasse.value}
           defaultValue="Password" 
           name='palavrapasse' 
-          onChange={(event) => dispatchValue(event.target)}/>
+          onChange={(event) => dispatchPassword(event.target)}/>
         <ErrorIcon error={state.personalInfo.palavrapasse.haveError}/>
       </div>
       <div className={classes.containerTextInput}>
         <ErrorMessage errorMessage={state.personalInfo.palavrapasseConfirm.whatError}/>
         <TextInput 
-          type={state.personalInfo.palavrapasseConfirm.type} 
+          type={state.personalInfo.palavrapasseConfirm.type}
+          value={state.personalInfo.palavrapasseConfirm.value}
           defaultValue="Confirmar Password" 
           name='palavrapasseConfirm' 
           onChange={(event) => dispatchConfirmPassword(event.target)}/>

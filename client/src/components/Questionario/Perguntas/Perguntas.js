@@ -21,6 +21,8 @@ const Perguntas = () => {
   // criei uma handler para quando envia a resposta para o stora no parent
   const pushResposta = (type, index, name ,value) => {
 
+    
+
     // faz uma copia da array pois todos os states sao immutables
     const copyRespostas = state.questionario.slice();
     if (type === 'radio') {
@@ -29,21 +31,30 @@ const Perguntas = () => {
       return dispatch({type:'put_value_questionario', array:copyRespostas});
     }
 
+    let id;
+    perguntas[index].tags.forEach((el, i) => {
+      if(el.includes('_nenhum')){
+          id = perguntas[index].id[i].toString();
+        }
+    })
+   
 
     if (type === 'checkbox') {
       // se selecionar a opçao nenhum (nenhuma das anterios),
       // remove tanto da array do state tanto do dom os valores com check
-      if(value.includes('_nenhum')){
+    
+      if(value === id){
+        
         const elements = document.getElementsByName(name);
         for (let element of elements) {
-          if(!element.id.includes('_nenhum')){
+          if(!(element.id === id)){          
             element.checked = false;
           }
         }
         copyRespostas[index] = [value]
         return dispatch({type:'put_value_questionario', array:copyRespostas});
       }
-
+      
       // se o valor ja foi selecionado e se user carregou de novo o valor vai ficar
       // unchecked por isso tem de se retirar da array
       if(copyRespostas[index] && copyRespostas[index].includes(value)){
@@ -51,14 +62,14 @@ const Perguntas = () => {
         copyRespostas[index].splice(id, 1)
         return dispatch({type:'put_value_questionario', array:copyRespostas});
       }
-
+      
       // se o valor nenhum (nenhuma das anterios) estiver selecionado e
       // o utilizador selecionar outra opçao,
       // tira lhe o checked feito no dom para evitar complitos na experiencia
       // do utilizador e tambem tira-o da array
       const elements = document.getElementsByName(name);
       for (let element of elements) {
-        if(element.id.includes('_nenhum')){
+        if(element.id === id){
           element.checked = false;
         }
       }
@@ -68,7 +79,7 @@ const Perguntas = () => {
         copyRespostas[index] = [value]
       } else {
         // procura na array se existe a seleçao nenhum (nenhuma das anterios) e apaga se tal existir
-        const findNenhum = copyRespostas[index].findIndex(el => el.includes('_nenhum') === true)
+        const findNenhum = copyRespostas[index].findIndex(el => (el === id) === true)
         if(findNenhum > -1){
           copyRespostas[index].splice(findNenhum, 1)
         }
@@ -86,6 +97,7 @@ const Perguntas = () => {
       .then((response) => {
         setLoading(false)
         // preenche o state perguntas com os dados de cada pergunta
+        console.log(response)
         setPerguntas(response.data.perguntas)
         // coloca logo na array do store quantas respostas sao necessarias
         dispatch({type:'put_value_questionario', array: Array(response.data.perguntas.length)})
@@ -110,9 +122,9 @@ const Perguntas = () => {
           type={perguntas.type_pergunta}
           index={index} 
           name={perguntas.id_pergunta} 
-          pergunta={perguntas.pergunta} 
+          pergunta={perguntas.pergunta}
           respostas={perguntas.respostas} 
-          id={perguntas.tags} 
+          id={perguntas.id} 
           onClick={(event) => {
             pushResposta(perguntas.type_pergunta, index, perguntas.id_pergunta ,event.target.value); 
             dispatch({type:'incomplete_question', message:''})
