@@ -6,8 +6,8 @@
       "port": 5432,
       "askForPassword": true,
       "driver": "PostgreSQL",
-      "name": "myskinatura",
-      "database": "myskinatura",
+      "name": "myskynatura",
+      "database": "myskynatura",
       "username": "bulbucus"
     }
   ]
