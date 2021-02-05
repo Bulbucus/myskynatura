@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <link rel='stylesheet' href='/css/perguntas.css'/>
+  <title>Ver, editar e criar perguntas</title>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Tipo de pergunta</th>
+      <th>Pergunta</th>
+      <th>Editar Pergunta</th>
+      <th>Apagar Pergunta</th>
+    </tr>
+    <% perguntas.forEach((pergunta) => { %>
+      <tr>
+      <% for(const element in pergunta){ %>
+        <th><%= pergunta[element] %></th>
+      <% } %>
+        <th><button><a href="./perguntas/edit/<%= pergunta.id_pergunta %>">Editar</a></button></th>
+        <th><form method="POST" onClick="confirmFunction(event)" action=perguntas/delete?id=<%= pergunta.id_pergunta %>><button type='submit'>Apagar</button></form></th>
+    </tr>
+    <% }) %> 
+  </table>
+</br>
+  <section>
+    <form method="POST" action='perguntas/add' onkeydown="return event.key != 'Enter';">
+    <fieldset>
+      <legend>Criar Pergunta</legend>
+  <table>
+    <tr>
+      <th style='width: 100px;'>Tipo de pergunta</th>
+      <th>Pergunta</th>
+    </tr>
+    <tr>
+      <th><select name='type_pergunta' id='type_pergunta'>
+        <option value='radio'>resposta unica</option>
+        <option value='checkbox'>respostas multipla</option>
+      </select></th>
+      <th><input type='input' name='pergunta' id="pergunta" style="width: 70%;"></th>
+    </tr>
+  </table>
+</br>
+  <table>
+    <tr id='title_respostas'>
+      <th>Resposta</th>  
+      <th>Tag<input type='button' name='add_resposta' value='+ Adicionar resposta'></th>  
+    </tr>
+    <tr id='resposta_0'>
+      <th><input type='input' name='new[opcao_texto]' style="width: 90%;"></th>
+      <th><input type='input' name='new[tag]' style="width: 70%;"></th>
+    </tr>
+  </table>
+</br>
+  <input type='submit' value='Criar pergunta'>
+</form>
+</fieldset>
+</body>
+<script src='/js/perguntas.js'></script>
+</html>

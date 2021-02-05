@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const {client} = require('../sql/connect');
 const { validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 
@@ -8,15 +8,7 @@ const userQuery = require("../model/user");
 const emailSender = require('../util/emailSender');
 const questionarioController = require('./questionario-controllers');
 
-// connect postgres database
-const client = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-});
-client.connect();
+
 
 // registar o utilizador
 const singUpUser = (req, res) => {

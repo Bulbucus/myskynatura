@@ -1,18 +1,9 @@
-const { Pool } = require("pg");
+const {client} = require('../sql/connect');
 
 const { validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
-
 const questionarioQuery = require('../model/questionario');
 
-const client = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-});
-client.connect();
 
 const addQuestionario = async (id_user, questionario) => {
 

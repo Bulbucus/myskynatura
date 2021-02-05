@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <link rel='stylesheet' href='/css/perguntas.css'/>
+  <title>Editar pergunta</title>
+</head>
+<body>
+  <a href="/admin/perguntas">Voltar a tras</a>
+  <section>
+    <form method="POST" action='./<%= pergunta.id_pergunta %>' onkeydown="return event.key != 'Enter';">
+      <fieldset>
+        <legend>Edit Pergunta</legend>
+        <table>
+          <tr>
+            <th>Tipo de pergunta</th>
+            <th>Pergunta</th>
+          </tr>
+          <tr>
+            <th><select name='type_pergunta' id='type_pergunta'>
+              <option value='radio' <% if(pergunta.type_pergunta === 'radio'){%> <%= "selected" %> <% } %> >resposta unica</option>
+              <option value='checkbox' <% if(pergunta.type_pergunta === 'checkbox'){%> <%= "selected" %> <% } %> >respostas multipla</option>
+            </select></th>
+            <th><input style="width:300px;" name='pergunta' id="pergunta" value="<%= pergunta.pergunta %>"></th>
+          </tr>
+        </table>
+      </br>
+      </br>
+        <table>
+          <tr id='title_respostas'>
+            <th>Resposta</th>  
+            <th>Tag<input type='button' name='add_resposta' value='+ Adicionar resposta'></th>  
+          </tr>
+          <% pergunta.respostas.forEach((resposta, index) => { %>
+            <tr class="respostas" id=<%= `resposta_${index + 1}` %> >
+              <th><input type='input' name='opcao_texto' style="width: 90%;" value="<%= resposta %>"></th>
+              <th><input type='input' name='tag' style="width: 70%;" value="<%= pergunta.tags[index] %>" ></th>
+              <th><input type='input' name='id' style="width: 70%;" hidden value="<%= pergunta.id[index] %>" ></th>
+            </tr>
+          <% }) %>
+        </table>
+      </br>
+      </br>
+        <input type='submit' value='Editar pergunta'>
+      </fieldset>
+    </form>
+  </section>
+</body>
+<script src='/js/perguntas.js'></script>
+</html>
