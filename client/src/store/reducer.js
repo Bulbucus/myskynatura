@@ -1,3 +1,4 @@
+// global reducer
 const reducer = (state, action) => {
   switch (action.type) {
     case 'toogle_login':

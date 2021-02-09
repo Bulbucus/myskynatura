@@ -97,7 +97,6 @@ const Perguntas = () => {
       .then((response) => {
         setLoading(false)
         // preenche o state perguntas com os dados de cada pergunta
-        console.log(response)
         setPerguntas(response.data.perguntas)
         // coloca logo na array do store quantas respostas sao necessarias
         dispatch({type:'put_value_questionario', array: Array(response.data.perguntas.length)})

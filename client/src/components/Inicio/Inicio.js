@@ -10,7 +10,7 @@ import { LoginContext } from '../../App';
 
 const Inicio = () => {
 
-  const [state, dispatch] = useContext(LoginContext);
+  const [state] = useContext(LoginContext);
 
   return (
     <div className={classes.Intro}>

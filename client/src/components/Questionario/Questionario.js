@@ -15,6 +15,7 @@ import Registo from './Registo/Registo';
 
 const QuestionarioContext = createContext();
 
+// state
 const initialState = {
   personalInfo:{
     primeiro_nome:{
@@ -67,6 +68,7 @@ const initialState = {
   }
 }
 
+// Reducer da pagina questionario
 const reducer = (state, action) => {
   switch (action.type) {
     case 'put_value_personalInfo':
@@ -144,7 +146,7 @@ const reducer = (state, action) => {
 
 const Questionario = () => {
 
-  const [loginState, loginDispatch] = useContext(LoginContext);
+  const [, loginDispatch] = useContext(LoginContext);
 
   const [state, dispatch] = useReducer(reducer,initialState);
 

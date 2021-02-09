@@ -1,3 +1,4 @@
+// Global store
 const initialState = {
   login:{
     show:false,

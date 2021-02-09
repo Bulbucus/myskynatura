@@ -91,7 +91,7 @@ const reducer = (state, action) => {
 const Dados = () => {
 
   const [state, dispatch] = useReducer(reducer,initialState)
-  const [loginState, loginDispatch] = useContext(LoginContext)
+  const [loginState] = useContext(LoginContext)
 
   const [loading, setLoading] = useState(false)
 

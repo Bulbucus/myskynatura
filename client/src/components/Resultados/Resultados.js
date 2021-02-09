@@ -10,7 +10,7 @@ import { ErrorMessage } from '../../util/ErrorHandler/ErrorHandler';
 
 const Resultados = () => {
 
-  const [state, dispatch] = useContext(LoginContext)
+  const [state] = useContext(LoginContext)
   const [produtos, setProdutos] = useState([])
 
   useEffect(() => { 
@@ -22,8 +22,8 @@ const Resultados = () => {
       const {resultado} = response.data
 
       if(resultado.length > 0){
-        resultado.forEach((element) => {
-          setProdutos(produto => [produto, <Produto nome={element.nome} descricao={element.descricao} price={element.price}></Produto>])
+        resultado.forEach((element, index) => {
+          setProdutos(produto => [produto, <Produto key={index} nome={element.nome} descricao={element.descricao} price={element.price}></Produto>])
         })
       } else {
         setProdutos(<ErrorMessage errorMessage='Lamentamos mas de momento não encontramos nenhum produto para o seu tipo de pele.'></ErrorMessage>)
