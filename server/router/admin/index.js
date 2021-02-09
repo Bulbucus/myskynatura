@@ -8,4 +8,9 @@ app.use('/produtos', produtos);
 
 app.use('/perguntas', perguntas);
 
+app.get('/', (req, res) => {
+  res.render('admin/index')
+})
+
+
 module.exports = app

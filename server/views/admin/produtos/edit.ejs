@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <link rel="stylesheet" href="/css/perguntas.css">
+  <title>Editar produto</title>
+</head>
+<body>
+  <a href="/admin/produtos">Voltar a tras</a>
+  <section>
+    <form method="POST" onkeydown="return event.key != 'Enter';">
+      <fieldset>
+        <legend>Editar Produto</legend>
+        <table>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th style='width: 90px;'>Preço</th>
+          </tr>
+          <tr>
+          <% for(const element in produto){ %>
+              <% if(element === 'price') { %> 
+                <th><input type='number' style='width: 80%;' name='<%= element %>' value='<%= produto[element]%>' step=".01"></th> 
+              <% } else if (element != 'link' && element != 'image_link') { %>
+                <th><input type='text' name='<%= element %>' value='<%= produto[element] %>' style='width: 90%;' ></th> 
+              <% } %>
+          <% } %>
+          </tr>
+          <tr>
+            <th>Link</th>
+            <th>Link Imagem</th>
+          </tr>
+          <tr>
+            <% for(const element in produto){ %>
+              <%if (element === 'link' || element === 'image_link') { %>
+                <th><input type='text' name='<%= element %>' value='<%= produto[element] %>' style='width: 90%;'></th> 
+              <% } %>
+            <% } %>
+          </tr>
+        </table>
+      </br>
+      </br>
+      <table>
+        <tr id='title_respostas'>
+          <th>Resposta <input type='button' name='add_resposta' value='+ Adicionar resposta'></th>  
+          <th>Apagar resposta</th>
+        </tr>
+        <% produto.id_opcao.forEach((id_opcao, index) => { %>
+        <tr class='resposta'>
+            <th><select name='opcoes' id='opcoes' required>
+              <% opcoes.forEach((pergunta) => { %>
+                <optgroup label='<%= pergunta.pergunta %>'>
+                  <% pergunta.id.forEach((id, index) => { %>
+                    <option value='<%= id %>' <% if(id_opcao === id){%><%= 'selected' %> <% } %> > <%= pergunta.respostas[index] %> </option>
+                  <% }) %>
+                </optgroup>
+             <% }) %>
+            </select></th>
+            <% if (index != 0) { %><th><button form='deleteForm' name='id' value='<%= produto.id_prod_op[index] %>'>Apagar</button></th><% } %>
+        </tr>
+        <% }) %>
+          </table>
+        </br>
+        </br>
+      </table>
+    </br>
+    </br>
+      <input type='submit' onClick="confirmFunction(event)" value='Editar produto'>
+      </fieldset>
+    </form>
+    <form method="POST" id='deleteForm' onClick="confirmFunction(event)" action="./<%= produto.id_produto %>?_method=DELETE" ></form>
+</body>
+  <script src='/js/index.js'></script>
+  <script src='/js/handler.js'></script>
+</html>

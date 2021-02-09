@@ -1,9 +1,10 @@
+const { param } = require('../../router/user');
 const {client} = require('../../sql/connect');
 
 const getPerguntas = async (req, res) => {
   const perguntas = await client.query("SELECT * FROM perguntas;")
   
-  res.render('admin/perguntas', {perguntas: perguntas.rows})
+  res.render('admin/perguntas/index', {perguntas: perguntas.rows})
 }
 
 const makePerguntas = async (req, res) => {
@@ -15,13 +16,24 @@ const makePerguntas = async (req, res) => {
   )
 
   for(let i = 0; i < body.new.opcao_texto.length; i += 1){
-    const addOpcoes =  await client.query(
-      "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
-      [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao_texto[i]]
-    )
+    // isto serve para colocar o "_nenhum" (nenhum das anterios) sempre em ultimo
+    // existe uma columa "ordem" em que todos tem null menos o _nenhum opcao, e ao ter valor em modo desc
+    // coloca-o em sempre em ultimo
+ 
+    if(body.new.tag[i].includes('_nenhum')){
+      await client.query(
+        "INSERT INTO opcoes (id_pergunta, tag, opcao_texto, ordem) VALUES ($1,$2,$3,1) RETURNING *",
+        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao_texto[i]]
+      )
+    } else {
+      await client.query(
+        "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
+        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao_texto[i]]
+      )
+    }
   }
   
-  res.redirect('/admin/perguntas')
+  res.redirect('./perguntas')
 }
 
 const deletePerguntas = async (req,res) => {
@@ -32,7 +44,7 @@ const deletePerguntas = async (req,res) => {
      [query.id]
   )
 
-  res.redirect('/admin/perguntas')
+  res.redirect('./perguntas')
 }
 
 const getPergunta = async (req, res) => {
@@ -42,13 +54,13 @@ const getPergunta = async (req, res) => {
      [req.params.id]
   )
 
-  res.render('admin/editPerguntas', {pergunta: getPergunta.rows[0]})
+  res.render('admin/perguntas/edit', {pergunta: getPergunta.rows[0]})
 }
 
 const editPergunta = async (req, res) => {
   const {body, params} = req;
 
-  console.log(body)
+  // para as mudanças feitas na pergunta e nas respostas ja criadas:
   const addPergunta = await client.query(
     "UPDATE perguntas SET type_pergunta=$1, pergunta=$2 where id_pergunta=$3",
      [body.type_pergunta, body.pergunta, params.id]
@@ -61,12 +73,13 @@ const editPergunta = async (req, res) => {
     )
   }
 
+  // para adicionar novas respostas a pergunta
   if(body.new){
     if(Array.isArray(body.new.opcao_texto)){
       for(let i = 0; i < body.new.opcao_texto.length; i += 1){
         const addOpcoes =  await client.query(
-          "INSERT INTO opcoes (id_pergunta, id_opcao, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
-          [params.id, body.new.id_opcao[i], body.new.opcao_texto[i]]
+          "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
+          [params.id, body.new.tag[i], body.new.opcao_texto[i]]
         )
       }
     } else {
@@ -77,8 +90,18 @@ const editPergunta = async (req, res) => {
     }
   }
   
+  res.redirect(`./${params.id}`)
+}
+
+const deleteResposta = async (req, res) => {
+  const {body, params} = req;
+
+  const deleteOpcao =  await client.query(
+    `DELETE FROM opcoes where id_opcao=$1 RETURNING *`,
+    [body.id]
+  )
 
   res.redirect(`./${params.id}`)
 }
 
-module.exports = {getPerguntas, makePerguntas, deletePerguntas, getPergunta, editPergunta};
+module.exports = {getPerguntas, makePerguntas, deletePerguntas, getPergunta, editPergunta, deleteResposta};

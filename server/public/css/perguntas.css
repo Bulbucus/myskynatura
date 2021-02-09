@@ -14,7 +14,3 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
-.container-criarpergunta{
-  border: 2px dotted rgb(131, 131, 131);
-}

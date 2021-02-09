@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/perguntas.css">
+  <title>Create Produtos</title>
+</head>
+<body>
+  <a href="/admin">Voltar a tras</a>
+  <h1>Produtos</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>Link</th>
+      <th>Editar Produto</th>
+      <th>Apagar Produto</th>
+    </tr>
+    <% produtos.forEach((produto) => { %>
+      <tr>
+      <% for(const element in produto){ %>
+        <th>
+          <% if(element === 'link') { %> <a target="_blank" href="<%= produto[element] %>">Link</a> <%} else {%><%= produto[element] %><% } %>
+        </th> 
+      <% } %>
+      <th><button><a href="./produtos/edit/<%= produto.id_produto %>">Editar</a></button></th>
+      <th><form method="POST" onClick="confirmFunction(event)" action="produtos?_method=DELETE&id=<%= produto.id_produto %>" ><button type='submit'>Apagar</button></form></th>
+    </tr>
+    <% }) %> 
+  </table>
+</br>
+<section>
+  <form method="POST" action='produtos' onkeydown="return event.key != 'Enter';">
+  <fieldset>
+    <legend>Criar Produto</legend>
+<table>
+  <tr>
+    <th>Nome</th>
+    <th>Descrição</th>
+    <th style='width: 90px;'>Preço</th>
+  </tr>
+  <tr>
+    <th><input type='input' name='nome' id="nome" style='width: 90%;' required></th>
+    <th><input type='input' name='descricao' id="descricao" style='width: 90%;' required></th>
+    <th><input type='number' style="width: 80%;" name='price' step='.01' id="price" required></th>
+  </tr>
+  <tr>
+    <th>Link</th>
+    <th>Link imagem</th>
+  </tr>
+  <tr>
+    <th><input type='input' name='link' id="link" style='width: 90%;' required></th>
+    <th><input type='input' name='image_link' id="image_link" style='width: 90%;' required></th>
+  </tr>
+</table>
+</br>
+<table>
+  <tr id='title_respostas'>
+    <th>Tag<input type='button' name='add_resposta' value='+ Adicionar Opcao'></th>  
+    <th>Remover</th>
+  </tr>
+  <tr class='resposta'>
+    <th><select name='opcoes' id='opcoes' required>
+      <option disabled selected value>Escolhe uma opcão</option>
+      <% opcoes.forEach((pergunta) => { %>
+        <optgroup label='<%= pergunta.pergunta %>'>
+          <% pergunta.id.forEach((id, index) => { %>
+            <option value='<%= id %>'> <%= pergunta.respostas[index] %></option>
+          <% }) %>
+        </optgroup>
+     <% }) %>
+    </select></th>
+  </tr>
+  <tr class='resposta'>
+    <th><select name='opcoes' id='opcoes' required>
+      <option disabled selected value>Escolhe uma opcão</option>
+        <% opcoes.forEach((pergunta) => { %>
+          <optgroup label='<%= pergunta.pergunta %>'>
+            <% pergunta.id.forEach((id, index) => { %>
+              <option value='<%= id %>'> <%= pergunta.respostas[index] %></option>
+            <% }) %>
+          </optgroup>
+       <% }) %>
+      </select></th>
+      <th><input type='button' onClick='remove(event)' value=" Remover"></th>
+  </tr>
+</table>
+</br>
+<input type='submit' onClick="confirmFunction(event)" value='Criar produto'>
+</form>
+</fieldset>
+</body>
+<script src='/js/index.js'></script>
+<script src="/js/handler.js"></script>
+</html>
