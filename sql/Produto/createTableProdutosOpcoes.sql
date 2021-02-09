@@ -1,7 +1,7 @@
 CREATE TABLE prod_op (
   id_prod_op SERIAL PRIMARY KEY,
-  id_produto SERIAL REFERENCES produtos(id_produto),
-  id_opcao TEXT REFERENCES opcoes(id_opcao)
+  id_produto SERIAL REFERENCES produtos(id_produto) ON DELETE CASCADE,
+  id_opcao TEXT REFERENCES opcoes(id_opcao) ON DELETE CASCADE
 );
 
 INSERT INTO prod_op (id_produto, id_opcao) VALUES 

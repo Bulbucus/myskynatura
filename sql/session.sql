@@ -1,1 +1,3 @@
-SELECT perguntas.*, array_agg(opcoes.id_opcao) as id ,array_agg(opcoes.opcao_texto) as respostas, array_agg(opcoes.tag) as tags FROM perguntas,opcoes where perguntas.id_pergunta=opcoes.id_pergunta group by perguntas.id_pergunta;
+SELECT produtos.*, array_agg(prod_op.id_opcao) as id_opcao FROM produtos, prod_op WHERE produtos.id_produto=13 AND prod_op.id_produto=produtos.id_produto GROUP BY produtos.id_produto;
+
+SELECT prod_op.id_prod_op, prod_op.id_opcao, opcoes.tag, opcoes.opcao_texto FROM prod_op INNER JOIN opcoes ON prod_op.id_opcao = opcoes.id_opcao WHERE prod_op.id_produto=13 ORDER BY opcoes.ordem desc;

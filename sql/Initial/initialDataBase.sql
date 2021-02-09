@@ -1,4 +1,3 @@
-
 create extension if not exists "uuid-ossp";
 
 CREATE TABLE users (
@@ -32,18 +31,20 @@ CREATE TABLE produtos (
   nome VARCHAR(50) NOT NULL,
   descricao VARCHAR(200) NOT NULL,
   price DECIMAL NOT NULL
+  link TEXT NOT NULL,
+  image_link TEXT NOT NULL
 );
 
 CREATE TABLE respostas (
   id_resposta SERIAL PRIMARY KEY,
   id_user UUID REFERENCES users(id_user) ON DELETE CASCADE,
-  id_opcao SERIAL REFERENCES opcoes(id_opcao)
+  id_opcao SERIAL REFERENCES opcoes(id_opcao) ON DELETE CASCADE
 );
 
 CREATE TABLE prod_op (
   id_prod_op SERIAL PRIMARY KEY,
-  id_produto SERIAL REFERENCES produtos(id_produto),
-  id_opcao SERIAL REFERENCES opcoes(id_opcao)
+  id_produto SERIAL REFERENCES produtos(id_produto) ON DELETE CASCADE,
+  id_opcao SERIAL REFERENCES opcoes(id_opcao) ON DELETE CASCADE
 );
 
 
