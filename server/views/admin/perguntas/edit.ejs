@@ -35,10 +35,10 @@
           </tr>
           <% for(let i = 0; i < pergunta.respostas.length; i += 1) {%>
             <tr class="resposta">
-              <th><input type='input' name='opcao_texto' style="width: 90%;" value="<%= pergunta.respostas[i] %>" required></th>
+              <th><input type='input' name='opcao' style="width: 90%;" value="<%= pergunta.respostas[i] %>" required></th>
               <th><input type='input' name='tag' style="width: 70%;" value="<%= pergunta.tags[i] %>" required></th>
               <th style='display: none;'><input type='input' name='id' style="width: 70%;" hidden value="<%= pergunta.id[i] %>" ></th>
-              <% if (i != 0) { %> <th><button form='deleteForm' name='id' value='<%= pergunta.id[i] %>'>Apagar</button></th> <% } %>
+              <% if (i != 0) { %> <th><button form='deleteForm' onClick="confirmFunctiosn(event)" name='id' value='<%= pergunta.id[i] %>'>Apagar</button></th> <% } %>
             </tr>
           <% } %>
         </table>

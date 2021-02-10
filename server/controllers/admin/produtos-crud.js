@@ -9,7 +9,6 @@ const getProdutos = async (req, res) => {
 const makeProduto = async (req, res) => {
   const {body} = req;
 
-  console.log(body)
   const addProduto = await client.query(
     "INSERT INTO produtos (nome, descricao, price, link, image_link) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
     [body.nome, body.descricao, body.price, body.link, body.image_link]
@@ -48,6 +47,39 @@ const editProduto = async (req,res) => {
     "UPDATE produtos SET nome=$1, descricao=$2, price=$3, link=$4, image_link=$5 where produtos.id_produto=$6",
     [body.nome, body.descricao, body.price, body.link, body.image_link, params.id]
   )
+
+  // para evitar errors verifica-se se é array ou nao primeiro,
+  // pois se o update for so um ele vem como string e nao como array
+  if(Array.isArray(body.opcao)){
+    for(let i = 0; i < body.opcao.length; i += 1){
+      const editOpcoes =  await client.query(
+        "UPDATE prod_op SET id_opcao=$1 where id_prod_op=$2 and id_produto=$3",
+        [body.opcao[i], body.id_prod_op[i], params.id]
+      )
+    }
+  } else {
+    const editOpcoes =  await client.query(
+      "UPDATE prod_op SET id_opcao=$1 where id_prod_op=$2 and id_produto=$3",
+      [body.opcao, body.id_prod_op, params.id]
+    )
+  }
+
+  // para adicionar novas respostas a pergunta
+  if(body.new){
+    if(Array.isArray(body.new.opcao)){
+      for(let i = 0; i < body.new.opcao.length; i += 1){
+        const addOpcoes =  await client.query(
+          "INSERT INTO prod_op (id_produto, id_opcao) VALUES ($1,$2) RETURNING *",
+          [params.id, body.new.opcao[i]]
+        )
+      }
+    } else {
+      const addOpcoes =  await client.query(
+        "INSERT INTO prod_op (id_produto, id_opcao) VALUES ($1,$2) RETURNING *",
+          [params.id, body.new.opcao]
+      )
+    }
+  }
 
   res.redirect(`./${params.id}`)
 }

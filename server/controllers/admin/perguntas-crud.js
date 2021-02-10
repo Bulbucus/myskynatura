@@ -15,7 +15,7 @@ const makePerguntas = async (req, res) => {
      [body.type_pergunta, body.pergunta]
   )
 
-  for(let i = 0; i < body.new.opcao_texto.length; i += 1){
+  for(let i = 0; i < body.new.opcao.length; i += 1){
     // isto serve para colocar o "_nenhum" (nenhum das anterios) sempre em ultimo
     // existe uma columa "ordem" em que todos tem null menos o _nenhum opcao, e ao ter valor em modo desc
     // coloca-o em sempre em ultimo
@@ -23,12 +23,12 @@ const makePerguntas = async (req, res) => {
     if(body.new.tag[i].includes('_nenhum')){
       await client.query(
         "INSERT INTO opcoes (id_pergunta, tag, opcao_texto, ordem) VALUES ($1,$2,$3,1) RETURNING *",
-        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao_texto[i]]
+        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao[i]]
       )
     } else {
       await client.query(
         "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
-        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao_texto[i]]
+        [addPergunta.rows[0].id_pergunta, body.new.tag[i], body.new.opcao[i]]
       )
     }
   }
@@ -65,27 +65,36 @@ const editPergunta = async (req, res) => {
     "UPDATE perguntas SET type_pergunta=$1, pergunta=$2 where id_pergunta=$3",
      [body.type_pergunta, body.pergunta, params.id]
   )
-
-  for(let i = 0; i < body.opcao_texto.length; i += 1){
+  
+  // para evitar errors verifica-se se é array ou nao primeiro,
+  // pois se o update for so um ele vem como string e nao como array
+  if(Array.isArray(body.opcao)){
+    for(let i = 0; i < body.opcao.length; i += 1){
+      const addOpcoes =  await client.query(
+        "UPDATE opcoes SET opcao_texto=$1, tag=$2 where id_pergunta=$3 and id_opcao=$4",
+        [body.opcao[i], body.tag[i], params.id, body.id[i]]
+      )
+    }
+  } else {
     const addOpcoes =  await client.query(
       "UPDATE opcoes SET opcao_texto=$1, tag=$2 where id_pergunta=$3 and id_opcao=$4",
-      [body.opcao_texto[i], body.tag[i], params.id, body.id[i]]
+      [body.opcao, body.tag, params.id, body.id]
     )
   }
 
   // para adicionar novas respostas a pergunta
   if(body.new){
-    if(Array.isArray(body.new.opcao_texto)){
-      for(let i = 0; i < body.new.opcao_texto.length; i += 1){
+    if(Array.isArray(body.new.opcao)){
+      for(let i = 0; i < body.new.opcao.length; i += 1){
         const addOpcoes =  await client.query(
           "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
-          [params.id, body.new.tag[i], body.new.opcao_texto[i]]
+          [params.id, body.new.tag[i], body.new.opcao[i]]
         )
       }
     } else {
       const addOpcoes =  await client.query(
         "INSERT INTO opcoes (id_pergunta, tag, opcao_texto) VALUES ($1,$2,$3) RETURNING *",
-        [params.id, body.new.tag, body.new.opcao_texto]
+        [params.id, body.new.tag, body.new.opcao]
       )
     }
   }

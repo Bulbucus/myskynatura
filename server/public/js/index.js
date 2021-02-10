@@ -23,10 +23,10 @@ button.addEventListener('click', () => {
   
 
   newTr[0].value= ''
+  newTr[0].name = 'new[opcao]'
   // so na pagina perguntas é que existe um segundo elemento nos inputs
   if (newTr[1]) {
     newTr[1].value = ''
-    newTr[0].name = 'new[opcao_texto]'
     newTr[1].name = 'new[tag]';
   }
 
@@ -42,6 +42,20 @@ button.addEventListener('click', () => {
     th[th.length - 1].appendChild(createRB)
   }
 
+
+  // se tiver o clone tiver no terceiro th tiver um input hidden, (normalmente o id) apaga-o para nao criar conflitos
+  // pois as opcoes por adicionar nao tem nenhum id ainda
+  if(cloneTr.getElementsByTagName('th')[2]){
+    if(cloneTr.getElementsByTagName('th')[2].firstChild.getAttribute('hidden') != null){
+      cloneTr.getElementsByTagName('th')[2].remove()
+    }
+  }
+
+  if( cloneTr.getElementsByTagName('th')[1]){
+    if(cloneTr.getElementsByTagName('th')[1].firstChild.getAttribute('hidden') != null){
+      cloneTr.getElementsByTagName('th')[1].remove()
+    }
+  }
   // se apagar todos acidentalmente, ao adicionar mais uma resposta se o clone nao tiver o botao, ira criar automaticamente e 
   // adiciona  no final da tr
   if((!newTr[1] && !cloneTr.getElementsByTagName('th')[1]) || (newTr[1] && !cloneTr.getElementsByTagName('th')[2])){

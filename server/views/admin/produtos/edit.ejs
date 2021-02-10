@@ -22,7 +22,7 @@
           <% for(const element in produto){ %>
               <% if(element === 'price') { %> 
                 <th><input type='number' style='width: 80%;' name='<%= element %>' value='<%= produto[element]%>' step=".01"></th> 
-              <% } else if (element != 'link' && element != 'image_link') { %>
+              <% } else if (element == 'nome' || element == 'descricao') { %>
                 <th><input type='text' name='<%= element %>' value='<%= produto[element] %>' style='width: 90%;' ></th> 
               <% } %>
           <% } %>
@@ -48,7 +48,7 @@
         </tr>
         <% produto.id_opcao.forEach((id_opcao, index) => { %>
         <tr class='resposta'>
-            <th><select name='opcoes' id='opcoes' required>
+            <th><select name='opcao' id='opcao' required>
               <% opcoes.forEach((pergunta) => { %>
                 <optgroup label='<%= pergunta.pergunta %>'>
                   <% pergunta.id.forEach((id, index) => { %>
@@ -57,7 +57,8 @@
                 </optgroup>
              <% }) %>
             </select></th>
-            <% if (index != 0) { %><th><button form='deleteForm' name='id' value='<%= produto.id_prod_op[index] %>'>Apagar</button></th><% } %>
+            <th style='display: none;'><input hidden id='id_prod_op' name='id_prod_op' value='<%= produto.id_prod_op[index] %>'></th>
+            <% if (index != 0) { %><th><button form='deleteForm' onClick="confirmFunction(event)" name='id' value='<%= produto.id_prod_op[index] %>'>Apagar</button></th><% } %>
         </tr>
         <% }) %>
           </table>
