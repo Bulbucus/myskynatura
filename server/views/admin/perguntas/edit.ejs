@@ -7,7 +7,9 @@
   <title>Editar pergunta</title>
 </head>
 <body>
+  <%- include('../../partials/logout') %>
   <a href="/admin/perguntas">Voltar a tras</a>
+  <h2>Editar Pergunta</h2>
   <section>
     <form method="POST" action='./<%= pergunta.id_pergunta %>' onkeydown="return event.key != 'Enter';">
       <fieldset>

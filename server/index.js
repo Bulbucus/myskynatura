@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
+var cookieParser = require('cookie-parser')
 const cors = require('cors');
 const { urlencoded, json } = require('body-parser');
 const morgan = require('morgan');
@@ -12,7 +13,10 @@ require('dotenv').config()
 const user = require('./router/user');
 const confirmUser = require('./router/confirmUser');
 const perguntas = require('./router/perguntas');
-const admin = require('./router/admin/index')
+const admin = require('./router/admin/index');
+const loginAdmin = require('./router/login');
+
+const checkLoginMiddleware = require('./middleware/checkLogin');
 
 const app = express();
 
@@ -29,6 +33,7 @@ app.use(cors({
 // middleware para transformar parametros do input em objetos
 app.use(urlencoded({extended:true}))
 app.use(json())
+app.use(cookieParser())
 
 // assim consegue receber metodos como DELETE e PUT:
 app.use(methodOverride('_method'))
@@ -50,8 +55,10 @@ app.use('/user',user);
 // para confirmar users;
 app.use('/confirmUser', confirmUser);
 
+app.use('/login', loginAdmin)
+
 // para criar , apagar e editar perguntas e produtos
-app.use('/admin', admin)
+app.use('/admin', checkLoginMiddleware ,admin)
 
 // error page handler
 app.use((req, res) => {
