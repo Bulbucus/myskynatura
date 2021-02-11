@@ -4,6 +4,8 @@
 
 No decorrer deste projeto consegui fazer uma boa utilizaçao de ferramentas essencias para desenvolver qualquer projeto full-stack
 
+Com um front-end modernizado e um back-office totalmente independente
+
 Neste projeto utilizei as seguintes ferramentas:
 
 ```
@@ -70,3 +72,6 @@ SASS_PATH:./node_modules;./src
 ``
 
 ________________________________________________________
+
+Para a  utilização do back-office ir para ``http://localhost:8888/admin``
+e utilizar os dados ADMIN_* que colocou no .env do /server para entrar. 
