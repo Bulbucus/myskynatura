@@ -1,0 +1,1 @@
+SELECT produtos.*,array_agg(prod_op.id_prod_op) as id_prod_op ,array_agg(prod_op.id_opcao) as id_opcao FROM produtos, prod_op WHERE produtos.id_produto=18 AND prod_op.id_produto=produtos.id_produto GROUP BY produtos.id_produto;

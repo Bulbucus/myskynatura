@@ -30,7 +30,7 @@ CREATE TABLE produtos (
   id_produto SERIAL PRIMARY KEY,
   nome VARCHAR(50) NOT NULL,
   descricao VARCHAR(200) NOT NULL,
-  price DECIMAL NOT NULL
+  price DECIMAL NOT NULL,
   link TEXT NOT NULL,
   image_link TEXT NOT NULL
 );

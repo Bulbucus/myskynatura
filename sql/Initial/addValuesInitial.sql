@@ -44,23 +44,23 @@ VALUES
 /* PRODUTOS */
 
 insert into produtos (nome, descricao, price, link, image_link) 
-values ( 'Lapalapa', 'benchmark real-time synergies', 100, 'https://www.perfumesecompanhia.pt/pt/catalogo/cosmetica/rosto/mascaras/prime-renewing-pack-valmont/', 'https://www.perfumesecompanhia.pt/fotos/produtos/7612017058290_1.jpg');
+values ('Lapalapa', 'benchmark real-time synergies', 100, 'https://www.perfumesecompanhia.pt/pt/catalogo/cosmetica/rosto/mascaras/prime-renewing-pack-valmont/', 'https://www.perfumesecompanhia.pt/fotos/produtos/7612017058290_1.jpg');
 
 INSERT INTO prod_op (id_produto, id_opcao) VALUES 
-(11, 1),
-(11, 2),
-(11, 3),
-(11, 4),
-(11, 5),
-(11, 6),
-(11, 7),
-(11, 8),
-(11, 9),
-(11, 10),
-(11, 11),
-(11, 12),
-(11, 13),
-(11, 14),
-(11, 15),
-(11, 16),
-(11, 17);
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17);
