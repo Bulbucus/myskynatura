@@ -2,6 +2,8 @@
 
 ## Um website onde o utilizador faz um questionario e consoante as suas respostas é lhe dado um resultado dos melhores produtos.
 
+No decorrer deste projeto consegui fazer uma boa utilizaçao de ferramentas essencias para desenvolver qualquer projeto full-stack
+
 Neste projeto utilizei as seguintes ferramentas:
 
 ```
@@ -13,7 +15,8 @@ Back-end:
 Front-end:
   React
 ```
-  
+__________________________________________________________
+
 Para a utilizaçao deste projeto no seu computador:
  
  entrar na pasta /client e /server e fazer:
