@@ -1,4 +1,5 @@
 const express = require('express');
+const https = require('https');
 const http = require('http');
 const path = require('path');
 const methodOverride = require('method-override');
@@ -21,6 +22,22 @@ const loginAdmin = require('./router/login');
 const buildDatabase = require('./sql/buildDatabase');
 const initialValues = require('./sql/initialValues');
 const checkLoginMiddleware = require('./middleware/checkLogin');
+
+let credentials;
+
+if(process.env.NODE_ENV === 'production'){
+  // Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/chain.pem', 'utf8');
+
+credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+}
 
 
 const app = express();
@@ -75,6 +92,18 @@ app.use((req, res) => {
   res.status(404);
   res.send('Nothing to see were')
 });
+
+if(process.env.NODE_ENV === 'production'){
+  const httpsServer = https.createServer(credentials, app)
+
+  // server listen handler
+  httpsServer.listen(433, async() => {
+    await buildDatabase();
+    await initialValues();
+    console.log('Server is up');
+  });
+
+}
 
 const httpServer = http.createServer(app)
 
