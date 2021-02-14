@@ -24,7 +24,7 @@ app.post('/', (req, res) => {
     
     return res.redirect('/admin')
   }
-  res.redirect('api/login')
+  res.redirect('/login')
 })
 
 module.exports = app
