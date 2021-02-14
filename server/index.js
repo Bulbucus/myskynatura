@@ -1,7 +1,8 @@
 const express = require('express');
+const http = require('http');
 const path = require('path');
 const methodOverride = require('method-override');
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const { urlencoded, json } = require('body-parser');
 const morgan = require('morgan');
@@ -16,7 +17,11 @@ const perguntas = require('./router/perguntas');
 const admin = require('./router/admin/index');
 const loginAdmin = require('./router/login');
 
+// middleware
+const buildDatabase = require('./sql/buildDatabase');
+const initialValues = require('./sql/initialValues');
 const checkLoginMiddleware = require('./middleware/checkLogin');
+
 
 const app = express();
 
@@ -47,26 +52,35 @@ app.set('view engine', 'ejs')
 app.use(removeSlash)
 
 // perguntas route
-app.use('/perguntas', perguntas)
+app.use('/api/perguntas', perguntas)
 
 // user route
-app.use('/user',user);
+app.use('/api/user',user);
 
 // para confirmar users;
-app.use('/confirmUser', confirmUser);
+app.use('/api/confirmUser', confirmUser);
 
-app.use('/login', loginAdmin)
+app.use('/api/login', loginAdmin)
 
 // para criar , apagar e editar perguntas e produtos
 app.use('/admin', checkLoginMiddleware ,admin)
 
+//
+app.get('*', (req,res) => {
+  res.sendFile(path.join(__dirname,'public/index.html'))
+})
+
 // error page handler
 app.use((req, res) => {
   res.status(404);
-  res.send({message: 'Nothing to see were'})
+  res.send('Nothing to see were')
 });
 
+const httpServer = http.createServer(app)
+
 // server listen handler
-app.listen(8888, () => {
+httpServer.listen(80, async() => {
+  await buildDatabase();
+  await initialValues();
   console.log('Server is up');
 });

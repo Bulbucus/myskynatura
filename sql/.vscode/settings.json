@@ -8,7 +8,7 @@
       "driver": "PostgreSQL",
       "name": "myskynatura",
       "database": "myskynatura",
-      "username": "bulbucus"
+      "username": "emanu"
     }
   ]
 }

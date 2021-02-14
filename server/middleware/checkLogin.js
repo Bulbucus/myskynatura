@@ -14,7 +14,7 @@ const checkLoginMiddleware = (req, res, next) => {
       }
     } 
   }
-  res.redirect('/login')
+  res.redirect('api/login')
 }
 
 module.exports = checkLoginMiddleware;

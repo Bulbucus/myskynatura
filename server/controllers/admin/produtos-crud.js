@@ -14,10 +14,10 @@ const makeProduto = async (req, res) => {
     [body.nome, body.descricao, body.price, body.link, body.image_link]
   );
 
-  for(let i = 0; i < body.opcoes.length; i += 1){
+  for(let i = 0; i < body.new.opcao.length; i += 1){
     const addProdOp = await client.query(
       "INSERT INTO prod_op (id_produto, id_opcao) VALUES ($1, $2) RETURNING *;",
-      [addProduto.rows[0].id_produto, body.opcoes[i]]
+      [addProduto.rows[0].id_produto, body.new.opcao[i]]
     )
   }
 

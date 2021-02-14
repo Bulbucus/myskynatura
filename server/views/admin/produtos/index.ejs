@@ -63,7 +63,7 @@
     <th>Remover</th>
   </tr>
   <tr class='resposta'>
-    <th><select name='opcoes' id='opcoes' required>
+    <th><select name='new[opcao]' id='opcoes' required>
       <option disabled selected value>Escolhe uma opcão</option>
       <% opcoes.forEach((pergunta) => { %>
         <optgroup label='<%= pergunta.pergunta %>'>
@@ -75,7 +75,7 @@
     </select></th>
   </tr>
   <tr class='resposta'>
-    <th><select name='opcoes' id='opcoes' required>
+    <th><select name='new[opcao]' id='opcoes' required>
       <option disabled selected value>Escolhe uma opcão</option>
         <% opcoes.forEach((pergunta) => { %>
           <optgroup label='<%= pergunta.pergunta %>'>

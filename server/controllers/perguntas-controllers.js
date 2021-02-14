@@ -11,7 +11,8 @@ const getPerguntas = async (req, res) => {
     
   }catch(error){
     return res.json({
-      status:500
+      status:500,
+      error: error
     })
   }
   

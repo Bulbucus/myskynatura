@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  myskynatura-data:
+    image: postgres:13-alpine
+    volumes: 
+      - postgres-data:/var/lib/postgresql/data
+    environment: 
+      POSTGRES_USER: emanu
+      POSTGRES_DB: myskynatura
+      POSTGRES_PASSWORD: Farinha98
+    ports:
+      - 5432:5432
+    mem_limit: 300m
+  myskynatura-web:
+    image: node:14.15.5-alpine3.10
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - 80:80
+    working_dir: /server
+    volumes: 
+      - ./:/server
+      - /server/node_modules
+    environment: 
+      POSTGRES_USER: emanu
+      POSTGRES_DB: myskynatura
+      POSTGRES_PASSWORD: Farinha98
+      POSTGRES_HOST: myskynatura-data
+    mem_limit: 300m
+
+volumes:
+  postgres-data:
