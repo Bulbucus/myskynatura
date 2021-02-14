@@ -13,6 +13,8 @@ import TextInput from '../../../util/TextInput/TextInput';
 import {SelectInput, Options} from '../../../util/SelectInput/SelectInput';
 import DateInput from '../../../util/DateInput/DateInput';
 
+import checkEnv from '../../../production/checkEnv';
+
 const initialState = {
   personalInfo:{
     primeiro_nome:{
@@ -101,7 +103,7 @@ const Dados = () => {
   }
   
   useEffect(() => {
-    axios.post('http://95.93.159.118:8888/user/getUser',{
+    axios.post(`${checkEnv()}/api/user/getUser`,{
       token: loginState.user.token,
       id: loginState.user.id
     }).then((response) => {
@@ -130,7 +132,7 @@ const Dados = () => {
     if(noError){
       setLoading(true)
       const value = name  => state.personalInfo[name].value
-    axios.post('http://95.93.159.118:8888/user/updateUser',{
+    axios.post(`${checkEnv()}/api/user/updateUser`,{
       token: loginState.user.token,
       id: loginState.user.id,
       primeiro_nome: value('primeiro_nome'),

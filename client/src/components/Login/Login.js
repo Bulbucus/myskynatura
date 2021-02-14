@@ -12,6 +12,8 @@ import {ReactComponent as Loading} from '../../assets/Loading.svg'
 
 import classes from './Login.module.scss';
 
+import checkEnv from '../../production/checkEnv'
+
 const initialState = {
   email:{
     type:'email',
@@ -72,7 +74,7 @@ const Login = () => {
     dispatch({type:'handler',boolean:true, message: ''})
 
     axios.post(
-      'http://95.93.159.118:8888/user/login',
+      `${checkEnv()}/api/user/login`,
       {
         email:state.email.value,
         palavrapasse:state.palavrapasse.value,
@@ -99,6 +101,7 @@ const Login = () => {
       if(axios.isCancel(error)){
         return null
       }
+      console.log(error)
       dispatch({type:'handler', boolean:false ,message: 'Erro interno, por favor tente mais tarde'})
     })
   }

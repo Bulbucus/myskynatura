@@ -13,6 +13,8 @@ import PersonalInfo from './PersonalInfo/PersonalInfo';
 import Perguntas from './Perguntas/Perguntas';
 import Registo from './Registo/Registo';
 
+import checkEnv from '../../production/checkEnv';
+
 const QuestionarioContext = createContext();
 
 // state
@@ -196,7 +198,7 @@ const Questionario = () => {
       setLoading(true)
       const value = name  => state.personalInfo[name].value
       axios.post(
-        'http://95.93.159.118:8888/user/registar',
+        `${checkEnv()}/api/user/registar`,
         {
           primeiro_nome: value('primeiro_nome'),
           ultimo_nome: value('ultimo_nome'),

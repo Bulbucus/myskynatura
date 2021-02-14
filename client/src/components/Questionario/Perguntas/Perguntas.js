@@ -9,6 +9,8 @@ import Pergunta from './Pergunta/Pergunta'
 import {ErrorMessage} from '../../../util/ErrorHandler/ErrorHandler';
 import {ReactComponent as Loading} from '../../../assets/Loading.svg';
 
+import checkEnv from '../../../production/checkEnv';
+
 const Perguntas = () => {
 
   // Recebe do API os dados
@@ -93,7 +95,7 @@ const Perguntas = () => {
 
   //Recebe as perguntas via API, assim fica mais facil adicionar perguntas novas
   useEffect(() => {
-    axios.get('http://95.93.159.118:8888/perguntas')
+    axios.get(`${checkEnv()}/api/perguntas`)
       .then((response) => {
         setLoading(false)
         // preenche o state perguntas com os dados de cada pergunta

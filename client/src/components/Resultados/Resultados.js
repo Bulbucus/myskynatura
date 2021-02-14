@@ -8,13 +8,15 @@ import classes from './Resultados.module.scss';
 import Produto from './Produto/Produto';
 import { ErrorMessage } from '../../util/ErrorHandler/ErrorHandler';
 
+import checkEnv from '../../production/checkEnv'
+
 const Resultados = () => {
 
   const [state] = useContext(LoginContext)
   const [produtos, setProdutos] = useState([])
 
   useEffect(() => { 
-    axios.post('http://95.93.159.118:8888/user/resultados',
+    axios.post(checkEnv() + '/api/user/resultados',
     {
       id:state.user.id,
       token:state.user.token
