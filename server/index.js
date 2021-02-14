@@ -1,7 +1,9 @@
-const express = require('express');
+const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const path = require('path');
+
+const express = require('express');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
@@ -36,9 +38,7 @@ credentials = {
 	cert: certificate,
 	ca: ca
 };
-
 }
-
 
 const app = express();
 
