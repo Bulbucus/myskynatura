@@ -21,7 +21,7 @@ services:
     volumes: 
       - ./:/server
       - /server/node_modules
-      - /etc/letsencrypt/live/myskynatura.xyz/:/etc/letsencrypt/live/myskynatura.xyz/
+      - ./etc/letsencrypt/live/myskynatura.xyz/:/etc/letsencrypt/live/myskynatura.xyz/
     environment: 
       POSTGRES_USER: emanu
       POSTGRES_DB: myskynatura
