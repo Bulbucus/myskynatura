@@ -25,20 +25,6 @@ const buildDatabase = require('./sql/buildDatabase');
 const initialValues = require('./sql/initialValues');
 const checkLoginMiddleware = require('./middleware/checkLogin');
 
-let credentials;
-
-if(process.env.NODE_ENV === 'production'){
-  // Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/myskynatura.xyz/chain.pem', 'utf8');
-
-credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
-};
-}
 
 const app = express();
 
@@ -93,23 +79,11 @@ app.use((req, res) => {
   res.send('Nothing to see were')
 });
 
-if(process.env.NODE_ENV === 'production'){
-  const httpsServer = https.createServer(credentials, app)
-
-  // server listen handler
-  httpsServer.listen(433, async() => {
-    await buildDatabase();
-    await initialValues();
-    console.log('Server is up');
-  });
-
-}
 
 const httpServer = http.createServer(app)
 
 // server listen handler
-httpServer.listen(80, async() => {
+httpServer.listen(4040, async() => {
   await buildDatabase();
-  await initialValues();
   console.log('Server is up');
 });

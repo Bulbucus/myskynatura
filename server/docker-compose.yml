@@ -16,12 +16,11 @@ services:
     image: node:14.15.5-alpine3.10
     command: sh -c "npm install --production && npm run dev"
     ports:
-      - 80:80
+      - 4040:4040
     working_dir: /server
     volumes: 
       - ./:/server
       - /server/node_modules
-      - ./etc/letsencrypt/live/myskynatura.xyz/:/etc/letsencrypt/live/myskynatura.xyz/
     environment: 
       POSTGRES_USER: emanu
       POSTGRES_DB: myskynatura
