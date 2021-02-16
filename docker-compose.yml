@@ -6,9 +6,9 @@ services:
     volumes: 
       - postgres-data:/var/lib/postgresql/data
     environment: 
-      POSTGRES_USER: emanu
+      POSTGRES_USER: myskynatura
       POSTGRES_DB: myskynatura
-      POSTGRES_PASSWORD: Farinha98
+      POSTGRES_PASSWORD: myskynatura
     ports:
       - 5432:5432
     mem_limit: 300m
@@ -19,13 +19,16 @@ services:
       - 4040:4040
     working_dir: /server
     volumes: 
-      - ./:/server
+      - ./server:/server
       - /server/node_modules
     environment: 
-      POSTGRES_USER: emanu
+      POSTGRES_USER: myskynatura
       POSTGRES_DB: myskynatura
-      POSTGRES_PASSWORD: Farinha98
+      POSTGRES_PASSWORD: myskynatura
       POSTGRES_HOST: myskynatura-data
+      ADMIN_USER: test
+      ADMIN_PASSWORD: test
+      JWT_SECRET: averylongsecret
     mem_limit: 300m
 
 volumes:
