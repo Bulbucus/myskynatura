@@ -25,18 +25,19 @@ const buildDatabase = require('./sql/buildDatabase');
 const initialValues = require('./sql/initialValues');
 const checkLoginMiddleware = require('./middleware/checkLogin');
 
-
 const app = express();
 
 // receber os requests no terminal
 app.use(morgan('dev'))
 
-// default handlers
-app.use(cors({
-  methods:'POST,PUT,DELETE',
-  origin:['http://95.93.159.118','http://localhost'],
-  credentials:true
-}));
+if (process.env.NODE_ENV != 'production'){
+  // default handlers
+  app.use(cors({
+    methods:'POST,PUT,DELETE',
+    origin:['http://95.93.159.118','http://localhost'],
+    credentials:true
+  }));
+}
 
 // middleware para transformar parametros do input em objetos
 app.use(urlencoded({extended:true}))
@@ -60,9 +61,10 @@ app.use('/api/perguntas', perguntas)
 // user route
 app.use('/api/user',user);
 
-// para confirmar users;
+// para confirmar users
 app.use('/api/confirmUser', confirmUser);
 
+// login user
 app.use('/api/login', loginAdmin)
 
 // para criar , apagar e editar perguntas e produtos
