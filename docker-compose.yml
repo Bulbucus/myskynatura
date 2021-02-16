@@ -14,7 +14,7 @@ services:
     mem_limit: 300m
   myskynatura-web:
     image: node:14.15.5-alpine3.10
-    command: sh -c "npm install --production && npm run dev"
+    command: sh -c "npm install && npm run dev"
     ports:
       - 4040:4040
     working_dir: /server

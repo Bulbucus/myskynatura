@@ -48,7 +48,7 @@
           <th>Resposta <input type='button' name='add_resposta' value='+ Adicionar resposta'></th>  
           <th>Apagar resposta</th>
         </tr>
-        <% produto.id_opcao.forEach((id_opcao, index) => { %>
+        <% if (produtoOpcoes){ produtoOpcoes.id_opcao.forEach((id_opcao, index) => { %>
         <tr class='resposta'>
             <th><select name='opcao' id='opcao' required>
               <% opcoes.forEach((pergunta) => { %>
@@ -59,10 +59,22 @@
                 </optgroup>
              <% }) %>
             </select></th>
-            <th style='display: none;'><input hidden id='id_prod_op' name='id_prod_op' value='<%= produto.id_prod_op[index] %>'></th>
-            <% if (index != 0) { %><th><button form='deleteForm' onClick="confirmFunction(event)" name='id' value='<%= produto.id_prod_op[index] %>'>Apagar</button></th><% } %>
+            <th style='display: none;'><input hidden id='id_prod_op' name='id_prod_op' value='<%= produtoOpcoes.id_prod_op[index] %>'></th>
+            <% if (index != 0) { %><th><button form='deleteForm' onClick="confirmFunction(event)" name='id' value='<%= produtoOpcoes.id_prod_op[index] %>'>Apagar</button></th><% } %>
         </tr>
-        <% }) %>
+        <% })} else { %>
+          <tr class='resposta'>
+            <th><select name='opcao' id='opcao' required>
+              <option disabled selected>Produto sem nenhuma tag adicionada, por favor apague o produto ou adicione uma tag</option>
+              <% opcoes.forEach((pergunta) => { %>
+                <optgroup label='<%= pergunta.pergunta %>'>
+                  <% pergunta.id.forEach((id, index) => { %>
+                    <option value='<%= id %>' > <%= pergunta.respostas[index] %> </option>
+                  <% }) %>
+                </optgroup>
+             <% }) %>
+            </select></th>
+        <% } %>
           </table>
         </br>
         </br>
@@ -72,7 +84,7 @@
       <input type='submit' onClick="confirmFunction(event)" value='Editar produto'>
       </fieldset>
     </form>
-    <form method="POST" id='deleteForm' onClick="confirmFunction(event)" action="./<%= produto.id_produto %>?_method=DELETE" ></form>
+    <% if(produtoOpcoes){ %> <form method="POST" id='deleteForm' onClick="confirmFunction(event)" action="./<%= produtoOpcoes.id_produto %>?_method=DELETE" ></form><% } %>
 </body>
   <script src='/js/index.js'></script>
   <script src='/js/handler.js'></script>

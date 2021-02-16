@@ -21,43 +21,11 @@ __________________________________________________________
 
 Para a utilizaçao deste projeto no seu computador:
  
- entrar na pasta /client e /server e fazer:
-  ``
-   npm install
-   ``
+basta instalar o docker e docker-compose e rodar dentro da pasta:
 
-Para rodar o client:
-  ``
-  npm start
-  ``
-
-Para rodar o server:
-  ``
-  npm run dev
-  ``
-__________________________________________
-
-Para configurar a base de dados:
-  criar ficheiro .env em /server e preencher com:
-  
-  ``` sh
-  PGHOST='localhost'
-  PGUSER='user'
-  PGDATABASE='nome da base dados'
-  PGPASSWORD='password base de dados'
-  PGPORT=5432
-
-  JWT_SECRET='averylongstring'
-
-  HOST='http://localhost'
-
-  ADMIN_USER = 'myskynatura'
-  ADMIN_PASSWORD = 'myskynatura'
-  ```
-
-abrir POSTGRESQL(psql) e criar base de dados com o nome da base de dados em .env
-
-e executar comando /sql/initialDataBase.sql no psql
+``
+docker-compose up -d
+``
 
 ____________________________________________________
 

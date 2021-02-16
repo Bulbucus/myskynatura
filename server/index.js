@@ -86,5 +86,6 @@ const httpServer = http.createServer(app)
 // server listen handler
 httpServer.listen(4040, async() => {
   await buildDatabase();
+  await initialValues();
   console.log('Server is up');
 });

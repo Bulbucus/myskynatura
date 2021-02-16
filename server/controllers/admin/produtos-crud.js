@@ -27,6 +27,11 @@ const makeProduto = async (req, res) => {
 const getProduto = async (req, res) => {
 
   const getProduto = await client.query(
+    "SELECT * FROM produtos WHERE id_produto=$1",
+    [req.params.id]
+  )
+
+  const getProdutoOpcoes = await client.query(
     "SELECT produtos.*,array_agg(prod_op.id_prod_op) as id_prod_op ,array_agg(prod_op.id_opcao) as id_opcao FROM produtos, prod_op WHERE produtos.id_produto=$1 AND prod_op.id_produto=produtos.id_produto GROUP BY produtos.id_produto;",
     [req.params.id]
   )
@@ -34,8 +39,8 @@ const getProduto = async (req, res) => {
   const getOpcoes = await client.query(
     "SELECT perguntas.pergunta, array_agg(opcoes.id_opcao) as id ,array_agg(opcoes.opcao_texto) as respostas, array_agg(opcoes.tag) as tags FROM perguntas,opcoes where perguntas.id_pergunta=opcoes.id_pergunta group by perguntas.id_pergunta"
   )
-
-  res.render('admin/produtos/edit', {produto: getProduto.rows[0], opcoes:getOpcoes.rows})
+    console.log(getProduto.rows[0])
+  res.render('admin/produtos/edit', {produto: getProduto.rows[0], produtoOpcoes: getProdutoOpcoes.rows[0], opcoes:getOpcoes.rows})
 }
 
 const editProduto = async (req,res) => {
