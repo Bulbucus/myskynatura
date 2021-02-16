@@ -26,7 +26,7 @@ const Inicio = () => {
       <span className={classes.Line}></span>
       <img src={handWithOleo} alt="hand with oleo" className={classes.Image}></img>
       <div>
-      <p className={classes.Title}>Lorem ipsum dolor sit amet</p>
+      <p className={classes.Title}>Porque fazer este questionario?</p>
       <p className={classes.Article}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu metus eu odio rutrum auctor in volutpat odio. Maecenas porta lacus id justo sagittis dictum. Nulla semper efficitur nisl sed dictum. Vestibulum in dignissim dui, a venenatis velit. Orci varius natoque penatibus et magnis dis </p>
       </div>
     </div>
