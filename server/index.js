@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const { urlencoded, json } = require('body-parser');
 const morgan = require('morgan');
-const removeSlash = require('./removeSlash');
+
 
 require('dotenv').config()
 
@@ -21,6 +21,7 @@ const admin = require('./router/admin/index');
 const loginAdmin = require('./router/login');
 
 // middleware
+const removeSlash = require('./middleware/removeSlash');
 const buildDatabase = require('./sql/buildDatabase');
 const initialValues = require('./sql/initialValues');
 const checkLoginMiddleware = require('./middleware/checkLogin');
@@ -43,7 +44,6 @@ if (process.env.NODE_ENV != 'production'){
 app.use(urlencoded({extended:true}))
 app.use(json())
 app.use(cookieParser())
-
 // assim consegue receber metodos como DELETE e PUT:
 app.use(methodOverride('_method'))
 
