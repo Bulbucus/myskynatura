@@ -1,4 +1,5 @@
-# MYSKYNATURA 
+# MYSKYNATURA: [LINK](https://myskynatura.xyz)
+
 
 ## Um website onde o utilizador faz um questionario e consoante as suas respostas é lhe dado um resultado dos melhores produtos.
 
@@ -20,6 +21,11 @@ DevOps:
   Docker
   Nginx
 ```
+_________________________________________________________
+
+Para aceder ao back-office do website: [LINK](https://myskynatura.xyz/admin)
+e utilizar o valor ADMIN_* no docker-compose.yml para aceder.
+
 __________________________________________________________
 
 Para a utilizaçao deste projeto no seu computador:
@@ -32,13 +38,5 @@ docker-compose up -d
 
 _______________________________________________________
 
-Para funcionamento de SASS na front-end colocar em .env do /client:
-
-``
-SASS_PATH:./node_modules;./src
-``
-
-________________________________________________________
-
 Para a  utilização do back-office ir para ``http://localhost:8888/admin``
-e utilizar o valor ADMIN_* no docker-compose para aceder.
+e utilizar o valor ADMIN_* no docker-compose.yml para aceder.

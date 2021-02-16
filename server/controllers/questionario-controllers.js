@@ -37,7 +37,6 @@ const resultQuestionario = async (req, res) => {
     })
 
   }catch(err){
-    console.log(err)
     return res.json({
       status:500
     })
