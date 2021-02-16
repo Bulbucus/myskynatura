@@ -31,11 +31,11 @@ const app = express();
 // receber os requests no terminal
 app.use(morgan('dev'))
 
-if (process.env.NODE_ENV != 'production'){
+if (process.env.NODE_ENV !== 'production'){
   // default handlers
   app.use(cors({
     methods:'POST,PUT,DELETE',
-    origin:['http://95.93.159.118','http://localhost'],
+    origin:['http://95.93.159.118:8080','http://localhost'],
     credentials:true
   }));
 }
@@ -84,8 +84,8 @@ app.use((req, res) => {
 const httpServer = http.createServer(app)
 
 // server listen handler
-httpServer.listen(4040, async() => {
+httpServer.listen(process.env.PORT, async() => {
   await buildDatabase();
   await initialValues();
-  console.log('Server is up');
+  console.log('Server is up in ' + process.env.PORT);
 });

@@ -22,10 +22,10 @@ const Resultados = () => {
       token:state.user.token
     }).then((response) => {
       const {resultado} = response.data
-
+      console.log(response)
       if(resultado.length > 0){
         resultado.forEach((element, index) => {
-          setProdutos(produto => [produto, <Produto key={index} nome={element.nome} descricao={element.descricao} price={element.price}></Produto>])
+          setProdutos(produto => [produto, <Produto key={index} nome={element.nome} descricao={element.descricao} price={element.price} link={element.link} linkImage={element.image_link}></Produto>])
         })
       } else {
         setProdutos(<ErrorMessage errorMessage='Lamentamos mas de momento não encontramos nenhum produto para o seu tipo de pele.'></ErrorMessage>)

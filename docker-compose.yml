@@ -29,6 +29,7 @@ services:
       ADMIN_USER: test
       ADMIN_PASSWORD: test
       JWT_SECRET: averylongsecret
+      PORT: 4040
     mem_limit: 300m
 
 volumes:

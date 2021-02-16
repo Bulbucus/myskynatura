@@ -12,10 +12,13 @@ Neste projeto utilizei as seguintes ferramentas:
 Back-end:
   Nodejs
   Express
-  EJS (back-office)
   PostreSQL (base de dados)
 Front-end:
   React
+  EJS (back-office)
+DevOps:
+  Docker
+  Nginx
 ```
 __________________________________________________________
 
@@ -26,10 +29,6 @@ basta instalar o docker e docker-compose e rodar dentro da pasta:
 ``
 docker-compose up -d
 ``
-
-____________________________________________________
-
-Para dados de teste pode executar /sql/addValuesInitial.sql
 
 _______________________________________________________
 
@@ -42,4 +41,4 @@ SASS_PATH:./node_modules;./src
 ________________________________________________________
 
 Para a  utilização do back-office ir para ``http://localhost:8888/admin``
-e utilizar os dados ADMIN_* que colocou no .env do /server para entrar. 
+e utilizar o valor ADMIN_* no docker-compose para aceder.
