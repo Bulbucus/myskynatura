@@ -10,7 +10,7 @@ services:
       POSTGRES_DB: myskynatura
       POSTGRES_PASSWORD: myskynatura
     ports:
-      - 5432:5432
+      - 5432
     mem_limit: 300m
   myskynatura-web:
     image: node:14.15.5-alpine3.10
@@ -20,7 +20,7 @@ services:
     working_dir: /server
     volumes: 
       - ./server:/server
-      - /server/node_modules
+      - node_modules:/server/node_modules
     environment: 
       POSTGRES_USER: myskynatura
       POSTGRES_DB: myskynatura
@@ -34,3 +34,4 @@ services:
 
 volumes:
   postgres-data:
+  node_modules:

@@ -1,6 +1,5 @@
 # MYSKYNATURA: [LINK](https://myskynatura.xyz)
 
-
 ## Um website onde o utilizador faz um questionario e consoante as suas respostas é lhe dado um resultado dos melhores produtos.
 
 No decorrer deste projeto consegui fazer uma boa utilizaçao de ferramentas essencias para desenvolver qualquer projeto full-stack
@@ -36,7 +35,9 @@ basta instalar o docker e docker-compose e rodar dentro da pasta:
 docker-compose up -d
 ``
 
+e aceder a: ``http://localhost:4040``
+
 _______________________________________________________
 
-Para a  utilização do back-office ir para ``http://localhost:8888/admin``
+Para a  utilização do back-office ir para ``http://localhost:4040/admin``
 e utilizar o valor ADMIN_* no docker-compose.yml para aceder.

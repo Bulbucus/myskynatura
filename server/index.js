@@ -1,6 +1,3 @@
-const fs = require('fs');
-const https = require('https');
-const http = require('http');
 const path = require('path');
 
 const express = require('express');
@@ -81,10 +78,8 @@ app.use((req, res) => {
   res.send('Nothing to see were')
 });
 
-const httpServer = http.createServer(app)
-
 // server listen handler
-httpServer.listen(process.env.PORT, async() => {
+app.listen(process.env.PORT, async() => {
   await buildDatabase();
   await initialValues();
   console.log('Server is up in ' + process.env.PORT);
