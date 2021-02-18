@@ -41,3 +41,13 @@ _______________________________________________________
 
 Para a  utilização do back-office ir para ``http://localhost:4040/admin``
 e utilizar o valor ADMIN_* no docker-compose.yml para aceder.
+
+_______________________________________________________
+
+Proximas implementações:
+
+- [ ] Colocar botão logout
+- [ ] Utilizaçao de cookie para manter sessão
+- [ ] Acabar final da pagina inicial
+- [ ] Verificação de email
+- [ ] Inserir, na base de dados, na table users um timer para quando foi feita a conta
