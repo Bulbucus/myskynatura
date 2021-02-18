@@ -8,11 +8,10 @@ const Produto = ({nome, descricao, price, link, linkImage}) => {
       <div className={classes.Grid}>
         <img className={classes.Produto} alt={'produto'} src={linkImage}></img>
         <p className={classes.Description}><span className={classes.MiniTitle}>Nome:</span>{nome}</p>
-        <p className={classes.Description}><span className={classes.MiniTitle}>Tipo de pele:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p className={classes.Description}><span className={classes.MiniTitle}>Descrição:</span>
+        {descricao}
+        </p>
       </div>
-      <p className={classes.Description}><span className={classes.MiniTitle}>Descrição:</span>
-      {descricao}
-      </p>
       <div className={classes.separador}></div>
       <div className={classes.Container}>
         <div className={classes.Price}>{price}€</div>
