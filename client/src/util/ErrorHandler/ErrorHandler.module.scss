@@ -1,6 +1,8 @@
 @import '../../style/size';
 @import '../../style/font';
 @import '../../style/color';
+@import '../../style/fadein';
+
 
 @mixin Icon{
   height: 18px;
@@ -15,15 +17,7 @@
     margin-left: 21px * 2;
   }
 
-  @keyframes FadeIn {
-    0% {
-      opacity: 0;
-    }
-  
-    100% {
-      opacity: 1;
-    }
-  }
+
 }
 
 .RightIcon {
