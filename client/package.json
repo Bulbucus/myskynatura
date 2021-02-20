@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -r ../server/public/static && mv build/* ../server/public",
+    "build": "react-scripts build",
+    "postbuild": "gzip build/static/js/*.js && gzip build/static/css/*.css && rm -r ../server/public/static && mv build/* ../server/public",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
