@@ -1,6 +1,5 @@
-# MYSKYNATURA: [LINK](https://myskynatura.xyz)
-## Para aceder ao back-office do website: [LINK](https://myskynatura.xyz/admin)
-## e utilizar user: test e pass: test
+# MYSKYNATURA: [LINK](https://myskynatura.xyz) (projeto em progresso)
+## Para aceder ao back-office do website: [LINK](https://myskynatura.xyz/admin) e utilizar user: test e pass: test
 
 ## Um website onde o utilizador faz um questionario e consoante as suas respostas é lhe dado um resultado dos melhores produtos.
 
@@ -23,7 +22,6 @@ DevOps:
   Nginx
 ```
 _________________________________________________________
-
 
 Para a utilizaçao deste projeto no seu computador:
  
