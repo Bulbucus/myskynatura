@@ -23,7 +23,7 @@ DevOps:
 ```
 _________________________________________________________
 
-Para a utilizaçao deste projeto no seu computador:
+# Para a utilizaçao deste projeto no seu computador:
  
 basta instalar o docker e docker-compose e rodar dentro da pasta:
 
