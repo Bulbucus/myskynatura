@@ -1,4 +1,6 @@
 # MYSKYNATURA: [LINK](https://myskynatura.xyz)
+## Para aceder ao back-office do website: [LINK](https://myskynatura.xyz/admin)
+## e utilizar user: test e pass: test
 
 ## Um website onde o utilizador faz um questionario e consoante as suas respostas é lhe dado um resultado dos melhores produtos.
 
@@ -22,10 +24,6 @@ DevOps:
 ```
 _________________________________________________________
 
-Para aceder ao back-office do website: [LINK](https://myskynatura.xyz/admin)
-e utilizar o valor ADMIN_* no docker-compose.yml para aceder.
-
-__________________________________________________________
 
 Para a utilizaçao deste projeto no seu computador:
  
